@@ -1,0 +1,26 @@
+Prerequisites for these code samples:
+- Java 1.6
+- Apache Maven (http://maven.apache.org)
+
+Before running the samples, client_secrets.json must be populated with a
+client ID and client secret. You can create an ID/secret pair at:
+
+  https://console.developers.google.com
+
+To build these code samples from the command line, type:
+
+  mvn compile
+
+Use the command line statements below to run the samples.
+
+Sync Token Sample:
+
+  mvn exec:java -Dexec.mainClass="com.google.api.services.samples.calendar.sync.SyncTokenSample"
+
+Conditional Modification Sample:
+
+  mvn exec:java -Dexec.mainClass="com.google.api.services.samples.calendar.sync.ConditionalModificationSample"
+
+Conditional Retrieval Sample:
+
+  mvn exec:java -Dexec.mainClass="com.google.api.services.samples.calendar.sync.ConditionalRetrievalSample"
