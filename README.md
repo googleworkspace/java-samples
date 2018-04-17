@@ -1,4 +1,4 @@
-# Java Samples
+# G Suite Java Samples [![Build Status](https://travis-ci.org/gsuitedevs/java-samples.svg?branch=master)](https://travis-ci.org/gsuitedevs/java-samples)
 
 A collection of samples that demonstrate how to call G Suite APIs in Java.
 
