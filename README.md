@@ -45,3 +45,7 @@ A collection of samples that demonstrate how to call G Suite APIs in Java.
 ### Tasks
 
 - [Quickstart](https://developers.google.com/google-apps/tasks/quickstart/java)
+
+### Vault
+
+- [Quickstart](https://developers.google.com/vault/quickstart/java)
