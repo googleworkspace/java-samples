@@ -7,9 +7,6 @@ A collection of samples that demonstrate how to call G Suite APIs in Java.
 ### Admin SDK
 
 - [Directory Quickstart](https://developers.google.com/admin-sdk/directory/v1/quickstart/java)
-- [Group Migration Quickstart](https://developers.google.com/admin-sdk/groups-migration/v1/quickstart/java)
-- [Group Settings Quickstart](https://developers.google.com/admin-sdk/groups-settings/quickstart/java)
-- [Licensing Quickstart](https://developers.google.com/admin-sdk/licensing/v1/quickstart/java)
 - [Reports Quickstart](https://developers.google.com/admin-sdk/reports/v1/quickstart/java)
 - [Reseller Quickstart](https://developers.google.com/admin-sdk/reseller/v1/quickstart/java)
 
