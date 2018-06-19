@@ -23,7 +23,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.people.v1.PeopleService;
+import com.google.api.services.people.v1.PeopleServiceScopes;
 import com.google.api.services.people.v1.PeopleScopes;
 import com.google.api.services.people.v1.model.ListConnectionsResponse;
 import com.google.api.services.people.v1.model.Person;
@@ -44,7 +44,7 @@ public class PeopleQuickstart {
      * Global instance of the scopes required by this quickstart.
      * If modifying these scopes, delete your previously saved credentials/ folder.
      */
-    private static final List<String> SCOPES = Arrays.asList(PeopleScopes.CONTACTS_READONLY);
+    private static final List<String> SCOPES = Arrays.asList(PeopleServiceScopes.CONTACTS_READONLY);
     private static final String CLIENT_SECRET_DIR = "client_secret.json";
 
     /**
