@@ -33,6 +33,10 @@ A collection of samples that demonstrate how to call G Suite APIs in Java.
 
 - [Quickstart](https://developers.google.com/gmail/api/quickstart/java)
 
+### People
+
+- [Quickstart](https://developers.google.com/people/quickstart/java)
+
 ### Sheets
 
 - [Quickstart](https://developers.google.com/sheets/api/quickstart/java)
