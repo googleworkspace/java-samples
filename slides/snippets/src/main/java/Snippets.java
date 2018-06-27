@@ -26,31 +26,31 @@ public class Snippets {
 
     public String createPresentation(String title) throws IOException {
         Slides slidesService = this.service;
-        // [START createPresentation]
+        // [START slides_create_presentation]
         Presentation presentation = new Presentation()
                 .setTitle(title);
         presentation = slidesService.presentations().create(presentation)
                 .setFields("presentationId")
                 .execute();
         System.out.println("Created presentation with ID: " + presentation.getPresentationId());
-        // [END createPresentation]
+        // [END slides_create_presentation]
         return presentation.getPresentationId();
     }
 
     public String copyPresentation(String presentationId, String copyTitle) throws IOException {
         Drive driveService = this.driveService;
-        // [START copyPresentation]
+        // [START slides_copy_presentation]
         File copyMetadata = new File().setName(copyTitle);
         File presentationCopyFile =
                 driveService.files().copy(presentationId, copyMetadata).execute();
         String presentationCopyId = presentationCopyFile.getId();
-        // [END copyPresentation]
+        // [END slides_copy_presentation]
         return presentationCopyId;
     }
 
     public BatchUpdatePresentationResponse createSlide(String presentationId) throws IOException {
         Slides slidesService = this.service;
-        // [START createSlide]
+        // [START slides_create_slide]
         // Add a slide at index 1 using the predefined "TITLE_AND_TWO_COLUMNS" layout
         // and the ID "MyNewSlide_001".
         List<Request> requests = new ArrayList<>();
@@ -72,14 +72,14 @@ public class Snippets {
                 slidesService.presentations().batchUpdate(presentationId, body).execute();
         CreateSlideResponse createSlideResponse = response.getReplies().get(0).getCreateSlide();
         System.out.println("Created slide with ID: " + createSlideResponse.getObjectId());
-        // [END createSlide]
+        // [END slides_create_slide]
         return response;
     }
 
     public BatchUpdatePresentationResponse createTextBoxWithText(
             String presentationId, String slideId) throws IOException {
         Slides slidesService = this.service;
-        // [START createTextBoxWithText]
+        // [START slides_create_textbox_with_text]
         // Create a new square text box, using a supplied object ID.
         List<Request> requests = new ArrayList<>();
         String textBoxId = "MyTextBox_01";
@@ -114,7 +114,7 @@ public class Snippets {
                 slidesService.presentations().batchUpdate(presentationId, body).execute();
         CreateShapeResponse createShapeResponse = response.getReplies().get(0).getCreateShape();
         System.out.println("Created textbox with ID: " + createShapeResponse.getObjectId());
-        // [END createTextBoxWithText]
+        // [END slides_create_textbox_with_text]
         return response;
     }
 
@@ -127,7 +127,7 @@ public class Snippets {
             throws IOException {
         Slides slidesService = this.service;
         Drive driveService = this.driveService;
-        // [START createImage]
+        // [START slides_create_image]
         // Temporarily upload a local image file to Drive, in order to to obtain a URL
         // for the image. Alternatively, you can provide the Slides service a URL of
         // an already hosted image.
@@ -173,7 +173,7 @@ public class Snippets {
 
         // Remove the temporary image file from Drive.
         driveService.files().delete(fileId).execute();
-        // [END createImage]
+        // [END slides_create_image]
         return response;
     }
 
@@ -183,7 +183,7 @@ public class Snippets {
         Drive driveService = this.driveService;
         Sheets sheetsService = this.sheetsService;
         List<BatchUpdatePresentationResponse> responses = new ArrayList<>(5);
-        // [START textMerging]
+        // [START slides_text_merging]
         // Use the Sheets API to load data, one record per row.
         String dataRangeNotation = "Customers!A2:M6";
         ValueRange sheetsResponse = sheetsService.spreadsheets().values()
@@ -242,7 +242,7 @@ public class Snippets {
                     customerName + " with ID: " + presentationId);
             System.out.println("Replaced " + numReplacements + " text instances.");
         }
-        // [END textMerging]
+        // [END slides_text_merging]
         return responses;
     }
 
@@ -254,7 +254,7 @@ public class Snippets {
         String logoUrl = imageUrl;
         String customerGraphicUrl = imageUrl;
 
-        // [START imageMerging]
+        // [START slides_image_merging]
         // Duplicate the template presentation using the Drive API.
         String copyTitle = customerName + " presentation";
         File content = new File().setName(copyTitle);
@@ -293,14 +293,14 @@ public class Snippets {
 
         System.out.println("Created merged presentation with ID: " + presentationId);
         System.out.println("Replaced " + numReplacements + " shapes instances with images.");
-        // [END imageMerging]
+        // [END slides_image_merging]
         return response;
     }
 
     public BatchUpdatePresentationResponse simpleTextReplace(
             String presentationId, String shapeId, String replacementText) throws IOException {
         Slides slidesService = this.service;
-        // [START simpleTextReplace]
+        // [START slides_simple_text_replace]
         // Remove existing text in the shape, then insert the new text.
         List<Request> requests = new ArrayList<>();
         requests.add(new Request()
@@ -321,14 +321,14 @@ public class Snippets {
                 slidesService.presentations().batchUpdate(presentationId, body).execute();
 
         System.out.println("Replaced text in shape with ID: " + shapeId);
-        // [END simpleTextReplace]
+        // [END slides_simple_text_replace]
         return response;
     }
 
     public BatchUpdatePresentationResponse textStyleUpdate(String presentationId, String shapeId)
             throws IOException {
         Slides slidesService = this.service;
-        // [START textStyleUpdate]
+        // [START slides_text_style_update]
         // Update the text style so that the first 5 characters are bolded
         // and italicized, and the next 5 are displayed in blue 14 pt Times
         // New Roman font, and the next five are hyperlinked.
@@ -382,14 +382,14 @@ public class Snippets {
                 slidesService.presentations().batchUpdate(presentationId, body).execute();
 
         System.out.println("Updated text style for shape with ID: " + shapeId);
-        // [END textStyleUpdate]
+        // [END slides_text_style_update]
         return response;
     }
 
     public BatchUpdatePresentationResponse createBulletedText(String presentationId,
                                                               String shapeId) throws IOException {
         Slides slidesService = this.service;
-        // [START createBulletedText]
+        // [START slides_create_bulleted_text]
         // Add arrow-diamond-disc bullets to all text in the shape.
         List<Request> requests = new ArrayList<>();
         requests.add(new Request()
@@ -405,7 +405,7 @@ public class Snippets {
         BatchUpdatePresentationResponse response =
                 slidesService.presentations().batchUpdate(presentationId, body).execute();
         System.out.println("Added bullets to text in shape with ID: " + shapeId);
-        // [END createBulletedText]
+        // [END slides_create_bulleted_text]
         return response;
     }
 
@@ -413,7 +413,7 @@ public class Snippets {
             String presentationId, String pageId, String spreadsheetId, Integer sheetChartId)
             throws IOException {
         Slides slidesService = this.service;
-        // [START createSheetsChart]
+        // [START slides_create_sheets_chart]
         // Embed a Sheets chart (indicated by the spreadsheetId and sheetChartId) onto
         // a page in the presentation. Setting the linking mode as "LINKED" allows the
         // chart to be refreshed if the Sheets version is updated.
@@ -444,14 +444,14 @@ public class Snippets {
         BatchUpdatePresentationResponse response =
                 slidesService.presentations().batchUpdate(presentationId, body).execute();
         System.out.println("Added a linked Sheets chart with ID " + presentationChartId);
-        // [END createSheetsChart]
+        // [END slides_create_sheets_chart]
         return response;
     }
 
     public BatchUpdatePresentationResponse refreshSheetsChart(
             String presentationId, String presentationChartId) throws IOException {
         Slides slidesService = this.service;
-        // [START refreshSheetsChart]
+        // [START slides_refresh_sheets_chart]
         List<Request> requests = new ArrayList<>();
 
         // Refresh an existing linked Sheets chart embedded a presentation.
@@ -465,8 +465,7 @@ public class Snippets {
         BatchUpdatePresentationResponse response =
                 slidesService.presentations().batchUpdate(presentationId, body).execute();
         System.out.println("Refreshed a linked Sheets chart with ID " + presentationChartId);
-        // [END refreshSheetsChart]
+        // [END slides_refresh_sheets_chart]
         return response;
     }
-
 }
