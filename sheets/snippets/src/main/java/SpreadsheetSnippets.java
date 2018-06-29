@@ -17,7 +17,7 @@ public class SpreadsheetSnippets {
 
     public String create(String title) throws IOException {
         Sheets service = this.service;
-        // [START create]
+        // [START sheets_create]
         Spreadsheet spreadsheet = new Spreadsheet()
                 .setProperties(new SpreadsheetProperties()
                         .setTitle(title));
@@ -25,7 +25,7 @@ public class SpreadsheetSnippets {
                 .setFields("spreadsheetId")
                 .execute();
         System.out.println("Spreadsheet ID: " + spreadsheet.getSpreadsheetId());
-        // [END create]
+        // [END sheets_create]
         return spreadsheet.getSpreadsheetId();
     }
 
@@ -33,7 +33,7 @@ public class SpreadsheetSnippets {
                                                       String find, String replacement)
             throws IOException {
         Sheets service = this.service;
-        // [START batchUpdate]
+        // [START sheets_batch_update]
         List<Request> requests = new ArrayList<>();
         // Change the spreadsheet's title.
         requests.add(new Request()
@@ -55,24 +55,24 @@ public class SpreadsheetSnippets {
                 service.spreadsheets().batchUpdate(spreadsheetId, body).execute();
         FindReplaceResponse findReplaceResponse = response.getReplies().get(1).getFindReplace();
         System.out.printf("%d replacements made.", findReplaceResponse.getOccurrencesChanged());
-        // [END batchUpdate]
+        // [END sheets_batch_update]
         return response;
     }
 
     public ValueRange getValues(String spreadsheetId, String range) throws IOException {
         Sheets service = this.service;
-        // [START getValues]
+        // [START sheets_get_values]
         ValueRange result = service.spreadsheets().values().get(spreadsheetId, range).execute();
         int numRows = result.getValues() != null ? result.getValues().size() : 0;
         System.out.printf("%d rows retrieved.", numRows);
-        // [END getValues]
+        // [END sheets_get_values]
         return result;
     }
 
     public BatchGetValuesResponse batchGetValues(String spreadsheetId, List<String> _ranges)
             throws IOException {
         Sheets service = this.service;
-        // [START batchGetValues]
+        // [START sheets_batch_get_vValues]
         List<String> ranges = Arrays.asList(
                 //Range names ...
         );
@@ -82,14 +82,14 @@ public class SpreadsheetSnippets {
         BatchGetValuesResponse result = service.spreadsheets().values().batchGet(spreadsheetId)
                 .setRanges(ranges).execute();
         System.out.printf("%d ranges retrieved.", result.getValueRanges().size());
-        // [END batchGetValues]
+        // [END sheets_batch_get_vValues]
         return result;
     }
     public UpdateValuesResponse updateValues(String spreadsheetId, String range,
                                              String valueInputOption, List<List<Object>> _values)
             throws IOException {
         Sheets service = this.service;
-        // [START updateValues]
+        // [START sheets_update_values]
         List<List<Object>> values = Arrays.asList(
                 Arrays.asList(
                         // Cell values ...
@@ -106,7 +106,7 @@ public class SpreadsheetSnippets {
                         .setValueInputOption(valueInputOption)
                         .execute();
         System.out.printf("%d cells updated.", result.getUpdatedCells());
-        // [END updateValues]
+        // [END sheets_update_values]
         return result;
     }
 
@@ -115,7 +115,7 @@ public class SpreadsheetSnippets {
                                                        List<List<Object>> _values)
             throws IOException {
         Sheets service = this.service;
-        // [START batchUpdateValues]
+        // [START sheets_batch_update_values]
         List<List<Object>> values = Arrays.asList(
                 Arrays.asList(
                         // Cell values ...
@@ -137,7 +137,7 @@ public class SpreadsheetSnippets {
         BatchUpdateValuesResponse result =
                 service.spreadsheets().values().batchUpdate(spreadsheetId, body).execute();
         System.out.printf("%d cells updated.", result.getTotalUpdatedCells());
-        // [END batchUpdateValues]
+        // [END sheets_batch_update_values]
         return result;
     }
 
@@ -145,7 +145,7 @@ public class SpreadsheetSnippets {
                                              String valueInputOption, List<List<Object>> _values)
             throws IOException {
         Sheets service = this.service;
-        // [START appendValues]
+        // [START sheets_append_values]
         List<List<Object>> values = Arrays.asList(
                 Arrays.asList(
                         // Cell values ...
@@ -162,7 +162,7 @@ public class SpreadsheetSnippets {
                         .setValueInputOption(valueInputOption)
                         .execute();
         System.out.printf("%d cells appended.", result.getUpdates().getUpdatedCells());
-        // [END appendValues]
+        // [END sheets_append_values]
         return result;
     }
 
@@ -183,7 +183,7 @@ public class SpreadsheetSnippets {
         int targetSheetId = createSheetsResponse.getReplies().get(1).getAddSheet().getProperties()
                 .getSheetId();
 
-        // [START pivot_tables]
+        // [START sheets_pivot_tables]
         PivotTable pivotTable = new PivotTable()
                 .setSource(
                         new GridRange()
@@ -231,13 +231,13 @@ public class SpreadsheetSnippets {
                 .setRequests(requests);
         BatchUpdateSpreadsheetResponse result = service.spreadsheets()
                 .batchUpdate(spreadsheetId, updateCellsBody).execute();
-        // [END pivot_tables]
+        // [END sheets_pivot_tables]
         return result;
     }
 
     public BatchUpdateSpreadsheetResponse conditionalFormat(String spreadsheetId)
             throws IOException {
-        // [START conditionalFormat]
+        // [START sheets_conditional_format]
         List<GridRange> ranges = Collections.singletonList(new GridRange()
                 .setSheetId(0)
                 .setStartRowIndex(1)
@@ -291,7 +291,7 @@ public class SpreadsheetSnippets {
                 .batchUpdate(spreadsheetId, body)
                 .execute();
         System.out.printf("%d cells updated.", result.getReplies().size());
-        // [END conditionalFormat]
+        // [END sheets_conditional_format]
         return result;
     }
 }

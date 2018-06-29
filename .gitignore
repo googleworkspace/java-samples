@@ -35,3 +35,7 @@ client_secret.json
 hs_err_pid*
 
 .DS_Store
+.settings/
+.classpath
+.project
+properties
