@@ -72,7 +72,7 @@ public class SpreadsheetSnippets {
     public BatchGetValuesResponse batchGetValues(String spreadsheetId, List<String> _ranges)
             throws IOException {
         Sheets service = this.service;
-        // [START sheets_batch_get_vValues]
+        // [START sheets_batch_get_values]
         List<String> ranges = Arrays.asList(
                 //Range names ...
         );
@@ -82,7 +82,7 @@ public class SpreadsheetSnippets {
         BatchGetValuesResponse result = service.spreadsheets().values().batchGet(spreadsheetId)
                 .setRanges(ranges).execute();
         System.out.printf("%d ranges retrieved.", result.getValueRanges().size());
-        // [END sheets_batch_get_vValues]
+        // [END sheets_batch_get_values]
         return result;
     }
     public UpdateValuesResponse updateValues(String spreadsheetId, String range,
