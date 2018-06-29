@@ -237,7 +237,7 @@ public class SpreadsheetSnippets {
 
     public BatchUpdateSpreadsheetResponse conditionalFormat(String spreadsheetId)
             throws IOException {
-        // [START sheets_conditional_format]
+        // [START sheets_conditional_formatting]
         List<GridRange> ranges = Collections.singletonList(new GridRange()
                 .setSheetId(0)
                 .setStartRowIndex(1)
@@ -291,7 +291,7 @@ public class SpreadsheetSnippets {
                 .batchUpdate(spreadsheetId, body)
                 .execute();
         System.out.printf("%d cells updated.", result.getReplies().size());
-        // [END sheets_conditional_format]
+        // [END sheets_conditional_formatting]
         return result;
     }
 }
