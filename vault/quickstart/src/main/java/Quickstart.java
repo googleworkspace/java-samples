@@ -38,9 +38,8 @@ public class Quickstart {
     private static final String APPLICATION_NAME =
         "Google Vault API Java Quickstart";
 
-    /** Directory to store user credentials for this application. */
-    private static final java.io.File DATA_STORE_DIR = new java.io.File(
-        System.getProperty("user.home"), ".credentials/vault.googleapis.com-java-quickstart");
+    /** Directory to store authorization tokens for this application. */
+    private static final java.io.File DATA_STORE_DIR = new java.io.File("tokens");
 
     /** Global instance of the {@link FileDataStoreFactory}. */
     private static FileDataStoreFactory DATA_STORE_FACTORY;
@@ -78,7 +77,7 @@ public class Quickstart {
     public static Credential authorize() throws IOException {
         // Load client secrets.
         InputStream in =
-            Quickstart.class.getResourceAsStream("/client_secret.json");
+            Quickstart.class.getResourceAsStream("/credentials.json");
         GoogleClientSecrets clientSecrets =
             GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
@@ -126,6 +125,6 @@ public class Quickstart {
                         matter.getMatterId());
             }
         }
-    } 
+    }
 }
 // [END vault_quickstart]
