@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 public class Execute {
-    // [START apps_script_execute]
+    // [START apps_script_api_execute]
     /**
      * Create a HttpRequestInitializer from the given one, except set
      * the HTTP read timeout to be longer than the default (to allow
@@ -137,5 +137,5 @@ public class Execute {
             e.printStackTrace(System.out);
         }
     }
-    // [END apps_script_execute]
+    // [END apps_script_api_execute]
 }
