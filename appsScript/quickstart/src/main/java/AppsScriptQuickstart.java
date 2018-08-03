@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// [START apps_script_quickstart]
+// [START apps_script_api_quickstart]
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -96,4 +96,4 @@ public class AppsScriptQuickstart {
         System.out.printf("https://script.google.com/d/%s/edit\n", updatedContent.getScriptId());
     }
 }
-// [END apps_script_quickstart]
+// [END apps_script_api_quickstart]
