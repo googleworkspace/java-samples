@@ -5,9 +5,6 @@ jdk:
 # Use a Build Matrix for subdirs (https://lord.io/blog/2014/travis-multiple-subdirs/)
 env:
   - DIR=adminSDK/directory/quickstart
-  - DIR=adminSDK/groupsMigration/quickstart
-  - DIR=adminSDK/groupsSettings/quickstart
-  - DIR=adminSDK/licensing/quickstart
   - DIR=adminSDK/reports/quickstart
   - DIR=adminSDK/reseller/quickstart
   - DIR=appsScript/quickstart

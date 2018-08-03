@@ -72,7 +72,7 @@ public class SpreadsheetSnippets {
     public BatchGetValuesResponse batchGetValues(String spreadsheetId, List<String> _ranges)
             throws IOException {
         Sheets service = this.service;
-        // [START sheets_batch_get_vValues]
+        // [START sheets_batch_get_values]
         List<String> ranges = Arrays.asList(
                 //Range names ...
         );
@@ -82,7 +82,7 @@ public class SpreadsheetSnippets {
         BatchGetValuesResponse result = service.spreadsheets().values().batchGet(spreadsheetId)
                 .setRanges(ranges).execute();
         System.out.printf("%d ranges retrieved.", result.getValueRanges().size());
-        // [END sheets_batch_get_vValues]
+        // [END sheets_batch_get_values]
         return result;
     }
     public UpdateValuesResponse updateValues(String spreadsheetId, String range,
@@ -237,7 +237,7 @@ public class SpreadsheetSnippets {
 
     public BatchUpdateSpreadsheetResponse conditionalFormat(String spreadsheetId)
             throws IOException {
-        // [START sheets_conditional_format]
+        // [START sheets_conditional_formatting]
         List<GridRange> ranges = Collections.singletonList(new GridRange()
                 .setSheetId(0)
                 .setStartRowIndex(1)
@@ -291,7 +291,7 @@ public class SpreadsheetSnippets {
                 .batchUpdate(spreadsheetId, body)
                 .execute();
         System.out.printf("%d cells updated.", result.getReplies().size());
-        // [END sheets_conditional_format]
+        // [END sheets_conditional_formatting]
         return result;
     }
 }
