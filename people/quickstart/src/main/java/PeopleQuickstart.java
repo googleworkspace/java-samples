@@ -26,14 +26,15 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.people.v1.PeopleService;
 import com.google.api.services.people.v1.PeopleServiceScopes;
 import com.google.api.services.people.v1.model.ListConnectionsResponse;
+import com.google.api.services.people.v1.model.Name;
 import com.google.api.services.people.v1.model.Person;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
 import java.util.Arrays;
+import java.util.List;
 
 public class PeopleQuickstart {
     private static final String APPLICATION_NAME = "Google People API Java Quickstart";
