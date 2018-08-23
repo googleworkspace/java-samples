@@ -1,7 +1,7 @@
 language: java
 jdk:
   - oraclejdk8
-  - oraclejdk9
+  # - oraclejdk9
 # Use a Build Matrix for subdirs (https://lord.io/blog/2014/travis-multiple-subdirs/)
 env:
   - DIR=adminSDK/directory/quickstart
@@ -14,4 +14,4 @@ env:
   - DIR=sheets/quickstart
   - DIR=slides/quickstart
   - DIR=tasks/quickstart
-script: cd $DIR && gradle -q run
+script: cd $DIR && gradle build # gradle -q run
