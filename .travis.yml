@@ -14,4 +14,4 @@ env:
   - DIR=sheets/quickstart
   - DIR=slides/quickstart
   - DIR=tasks/quickstart
-script: cd $DIR && gradle -q run
+script: cd $DIR && gradle build # gradle -q run
