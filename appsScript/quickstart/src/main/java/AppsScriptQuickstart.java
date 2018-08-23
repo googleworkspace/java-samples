@@ -47,7 +47,7 @@ public class AppsScriptQuickstart {
      * If modifying these scopes, delete your previously saved credentials folder at /secret.
      */
     private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/script.projects");
-    private static final String CREDENTIALS_FILE_PATH = "credentials.json";
+    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     /**
      * Creates an authorized Credential object.
