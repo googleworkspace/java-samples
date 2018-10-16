@@ -90,7 +90,8 @@ public class Utils {
     GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(httpTransport,
         JSON_FACTORY, clientSecrets, scopes).setDataStoreFactory(dataStoreFactory).build();
     // Authorize.
-    return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
+    LocalServerReceiver receier = new LocalServerReceiver.Builder().setPort(8888).build();
+    return new AuthorizationCodeInstalledApp(flow, receier).authorize("user");
   }
 
   /** Gets the datastore factory used in these samples. */
