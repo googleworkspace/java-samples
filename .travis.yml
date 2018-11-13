@@ -4,6 +4,7 @@ jdk:
   # - oraclejdk9
 # Use a Build Matrix for subdirs (https://lord.io/blog/2014/travis-multiple-subdirs/)
 env:
+  - DIR=adminSDK/alertcenter/quickstart
   - DIR=adminSDK/directory/quickstart
   - DIR=adminSDK/reports/quickstart
   - DIR=adminSDK/reseller/quickstart
