@@ -43,15 +43,16 @@ public class AdminSDKAlertCenterQuickstart {
   private static final List<String> SCOPES = Collections
       .singletonList("https://www.googleapis.com/auth/apps.alerts");
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-
+  private static final String DELEGATED_ADMIN_EMAIL = "admin@xxx.com";
 
   /**
    * Creates an authorized Credentials object.
    *
+   * @param delegatedAdminEmail A delegated admin email to associate with the created credentials.
    * @return An authorized Credentials object.
    * @throws IOException If the credentials.json file cannot be found.
    */
-  private static Credentials getCredentials(String delegatedAdmin) throws IOException {
+  private static Credentials getCredentials(String delegatedAdminEmail) throws IOException {
     // [START admin_sdk_alertcenter_get_credentials]
     InputStream in = AdminSDKAlertCenterQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
     if (in == null) {
@@ -59,7 +60,7 @@ public class AdminSDKAlertCenterQuickstart {
     }
     GoogleCredentials credentials = ServiceAccountCredentials
         .fromStream(in)
-        .createDelegated(delegatedAdmin)
+        .createDelegated(delegatedAdminEmail)
         .createScoped(SCOPES);
     // [END admin_sdk_alertcenter_get_credentials]
     return credentials;
@@ -67,34 +68,39 @@ public class AdminSDKAlertCenterQuickstart {
 
   public static void main(String... args) throws IOException, GeneralSecurityException {
     // [START admin_sdk_alertcenter_create_client]
-    String delegatedAdmin = "admin@xxx.com";
+
     NetHttpTransport transport = GoogleNetHttpTransport.newTrustedTransport();
     AlertCenter service = new AlertCenter.Builder(transport, JSON_FACTORY,
-        new HttpCredentialsAdapter(getCredentials(delegatedAdmin)))
+        new HttpCredentialsAdapter(getCredentials(DELEGATED_ADMIN_EMAIL)))
         .setApplicationName(APPLICATION_NAME)
         .build();
     // [END admin_sdk_alertcenter_create_client]
 
     // [START admin_sdk_alertcenter_list_alerts]
-    ListAlertsResponse listResponse = service.alerts().list().setPageSize(20).execute();
-    while (listResponse.getAlerts() != null) {
-      for (Alert alert : listResponse.getAlerts()) {
-        System.out.println(alert);
-      }
-      if (listResponse.getNextPageToken() == null || listResponse.getNextPageToken().isEmpty()) {
-        break;
-      }
-      listResponse = service.alerts().list().setPageToken(listResponse.getNextPageToken())
+    String pageToken = null;
+    do {
+      ListAlertsResponse listResponse = service.alerts().list().setPageToken(pageToken)
           .setPageSize(20).execute();
-    }
+      if (listResponse.getAlerts() != null) {
+        for (Alert alert : listResponse.getAlerts()) {
+          System.out.println(alert);
+        }
+      }
+      pageToken = listResponse.getNextPageToken();
+    } while (pageToken != null);
     // [END admin_sdk_alertcenter_list_alerts]
 
-
-    listResponse = service.alerts().list().setPageSize(20).execute();
+    ListAlertsResponse listResponse = service.alerts().list().setPageSize(20).execute();
     if (listResponse == null || listResponse.isEmpty()) {
       System.out.println("No alerts");
+    } else {
+      String alertId = listResponse.getAlerts().get(0).getAlertId();
+      // Uncomment the line below to set alert feedback.
+      // setAlertFeedback(service, alertId);
     }
-    String alertId = listResponse.getAlerts().get(0).getAlertId();
+  }
+
+  private static void setAlertFeedback(AlertCenter service, String alertId) throws IOException {
     // [START admin_sdk_alertcenter_provide_feedback]
     AlertFeedback newFeedback = new AlertFeedback();
     newFeedback.setType("VERY_USEFUL");
