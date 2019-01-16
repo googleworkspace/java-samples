@@ -1,4 +1,4 @@
-// Copyright 2018 Google LLC
+// Copyright 2019 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,7 +28,9 @@ import com.google.api.services.driveactivity.v2.model.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.AbstractMap;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -137,16 +139,25 @@ public class DriveActivityQuickstart {
         }
     }
 
+    /** Returns a string representation of the first elements in a list. */
     private static String truncated(List<String> array) {
-        return truncated(array, 2);
+        return truncatedTo(array, 2);
     }
 
-    private static String truncated(List<String> array, int limit) {
+    /** Returns a string representation of the first elements in a list. */
+    private static String truncatedTo(List<String> array, int limit) {
         String contents = array.stream().limit(limit).collect(Collectors.joining(", "));
         String more = array.size() > limit ? ", ..." : "";
         return "[" + contents + more + "]";
     }
 
+    /** Returns the name of a set property in an object, or else "unknown". */
+    private static <T> String getOneOf(AbstractMap<String, T> obj) {
+        Iterator<String> iterator = obj.keySet().iterator();
+        return iterator.hasNext() ? iterator.next() : "unknown";
+    }
+
+    /** Returns a time associated with an activity. */
     private static String getTimeInfo(DriveActivity activity) {
         if (activity.getTimestamp() != null) {
             return activity.getTimestamp();
@@ -157,26 +168,30 @@ public class DriveActivityQuickstart {
         return "unknown";
     }
 
+    /** Returns the type of action. */
     private static String getActionInfo(ActionDetail actionDetail) {
-        return actionDetail.keySet().iterator().next();
+        return getOneOf(actionDetail);
     }
 
+    /** Returns user information, or the type of user if not a known user. */
     private static String getUserInfo(User user) {
         if (user.getKnownUser() != null) {
             KnownUser knownUser = user.getKnownUser();
             Boolean isMe = knownUser.getIsCurrentUser();
             return (isMe != null && isMe) ? "people/me" : knownUser.getPersonName();
         }
-        return user.keySet().iterator().next();
+        return getOneOf(user);
     }
 
+    /** Returns actor information, or the type of actor if not a user. */
     private static String getActorInfo(Actor actor) {
         if (actor.getUser() != null) {
             return getUserInfo(actor.getUser());
         }
-        return actor.keySet().iterator().next();
+        return getOneOf(actor);
     }
 
+    /** Returns the type of a target and an associated title. */
     private static String getTargetInfo(Target target) {
         if (target.getDriveItem() != null) {
             return "driveItem:\"" + target.getDriveItem().getTitle() + "\"";
@@ -191,7 +206,7 @@ public class DriveActivityQuickstart {
             }
             return "fileComment:unknown";
         }
-        return target.keySet().iterator().next();
+        return getOneOf(target);
     }
 }
 // [END drive_activity_v2_quickstart]
