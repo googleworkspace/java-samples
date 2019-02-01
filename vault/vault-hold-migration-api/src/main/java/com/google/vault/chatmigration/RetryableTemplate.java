@@ -6,14 +6,12 @@ import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
 import com.github.rholder.retry.WaitStrategies;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.Nullable;
 
 public class RetryableTemplate {
   private static Logger logger = Logger.getLogger(RetryableTemplate.class.getName());
@@ -26,18 +24,25 @@ public class RetryableTemplate {
             .retryIfException(
                 input -> {
                   if (input instanceof GoogleJsonResponseException) {
-                    GoogleJsonResponseException jsonException =
-                        (GoogleJsonResponseException) input;
+                    GoogleJsonResponseException jsonException = (GoogleJsonResponseException) input;
                     int responseCode = jsonException.getDetails().getCode();
                     if (DONT_RETRY.contains(responseCode)) {
-                      logger.log(Level.WARNING, "Encountered Non Retryable Error: " + jsonException.getMessage());
+                      logger.log(
+                          Level.WARNING,
+                          "Encountered Non Retryable Error: " + jsonException.getMessage());
                       return false;
                     } else {
-                      logger.log(Level.WARNING,"Encountered retryable error: " + jsonException.getMessage() + ".Retrying...");
+                      logger.log(
+                          Level.WARNING,
+                          "Encountered retryable error: "
+                              + jsonException.getMessage()
+                              + ".Retrying...");
                       return true;
                     }
                   } else {
-                    logger.log(Level.WARNING,"Encountered error: " + input.getMessage() + ". Retrying...");
+                    logger.log(
+                        Level.WARNING,
+                        "Encountered error: " + input.getMessage() + ". Retrying...");
                     return true;
                   }
                 })

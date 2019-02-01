@@ -8,8 +8,6 @@ import com.google.api.services.vault.v1.model.HeldHangoutsChatQuery;
 import com.google.api.services.vault.v1.model.HeldOrgUnit;
 import com.google.api.services.vault.v1.model.Hold;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -48,23 +46,25 @@ public class DuplicateHold {
       String orgUnitId = record.get(HoldsReport.ORG_UNIT_ID);
       String accounts = record.get(HoldsReport.ACCOUNT_IDS);
 
-      List<HeldAccount> accountList = (accounts.equals("")) ? null :Arrays.stream(accounts.split(","))
-          .map(account -> new HeldAccount().setAccountId(account))
-          .collect(Collectors.toList());
+      List<HeldAccount> accountList =
+          (accounts.equals(""))
+              ? null
+              : Arrays.stream(accounts.split(","))
+                  .map(account -> new HeldAccount().setAccountId(account))
+                  .collect(Collectors.toList());
       boolean exceedsAccountLimit = false;
 
       Hold hold = new Hold().setName(name + HOLD_NAME_SUFFIX).setCorpus("HANGOUTS_CHAT");
 
-      if (!"".equals(orgUnitId)) {
+      if (!orgUnitId.equals("")) {
         hold.setOrgUnit(new HeldOrgUnit().setOrgUnitId(orgUnitId));
       } else if (!"".equals(accounts)) {
-        if(accountList.size() > MAX_ACCOUNTS_FOR_HOLD){
+        if (accountList.size() > MAX_ACCOUNTS_FOR_HOLD) {
           exceedsAccountLimit = true;
-          hold.setAccounts(accountList.subList(0,MAX_ACCOUNTS_FOR_HOLD));
+          hold.setAccounts(accountList.subList(0, MAX_ACCOUNTS_FOR_HOLD));
         } else {
           hold.setAccounts(accountList);
         }
-
       }
       hold.setQuery(
           new CorpusQuery()
@@ -74,10 +74,12 @@ public class DuplicateHold {
             RetryableTemplate.callWithRetry(
                 () -> vaultService.matters().holds().create(matterId, hold).execute());
 
-        if(exceedsAccountLimit){
-            addAccountsToHold(matterId,response.getHoldId(),accountList.subList(MAX_ACCOUNTS_FOR_HOLD,accountList.size()));
+        if (exceedsAccountLimit) {
+          addAccountsToHold(
+              matterId,
+              response.getHoldId(),
+              accountList.subList(MAX_ACCOUNTS_FOR_HOLD, accountList.size()));
         }
-
 
         numberOfHolds++;
         System.out.println("Created hold: '" + hold.getName() + "'");
@@ -104,7 +106,8 @@ public class DuplicateHold {
   }
 
   private void writeError(CSVRecord record, Exception ex) throws IOException {
-    System.out.println("Hold: '" + record.get(HoldsReport.HOLD_NAME) + "' not copied to Hangouts chat.");
+    System.out.println(
+        "Hold: '" + record.get(HoldsReport.HOLD_NAME) + "' not copied to Hangouts chat.");
 
     errorReport.printRecord(
         record.get(HoldsReport.MATTER_ID),
@@ -114,12 +117,21 @@ public class DuplicateHold {
         ex.getMessage());
   }
 
-  private void addAccountsToHold(String matterId,String holdId, List<HeldAccount> accounts) throws ExecutionException, RetryException {
-    logger.log(Level.INFO,"There are more than 100 users on hold: " + holdId + " in matter: " + matterId + ".");
+  private void addAccountsToHold(String matterId, String holdId, List<HeldAccount> accounts)
+      throws ExecutionException, RetryException {
+    logger.log(
+        Level.INFO,
+        "There are more than 100 users on hold: " + holdId + " in matter: " + matterId + ".");
     for (HeldAccount account : accounts) {
       logger.log(Level.INFO, "Adding account: " + account.getAccountId() + " to hold: " + holdId);
       RetryableTemplate.callWithRetry(
-          () -> vaultService.matters().holds().accounts().create(matterId, holdId, account).execute());
+          () ->
+              vaultService
+                  .matters()
+                  .holds()
+                  .accounts()
+                  .create(matterId, holdId, account)
+                  .execute());
     }
   }
 }

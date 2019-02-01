@@ -27,7 +27,6 @@ import org.apache.commons.cli.Options;
 
 public class MigrationHelper {
 
-
   enum MigrationOptions {
     GENERATE_REPORT("a", "genholdreport", "Generate Hold Report"),
     DUPLICATE_HOLDS("b", "duplicateholds", "Duplicate Gmail Holds to Hangouts Chat"),
@@ -80,8 +79,8 @@ public class MigrationHelper {
 
   static {
     try {
-      InputStream stream = QuickStart.class.getClassLoader().
-          getResourceAsStream("logging.properties");
+      InputStream stream =
+          QuickStart.class.getClassLoader().getResourceAsStream("logging.properties");
       LogManager.getLogManager().readConfiguration(stream);
       HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
       DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
@@ -91,53 +90,59 @@ public class MigrationHelper {
     }
   }
 
-
-  static final Option helpOption = Option.builder(MigrationOptions.HELP.option)
-      .longOpt(MigrationOptions.HELP.longOpt)
-      .argName("help").desc(MigrationOptions.HELP.description).build();
+  static final Option helpOption =
+      Option.builder(MigrationOptions.HELP.option)
+          .longOpt(MigrationOptions.HELP.longOpt)
+          .argName("help")
+          .desc(MigrationOptions.HELP.description)
+          .build();
 
   static Options buildOptions() {
     Options options = new Options();
 
-    Option generateReport = Option.builder(MigrationOptions.GENERATE_REPORT.option)
-        .longOpt(MigrationOptions.GENERATE_REPORT.longOpt)
-        .desc(MigrationOptions.GENERATE_REPORT.description).build();
+    Option generateReport =
+        Option.builder(MigrationOptions.GENERATE_REPORT.option)
+            .longOpt(MigrationOptions.GENERATE_REPORT.longOpt)
+            .desc(MigrationOptions.GENERATE_REPORT.description)
+            .build();
 
-    Option duplicateHolds = Option.builder(MigrationOptions.DUPLICATE_HOLDS.option)
-        .longOpt(MigrationOptions.DUPLICATE_HOLDS.longOpt)
-        .desc(MigrationOptions.DUPLICATE_HOLDS.description)
-        .build();
+    Option duplicateHolds =
+        Option.builder(MigrationOptions.DUPLICATE_HOLDS.option)
+            .longOpt(MigrationOptions.DUPLICATE_HOLDS.longOpt)
+            .desc(MigrationOptions.DUPLICATE_HOLDS.description)
+            .build();
 
-    Option reportFile = Option.builder(MigrationOptions.REPORT_FILE.option)
-        .required()
-        .hasArg()
-        .longOpt(MigrationOptions.REPORT_FILE.longOpt)
-        .argName("reportfile")
-        .desc(MigrationOptions.REPORT_FILE.description)
-        .build();
+    Option reportFile =
+        Option.builder(MigrationOptions.REPORT_FILE.option)
+            .required()
+            .hasArg()
+            .longOpt(MigrationOptions.REPORT_FILE.longOpt)
+            .argName("reportfile")
+            .desc(MigrationOptions.REPORT_FILE.description)
+            .build();
 
-    Option errorFile = Option.builder(MigrationOptions.ERROR_FILE.option)
-        .required()
-        .hasArg()
-        .longOpt(MigrationOptions.ERROR_FILE.longOpt)
-        .argName("errorfile")
-        .desc(MigrationOptions.ERROR_FILE.description)
-        .build();
+    Option errorFile =
+        Option.builder(MigrationOptions.ERROR_FILE.option)
+            .required()
+            .hasArg()
+            .longOpt(MigrationOptions.ERROR_FILE.longOpt)
+            .argName("errorfile")
+            .desc(MigrationOptions.ERROR_FILE.description)
+            .build();
 
-    Option includeRoom = Option.builder(MigrationOptions.INCLUDE_ROOMS.option)
-        .longOpt(MigrationOptions.INCLUDE_ROOMS.longOpt)
-        .argName(MigrationOptions.INCLUDE_ROOMS.description)
-        .desc(MigrationOptions.INCLUDE_ROOMS.description)
-        .build();
+    Option includeRoom =
+        Option.builder(MigrationOptions.INCLUDE_ROOMS.option)
+            .longOpt(MigrationOptions.INCLUDE_ROOMS.longOpt)
+            .argName(MigrationOptions.INCLUDE_ROOMS.description)
+            .desc(MigrationOptions.INCLUDE_ROOMS.description)
+            .build();
 
     options.addOption(reportFile);
     options.addOption(errorFile);
     options.addOption(includeRoom);
 
     OptionGroup optionGroup = new OptionGroup();
-    optionGroup.addOption(generateReport)
-        .addOption(duplicateHolds)
-        .addOption(helpOption);
+    optionGroup.addOption(generateReport).addOption(duplicateHolds).addOption(helpOption);
     optionGroup.setRequired(true);
     options.addOptionGroup(optionGroup);
 

@@ -55,11 +55,12 @@ public class HoldsReport {
     ListMattersResponse response =
         RetryableTemplate.callWithRetry(
             vaultService
-                .matters()
-                .list()
-                .setState("OPEN")
-                .setPageSize(100)
-                .setPageToken(nextPageToken)::execute);
+                    .matters()
+                    .list()
+                    .setState("OPEN")
+                    .setPageSize(100)
+                    .setPageToken(nextPageToken)
+                ::execute);
     List<Matter> matters = response.getMatters();
 
     if (matters != null && matters.size() > 0) {
@@ -75,13 +76,14 @@ public class HoldsReport {
   private void iterateHolds(Matter matter, String nextPageToken) throws Exception {
     ListHoldsResponse response =
         RetryableTemplate.callWithRetry(
-            () -> vaultService
-                .matters()
-                .holds()
-                .list(matter.getMatterId())
-                .setPageSize(100)
-                .setPageToken(nextPageToken)
-                .execute());
+            () ->
+                vaultService
+                    .matters()
+                    .holds()
+                    .list(matter.getMatterId())
+                    .setPageSize(100)
+                    .setPageToken(nextPageToken)
+                    .execute());
     List<Hold> holds = response.getHolds();
     if (holds != null && holds.size() > 0) {
       for (Hold hold : holds) {
@@ -89,7 +91,8 @@ public class HoldsReport {
           writeHold(matter, hold);
           ++numberOfHolds;
           System.out.println("Completed " + numberOfHolds + " holds. In progress...");
-          LOGGER.log(Level.INFO,"Completed " + numberOfHolds + " holds. Report generation in progress.");
+          LOGGER.log(
+              Level.INFO, "Completed " + numberOfHolds + " holds. Report generation in progress.");
         }
       }
     }
@@ -141,14 +144,11 @@ public class HoldsReport {
           null,
           null,
           null,
-          hold.getAccounts()
-              .stream()
+          hold.getAccounts().stream()
               .map(account -> account.getAccountId())
               .collect(Collectors.joining(",")),
-          hold.getAccounts()
-              .stream()
-              .map(
-                  account -> directoryService.getEmail(account.getAccountId()))
+          hold.getAccounts().stream()
+              .map(account -> directoryService.getEmail(account.getAccountId()))
               .collect(Collectors.joining(",")),
           hold.getCorpus(),
           hold.getQuery().getMailQuery().getTerms(),

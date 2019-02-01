@@ -17,18 +17,17 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVPrinter;
 
-
 public class QuickStart {
 
   private static final Logger LOGGER = Logger.getLogger(QuickStart.class.getName());
 
-  private static boolean hasHelpOption(String... args) throws ParseException{
+  private static boolean hasHelpOption(String... args) throws ParseException {
     boolean hasHelp = false;
 
-    Options helpOptions= new Options().addOption(MigrationHelper.helpOption);
+    Options helpOptions = new Options().addOption(MigrationHelper.helpOption);
     CommandLine cl = new DefaultParser().parse(helpOptions, args, true);
 
-    if(cl.hasOption(MigrationOptions.HELP.getOption())){
+    if (cl.hasOption(MigrationOptions.HELP.getOption())) {
       hasHelp = true;
     }
 
@@ -40,25 +39,26 @@ public class QuickStart {
 
     try {
 
-      if(hasHelpOption(args)){
+      if (hasHelpOption(args)) {
         MigrationHelper.printHelp(options);
       } else {
         CommandLine line = new DefaultParser().parse(options, args);
         String reportFile = line.getOptionValue("f");
         String errorFile = line.getOptionValue("e");
 
-        if(line.hasOption(MigrationOptions.GENERATE_REPORT.getOption())){
+        if (line.hasOption(MigrationOptions.GENERATE_REPORT.getOption())) {
           generateReport(reportFile);
-        } else if (line.hasOption(MigrationOptions.DUPLICATE_HOLDS.getOption())){
-          duplicateHolds(reportFile,errorFile, line.hasOption(MigrationOptions.INCLUDE_ROOMS.getOption()));
+        } else if (line.hasOption(MigrationOptions.DUPLICATE_HOLDS.getOption())) {
+          duplicateHolds(
+              reportFile, errorFile, line.hasOption(MigrationOptions.INCLUDE_ROOMS.getOption()));
         }
       }
 
-    }catch(ParseException parseException){
+    } catch (ParseException parseException) {
       System.out.println(parseException.getMessage());
       LOGGER.log(Level.WARNING, parseException.toString());
       MigrationHelper.printHelp(options);
-    }catch(Exception exception){
+    } catch (Exception exception) {
       LOGGER.log(Level.SEVERE, exception.toString());
     }
   }
@@ -69,8 +69,10 @@ public class QuickStart {
     DirectoryService directoryService = new DirectoryService(directory);
     Vault vaultService = MigrationHelper.getVaultService();
 
-    System.out.println("--------------------------------------------------------------------------------------");
-    System.out.println(" Starting Hold report generation. Holds will be exported to: " + holdsReportFile);
+    System.out.println(
+        "--------------------------------------------------------------------------------------");
+    System.out.println(
+        " Starting Hold report generation. Holds will be exported to: " + holdsReportFile);
     System.out.println();
 
     CSVPrinter printer = getCSVPrinter(holdsReportFile);
@@ -78,17 +80,20 @@ public class QuickStart {
     int totalHoldsCount = holdReport.buildReport();
 
     System.out.println();
-    System.out.println(" Hold report generated successfully. " + totalHoldsCount + " Gmail holds exported.");
-    System.out.println("--------------------------------------------------------------------------------------");
-
+    System.out.println(
+        " Hold report generated successfully. " + totalHoldsCount + " Gmail holds exported.");
+    System.out.println(
+        "--------------------------------------------------------------------------------------");
   }
 
   private static void duplicateHolds(String holdsReportFile, String errorFile, boolean includeRooms)
       throws Exception {
     Vault vaultService = MigrationHelper.getVaultService();
 
-    System.out.println("-----------------------------------------------------------------------------------------------");
-    System.out.println(" Hangouts Chat hold creation started. Hold(s) will be picked from: " + holdsReportFile);
+    System.out.println(
+        "-----------------------------------------------------------------------------------------------");
+    System.out.println(
+        " Hangouts Chat hold creation started. Hold(s) will be picked from: " + holdsReportFile);
     System.out.println();
 
     CSVPrinter errorReport = getCSVPrinter(errorFile);
@@ -112,13 +117,20 @@ public class QuickStart {
                     HoldsReport.START_TIME,
                     HoldsReport.END_TIME)
                 .withSkipHeaderRecord());
-    DuplicateHold duplicateHold = new DuplicateHold(parser, includeRooms, vaultService, errorReport);
+    DuplicateHold duplicateHold =
+        new DuplicateHold(parser, includeRooms, vaultService, errorReport);
     int holdCount = duplicateHold.duplicateHolds();
 
     System.out.println();
     System.out.println(" Finished creating Hangouts Chat hold(s).");
-    System.out.println(" Copied "+ holdCount+ " holds for Hangouts Chat. Please check "+ errorFile +" for any errors.");
-    System.out.println("--------------------------------------------------------------------------------------");
+    System.out.println(
+        " Copied "
+            + holdCount
+            + " holds for Hangouts Chat. Please check "
+            + errorFile
+            + " for any errors.");
+    System.out.println(
+        "--------------------------------------------------------------------------------------");
   }
 
   private static CSVPrinter getCSVPrinter(String fileName) throws IOException {
