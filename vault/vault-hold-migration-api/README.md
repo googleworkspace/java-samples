@@ -1,7 +1,7 @@
 # vault-hold-migration-api
 
-This repository contains the code sample for Vault to generate report on Mail
-holds and to copy them for Hangouts Chat.
+This repository contains a code sample for Vault that generates a report on Mail
+holds and copies them for Hangouts Chat.
 
-Documentation is available in
+Documentation is available on the
 [Google Developers site](https://developers.google.com/vault/guides/chat).
