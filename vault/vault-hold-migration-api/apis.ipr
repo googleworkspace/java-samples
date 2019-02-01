@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <resourceExtensions>
+      <entry name=".+\.(properties|xml|html|dtd|tld)" />
+      <entry name=".+\.(gif|png|jpeg|jpg)" />
+    </resourceExtensions>
+    <wildcardResourcePatterns>
+      <entry name="!?*.class" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.java" />
+      <entry name="!?*.groovy" />
+    </wildcardResourcePatterns>
+    <bytecodeTargetLevel target="1.8">
+      <module name="apis.main" target="1.8" />
+      <module name="apis.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="CopyrightManager" default="" />
+  <component name="DependencyValidationManager">
+    <option name="SKIP_IMPORT_STATEMENTS" value="false" />
+  </component>
+  <component name="Encoding" addBOMForNewFiles="with NO BOM" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+          </set>
+        </option>
+        <option name="useQualifiedModuleNames" value="true" />
+      </GradleProjectSettings>
+    </option>
+  </component>
+  <component name="GradleUISettings">
+    <setting name="root" />
+  </component>
+  <component name="GradleUISettings2">
+    <setting name="root" />
+  </component>
+  <component name="IdProvider" IDEtalkID="11DA1DB66DD62DDA1ED602B7079FE97C" />
+  <component name="InspectionProjectProfileManager">
+    <profile version="1.0">
+      <option name="myName" value="Project Default" />
+    </profile>
+    <version value="1.0" />
+  </component>
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" />
+    <option name="OPTION_SCOPE" value="protected" />
+    <option name="OPTION_HIERARCHY" value="true" />
+    <option name="OPTION_NAVIGATOR" value="true" />
+    <option name="OPTION_INDEX" value="true" />
+    <option name="OPTION_SEPARATE_INDEX" value="true" />
+    <option name="OPTION_DOCUMENT_TAG_USE" value="false" />
+    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="false" />
+    <option name="OPTION_DOCUMENT_TAG_VERSION" value="false" />
+    <option name="OPTION_DOCUMENT_TAG_DEPRECATED" value="true" />
+    <option name="OPTION_DEPRECATED_LIST" value="true" />
+    <option name="OTHER_OPTIONS" value="" />
+    <option name="HEAP_SIZE" />
+    <option name="LOCALE" />
+    <option name="OPEN_IN_BROWSER" value="true" />
+  </component>
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/apis.iml" filepath="$PROJECT_DIR$/apis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apis.main.iml" filepath="$PROJECT_DIR$/apis.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apis.test.iml" filepath="$PROJECT_DIR$/apis.test.iml" />
+    </modules>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="mySupportsUserInfoFilter" value="true" />
+  </component>
+  <component name="libraryTable">
+    <library name="Gradle: com.fasterxml.jackson.core:jackson-core:2.1.3">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.1.3/f6c3aed1cdfa21b5c1737c915186ea93a95a58bd/jackson-core-2.1.3.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.fasterxml.jackson.core/jackson-core/2.1.3/d313b1839906da7422387b180a124c81e13e65a2/jackson-core-2.1.3-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.github.rholder:guava-retrying:2.0.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.github.rholder/guava-retrying/2.0.0/974bc0a04a11cc4806f7c20a34703bd23c34e7f4/guava-retrying-2.0.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.github.rholder/guava-retrying/2.0.0/e26af7bfb282fa2787191f383950f030243c5480/guava-retrying-2.0.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.api-client:google-api-client:1.23.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.23.0/522ea860eb48dee71dfe2c61a1fd09663539f556/google-api-client-1.23.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.api-client/google-api-client/1.23.0/1da1acc283f4ff3ae0b67bc5ca25b6e387f3afa9/google-api-client-1.23.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.apis:google-api-services-admin-directory:directory_v1-rev53-1.20.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-admin-directory/directory_v1-rev53-1.20.0/e97c1a17e783f0fe2cb8c546bba5ca189a2720d7/google-api-services-admin-directory-directory_v1-rev53-1.20.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-admin-directory/directory_v1-rev53-1.20.0/e6e1a1838bb43f45c9295474865d242ed0a081d6/google-api-services-admin-directory-directory_v1-rev53-1.20.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.apis:google-api-services-vault:v1-rev8-1.23.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-vault/v1-rev8-1.23.0/eb6108e18c81297e2fd7c838bbc189af3539679f/google-api-services-vault-v1-rev8-1.23.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.apis/google-api-services-vault/v1-rev8-1.23.0/ecb4e49cf67f683bb2b3527f46389c35effe512c/google-api-services-vault-v1-rev8-1.23.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.code.findbugs:jsr305:3.0.2">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.2/25ea2e8b0c338a877313bd4672d3fe056ea78f0d/jsr305-3.0.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.code.findbugs/jsr305/3.0.2/b19b5927c2c25b6c70f093767041e641ae0b1b35/jsr305-3.0.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.errorprone:error_prone_annotations:2.2.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.2.0/88e3c593e9b3586e1c6177f89267da6fc6986f0c/error_prone_annotations-2.2.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.errorprone/error_prone_annotations/2.2.0/a8cd7823aa1dcd2fd6677c0c5988fdde9d1fb0a3/error_prone_annotations-2.2.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.guava:failureaccess:1.0.1">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.1/1dcf1de382a0bf95a3d8b0849546c88bac1292c9/failureaccess-1.0.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.guava/failureaccess/1.0.1/1d064e61aad6c51cc77f9b59dc2cccc78e792f5a/failureaccess-1.0.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.guava:guava-jdk5:17.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.guava/guava-jdk5/17.0/463f8378feba44df7ba7cd9272d01837dad62b36/guava-jdk5-17.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.guava/guava-jdk5/17.0/cc6729ce0bc6cc29441cb3a04acad02aeeebb26e/guava-jdk5-17.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.guava:guava:27.0.1-jre">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.guava/guava/27.0.1-jre/bd41a290787b5301e63929676d792c507bbc00ae/guava-27.0.1-jre.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.guava/guava/27.0.1-jre/cb5c1119df8d41a428013289b193eba3ccaf5f60/guava-27.0.1-jre-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/b421526c5f297295adef1c886e5246c39d4ac629/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="Gradle: com.google.http-client:google-http-client-jackson2:1.23.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson2/1.23.0/fd6761f4046a8cb0455e6fa5f58e12b061e9826e/google-http-client-jackson2-1.23.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client-jackson2/1.23.0/7472d2eeee59d3fbc255acb45ba1a692f61bef61/google-http-client-jackson2-1.23.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.http-client:google-http-client:1.23.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.23.0/8e86c84ff3c98eca6423e97780325b299133d858/google-http-client-1.23.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.http-client/google-http-client/1.23.0/fb386c0b92d0adff70acc4a88e5b8b624f26f798/google-http-client-1.23.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.j2objc:j2objc-annotations:1.1">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.j2objc/j2objc-annotations/1.1/ed28ded51a8b1c6b112568def5f4b455e6809019/j2objc-annotations-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.j2objc/j2objc-annotations/1.1/1efdf5b737b02f9b72ebdec4f72c37ec411302ff/j2objc-annotations-1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.oauth-client:google-oauth-client-java6:1.23.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client-java6/1.23.0/7acbddf56c4ad04efc9d3b48fe015e6250241bf0/google-oauth-client-java6-1.23.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client-java6/1.23.0/bfb9061fa4870338c7d0f28acc6977f54b0a1b29/google-oauth-client-java6-1.23.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.oauth-client:google-oauth-client-jetty:1.23.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client-jetty/1.23.0/e0deaf34371e9ca09f9a04bcbaa854243283cae4/google-oauth-client-jetty-1.23.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client-jetty/1.23.0/ef72587eb9cc0aabbb611d92bd39e88c76ac08bb/google-oauth-client-jetty-1.23.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: com.google.oauth-client:google-oauth-client:1.23.0">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.23.0/e57ea1e2220bda5a2bd24ff17860212861f3c5cf/google-oauth-client-1.23.0.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/com.google.oauth-client/google-oauth-client/1.23.0/9030ee2be9844eb8c87c851ecf4c05f79b02e023/google-oauth-client-1.23.0-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: commons-codec:commons-codec:1.3">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.3/fd32786786e2adb664d5ecc965da47629dca14ba/commons-codec-1.3.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.3/ee264b5d7a0f939d5999398c7f1ade031db3fcec/commons-codec-1.3-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: commons-logging:commons-logging:1.1.1">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/5043bfebc3db072ed80fbd362e7caf00e885d8ae/commons-logging-1.1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/commons-logging/commons-logging/1.1.1/f3f156cbff0e0fb0d64bfce31a352cce4a33bc19/commons-logging-1.1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.apache.commons:commons-csv:1.1">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-csv/1.1/1eeeb118cab7ec49c9a10b478356eff108d5e87e/commons-csv-1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-csv/1.1/67d709cfe7ed870b123df9d7e5b5ec4e9d5806ad/commons-csv-1.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.apache.httpcomponents:httpclient:4.0.1">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.0.1/1d7d28fa738bdbfe4fbd895d9486308999bdf440/httpclient-4.0.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpclient/4.0.1/2480b1ac944ebdd15f5f7b6730e9a151d39f4d88/httpclient-4.0.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.apache.httpcomponents:httpcore:4.0.1">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.0.1/e813b8722c387b22e1adccf7914729db09bcb4a9/httpcore-4.0.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.apache.httpcomponents/httpcore/4.0.1/69febd50593a006a4593ef64a697b14208a55b7b/httpcore-4.0.1-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.checkerframework:checker-qual:2.5.2">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.5.2/cea74543d5904a30861a61b4643a5f2bb372efc4/checker-qual-2.5.2.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.checkerframework/checker-qual/2.5.2/ebb8ebccd42218434674f3e1d9022c13df1c19f8/checker-qual-2.5.2-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.codehaus.mojo:animal-sniffer-annotations:1.17">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.codehaus.mojo/animal-sniffer-annotations/1.17/f97ce6decaea32b36101e37979f8b647f00681fb/animal-sniffer-annotations-1.17.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.codehaus.mojo/animal-sniffer-annotations/1.17/8fb5b5ad9c9723951b9fccaba5bb657fa6064868/animal-sniffer-annotations-1.17-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.mortbay.jetty:jetty-util:6.1.26">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.mortbay.jetty/jetty-util/6.1.26/e5642fe0399814e1687d55a3862aa5a3417226a9/jetty-util-6.1.26.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.mortbay.jetty/jetty-util/6.1.26/ca704dfc9e26567bd69ee3f065a1337fa6d296f/jetty-util-6.1.26-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.mortbay.jetty:jetty:6.1.26">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.mortbay.jetty/jetty/6.1.26/2f546e289fddd5b1fab1d4199fbb6e9ef43ee4b0/jetty-6.1.26.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.mortbay.jetty/jetty/6.1.26/9e275882f6d3400b05674c79e97014a255dfaf43/jetty-6.1.26-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Gradle: org.mortbay.jetty:servlet-api:2.5-20081211">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.mortbay.jetty/servlet-api/2.5-20081211/22bff70037e1e6fa7e6413149489552ee2064702/servlet-api-2.5-20081211.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.mortbay.jetty/servlet-api/2.5-20081211/b0b7c1931bcdbeb25c2aa4aec14d7b979b53dc51/servlet-api-2.5-20081211-sources.jar!/" />
+      </SOURCES>
+    </library>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <UIState>
+          <splitter-proportions>
+            <SplitterProportionsDataImpl />
+          </splitter-proportions>
+          <settings />
+        </UIState>
+      </state>
+      <state key="Copyright.UI">
+        <UIState>
+          <splitter-proportions>
+            <SplitterProportionsDataImpl />
+          </splitter-proportions>
+        </UIState>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <UIState>
+          <splitter-proportions>
+            <SplitterProportionsDataImpl>
+              <option name="proportions">
+                <list>
+                  <option value="0.2" />
+                </list>
+              </option>
+            </SplitterProportionsDataImpl>
+          </splitter-proportions>
+          <last-edited>1.6</last-edited>
+        </UIState>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <UIState>
+          <splitter-proportions>
+            <SplitterProportionsDataImpl />
+          </splitter-proportions>
+          <settings />
+        </UIState>
+      </state>
+    </states>
+  </component>
+</project>
