@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
+
+mainClassName = 'AdminSDKAlertCenterQuickstart'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.api-client:google-api-client:1.20.0'
+    compile 'com.google.auth:google-auth-library-oauth2-http:0.11.0'
+    compile 'com.google.apis:google-api-services-alertcenter:v1beta1-rev7-1.25.0'
+}

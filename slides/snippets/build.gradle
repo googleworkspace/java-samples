@@ -1,0 +1,20 @@
+apply plugin: 'java'
+
+repositories {
+    // Use 'jcenter' for resolving your dependencies.
+    jcenter()
+}
+
+dependencies {
+    compile 'com.google.api-client:google-api-client:1.22.0'
+    compile 'com.google.apis:google-api-services-drive:v3-rev45-1.22.0'
+    compile 'com.google.apis:google-api-services-sheets:v4-rev34-1.22.0'
+    compile 'com.google.apis:google-api-services-slides:v1-rev294-1.23.0'
+    testCompile 'junit:junit:4.12'
+
+    compile fileTree(dir: 'lib', include: ['*.jar'])
+}
+
+test {
+    testLogging.showStandardStreams = true
+}

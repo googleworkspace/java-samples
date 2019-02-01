@@ -38,11 +38,10 @@ import java.util.List;
 public class DriveActivityQuickstart {
     /** Application name. */
     private static final String APPLICATION_NAME =
-        "G Suite Activity API Java Quickstart";
+        "Drive Activity API Java Quickstart";
 
-    /** Directory to store user credentials for this application. */
-    private static final java.io.File DATA_STORE_DIR = new java.io.File(
-        System.getProperty("user.home"), ".credentials/appsactivity-java-quickstart");
+    /** Directory to store authorization tokens for this application. */
+    private static final java.io.File DATA_STORE_DIR = new java.io.File("tokens");
 
     /** Global instance of the {@link FileDataStoreFactory}. */
     private static FileDataStoreFactory DATA_STORE_FACTORY;
@@ -59,9 +58,7 @@ public class DriveActivityQuickstart {
      * If modifying these scopes, delete your previously saved credentials
      * at ~/.credentials/appsactivity-java-quickstart
      */
-    private static final List<String> SCOPES =
-        Arrays.asList(AppsactivityScopes.ACTIVITY,
-                      AppsactivityScopes.DRIVE_METADATA_READONLY);
+    private static final List<String> SCOPES = Arrays.asList(AppsactivityScopes.ACTIVITY);
 
     static {
         try {
@@ -81,7 +78,7 @@ public class DriveActivityQuickstart {
     public static Credential authorize() throws IOException {
         // Load client secrets.
         InputStream in =
-            DriveActivityQuickstart.class.getResourceAsStream("/client_secret.json");
+            DriveActivityQuickstart.class.getResourceAsStream("/credentials.json");
         GoogleClientSecrets clientSecrets =
             GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
