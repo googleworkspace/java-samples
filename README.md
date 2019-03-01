@@ -24,6 +24,10 @@ A collection of samples that demonstrate how to call G Suite APIs in Java.
 
 - [Quickstart](https://developers.google.com/classroom/quickstart/java)
 
+### Docs
+
+- [Quickstart](https://developers.google.com/docs/api/quickstart/java)
+
 ### Drive V3
 
 - [Quickstart](https://developers.google.com/drive/v3/web/quickstart/java)

@@ -41,3 +41,6 @@ hs_err_pid*
 .classpath
 .project
 properties
+
+# IDE
+.vscode/
