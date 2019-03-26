@@ -40,7 +40,7 @@ public class AdminSDKAlertCenterQuickstart {
 
   /**
    * Global instance of the scopes required by this quickstart.
-   * If modifying these scopes, delete your previously saved tokens/folder.
+   * If modifying these scopes, delete your previously saved "tokens/" folder.
    */
   private static final List<String> SCOPES =
       Collections.singletonList(AlertCenterScopes.APPS_ALERTS);
