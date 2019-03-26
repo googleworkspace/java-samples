@@ -19,6 +19,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.alertcenter.v1beta1.AlertCenter;
+import com.google.api.services.alertcenter.v1beta1.AlertCenterScopes;
 import com.google.api.services.alertcenter.v1beta1.model.Alert;
 import com.google.api.services.alertcenter.v1beta1.model.AlertFeedback;
 import com.google.api.services.alertcenter.v1beta1.model.ListAlertsResponse;
@@ -36,12 +37,13 @@ public class AdminSDKAlertCenterQuickstart {
 
   private static final String APPLICATION_NAME = "Google Admin SDK Alert Center API Java Quickstart";
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+
   /**
-   * Global instance of the scopes required by this quickstart. If modifying these scopes, delete
-   * your previously saved tokens/ folder.
+   * Global instance of the scopes required by this quickstart.
+   * If modifying these scopes, delete your previously saved "tokens/" folder.
    */
-  private static final List<String> SCOPES = Collections
-      .singletonList("https://www.googleapis.com/auth/apps.alerts");
+  private static final List<String> SCOPES =
+      Collections.singletonList(AlertCenterScopes.APPS_ALERTS);
   private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
   private static final String DELEGATED_ADMIN_EMAIL = "admin@xxx.com";
 
