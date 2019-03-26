@@ -14,5 +14,5 @@ repositories {
 dependencies {
     compile 'com.google.api-client:google-api-client:1.20.0'
     compile 'com.google.auth:google-auth-library-oauth2-http:0.11.0'
-    compile 'com.google.apis:google-api-services-alertcenter:v1beta1-rev7-1.25.0'
+    compile 'com.google.apis:google-api-services-alertcenter:v1beta1-rev20190221-1.28.0'
 }
