@@ -38,7 +38,7 @@ import java.util.List;
 public class DriveActivityQuickstart {
     /** Application name. */
     private static final String APPLICATION_NAME =
-        "G Suite Activity API Java Quickstart";
+        "Drive Activity API Java Quickstart";
 
     /** Directory to store authorization tokens for this application. */
     private static final java.io.File DATA_STORE_DIR = new java.io.File("tokens");

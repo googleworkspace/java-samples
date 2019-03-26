@@ -6,6 +6,7 @@ A collection of samples that demonstrate how to call G Suite APIs in Java.
 
 ### Admin SDK
 
+- [Alert Center Quickstart](https://developers.google.com/admin-sdk/alertcenter/quickstart/java)
 - [Directory Quickstart](https://developers.google.com/admin-sdk/directory/v1/quickstart/java)
 - [Reports Quickstart](https://developers.google.com/admin-sdk/reports/v1/quickstart/java)
 - [Reseller Quickstart](https://developers.google.com/admin-sdk/reseller/v1/quickstart/java)
@@ -23,6 +24,10 @@ A collection of samples that demonstrate how to call G Suite APIs in Java.
 ### Classroom
 
 - [Quickstart](https://developers.google.com/classroom/quickstart/java)
+
+### Docs
+
+- [Quickstart](https://developers.google.com/docs/api/quickstart/java)
 
 ### Drive V3
 
