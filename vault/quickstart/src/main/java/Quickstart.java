@@ -27,6 +27,7 @@ import com.google.api.services.vault.v1.VaultScopes;
 import com.google.api.services.vault.v1.model.*;
 import com.google.api.services.vault.v1.Vault;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -78,8 +79,11 @@ public class Quickstart {
         // Load client secrets.
         InputStream in =
             Quickstart.class.getResourceAsStream("/credentials.json");
+        if (in == null) {
+            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+        }
         GoogleClientSecrets clientSecrets =
-            GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow =

@@ -27,6 +27,7 @@ import com.google.auth.Credentials;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
@@ -58,7 +59,7 @@ public class AdminSDKAlertCenterQuickstart {
     // [START admin_sdk_alertcenter_get_credentials]
     InputStream in = AdminSDKAlertCenterQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
     if (in == null) {
-      throw new IOException("Credential file was not found");
+      throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
     }
     GoogleCredentials credentials = ServiceAccountCredentials
         .fromStream(in)
