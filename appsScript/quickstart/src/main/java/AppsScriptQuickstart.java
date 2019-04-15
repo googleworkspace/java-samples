@@ -29,6 +29,7 @@ import com.google.api.services.script.model.CreateProjectRequest;
 import com.google.api.services.script.model.File;
 import com.google.api.services.script.model.Project;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -58,6 +59,9 @@ public class AppsScriptQuickstart {
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
         InputStream in = AppsScriptQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        if (in == null) {
+            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
+        }
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
