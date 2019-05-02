@@ -54,11 +54,11 @@ public class DriveActivityQuickstart {
     /**
      * Global instance of the scopes required by this quickstart.
      *
-     * <p>If modifying these scopes, delete your previously saved credentials at
-     * ~/.credentials/driveactivity-java-quickstart
+     * <p>If modifying these scopes, delete your previously saved tokens/ folder.
      */
     private static final List<String> SCOPES =
             Arrays.asList(DriveActivityScopes.DRIVE_ACTIVITY_READONLY);
+    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
     static {
         try {
@@ -78,7 +78,7 @@ public class DriveActivityQuickstart {
      */
     public static Credential authorize() throws IOException {
         // Load client secrets.
-        InputStream in = DriveActivityQuickstart.class.getResourceAsStream("/credentials.json");
+        InputStream in = DriveActivityQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
             throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
         }
@@ -200,8 +200,8 @@ public class DriveActivityQuickstart {
         if (target.getDriveItem() != null) {
             return "driveItem:\"" + target.getDriveItem().getTitle() + "\"";
         }
-        if (target.getTeamDrive() != null) {
-            return "teamDrive:\"" + target.getTeamDrive().getTitle() + "\"";
+        if (target.getDrive() != null) {
+            return "drive:\"" + target.getDrive().getTitle() + "\"";
         }
         if (target.getFileComment() != null) {
             DriveItem parent = target.getFileComment().getParent();
