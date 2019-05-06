@@ -17,15 +17,11 @@
 // [START slides_create_image]
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.FileContent;
-import com.google.api.client.http.GenericUrl;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.drive.model.File;
 import com.google.api.services.slides.v1.Slides;
 import com.google.api.services.slides.v1.SlidesScopes;
 import com.google.api.services.slides.v1.model.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

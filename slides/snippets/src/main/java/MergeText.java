@@ -53,20 +53,20 @@ public class MergeText {
                     transport,
                     jacksonFactory,
                     credential)
-                .setApplicationName(applicationName)
-                .build();
+                    .setApplicationName(applicationName)
+                    .build();
             Sheets sheets = new Sheets.Builder(
                     transport,
                     jacksonFactory,
                     credential)
-                .setApplicationName(applicationName)
-                .build();
+                    .setApplicationName(applicationName)
+                    .build();
             Slides slides = new Slides.Builder(
                     transport,
                     jacksonFactory,
                     credential)
-                .setApplicationName(applicationName)
-                .build();
+                    .setApplicationName(applicationName)
+                    .build();
 
             // Use the Sheets API to load data, one record per row.
             String dataRangeNotation = "Customers!A2:M6";
@@ -75,7 +75,7 @@ public class MergeText {
             List<List<Object>> rows = sheetsResponse.getValues();
 
             // For each record, create a new merged presentation.
-            for (List<Object> row: rows) {
+            for (List<Object> row : rows) {
                 String customerName = row.get(2).toString();     // name in column 3
                 String caseDescription = row.get(5).toString();  // case description in column 6
                 String totalPortfolio = row.get(11).toString();  // total portfolio in column 12

@@ -20,7 +20,13 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.slides.v1.Slides;
 import com.google.api.services.slides.v1.SlidesScopes;
-import com.google.api.services.slides.v1.model.*;
+import com.google.api.services.slides.v1.model.BatchUpdatePresentationRequest;
+import com.google.api.services.slides.v1.model.BatchUpdatePresentationResponse;
+import com.google.api.services.slides.v1.model.CreateSlideRequest;
+import com.google.api.services.slides.v1.model.CreateSlideResponse;
+import com.google.api.services.slides.v1.model.LayoutReference;
+import com.google.api.services.slides.v1.model.Request;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
