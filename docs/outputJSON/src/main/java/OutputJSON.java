@@ -34,6 +34,10 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
+// [START docs_output_json]
+/**
+ * OutputJSON prints the JSON representation of a Google Doc.
+ */
 public class OutputJSON {
     private static final String APPLICATION_NAME = "Google Docs API Document Contents";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -86,3 +90,4 @@ public class OutputJSON {
         System.out.println(gson.toJson(response));
     }
 }
+// [END docs_output_json]
