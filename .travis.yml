@@ -1,7 +1,6 @@
 language: java
 jdk:
-  - oraclejdk8
-  # - oraclejdk9
+  - oraclejdk11
 # Use a Build Matrix for subdirs (https://lord.io/blog/2014/travis-multiple-subdirs/)
 env:
   - DIR=adminSDK/alertcenter/quickstart
