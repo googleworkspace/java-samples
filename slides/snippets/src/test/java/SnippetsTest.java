@@ -15,9 +15,6 @@ public class SnippetsTest extends BaseTest {
 
     private final String IMAGE_URL =
             "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
-    private final String IMAGE_FILE_PATH =
-            "../images/googlelogo_color_272x92dp.png";
-    private final String IMAGE_MIMETYPE = "image/png";
     private final String TEMPLATE_PRESENTATION_ID = "1wJUN1B5CQ2wQOBzmz2apky48QNK1OsE2oNKHPMLpKDc";
     private final String DATA_SPREADSHEET_ID = "14KaZMq2aCAGt5acV77zaA_Ps8aDt04G7T0ei4KiXLX8";
     private final Integer CHART_ID = 1107320627;
@@ -70,7 +67,7 @@ public class SnippetsTest extends BaseTest {
         String presentationId = this.createTestPresentation();
         String pageId = this.createTestSlide(presentationId);
         BatchUpdatePresentationResponse response = this.snippets.createImage(
-                presentationId, pageId, IMAGE_FILE_PATH, IMAGE_MIMETYPE, this.credential);
+                presentationId, pageId, this.credential);
         assertEquals(1, response.getReplies().size());
         String imageId = response.getReplies().get(0).getCreateImage().getObjectId();
         assertNotNull(imageId);

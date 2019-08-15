@@ -121,29 +121,13 @@ public class Snippets {
 
     public BatchUpdatePresentationResponse createImage(String presentationId,
                                                        String slideId,
-                                                       String imageFilePath,
-                                                       String imageMimeType,
                                                        GoogleCredential credential)
             throws IOException {
         Slides slidesService = this.service;
-        Drive driveService = this.driveService;
         // [START slides_create_image]
-        // Temporarily upload a local image file to Drive, in order to to obtain a URL
-        // for the image. Alternatively, you can provide the Slides service a URL of
-        // an already hosted image.
-        File file = new File();
-        file.setName("My Image File");
-        FileContent mediaContent = new FileContent(imageMimeType, new java.io.File(imageFilePath));
-        File uploadedFile = driveService.files().create(file, mediaContent).execute();
-        String fileId = uploadedFile.getId();
+        String imageUrl = "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
 
-        // Obtain a URL for the image.
-        GenericUrl getFileUrlBuilder = driveService.files().get(fileId).buildHttpRequestUrl();
-        String imageUrl = getFileUrlBuilder
-                .set("access_token", credential.getAccessToken())
-                .set("alt", "media").build();
-
-        // Create a new image, using a supplied object ID, with content downloaded from imageUrl.
+        // Create a new image, using the supplied object ID, with content downloaded from imageUrl.
         List<Request> requests = new ArrayList<>();
         String imageId = "MyImageId_01";
         Dimension emu4M = new Dimension().setMagnitude(4000000.0).setUnit("EMU");
@@ -170,9 +154,6 @@ public class Snippets {
                 slidesService.presentations().batchUpdate(presentationId, body).execute();
         CreateImageResponse createImageResponse = response.getReplies().get(0).getCreateImage();
         System.out.println("Created image with ID: " + createImageResponse.getObjectId());
-
-        // Remove the temporary image file from Drive.
-        driveService.files().delete(fileId).execute();
         // [END slides_create_image]
         return response;
     }
