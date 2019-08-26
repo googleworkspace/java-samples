@@ -34,7 +34,7 @@ public class BaseTest {
 
   protected Sheets service;
   protected Drive driveService;
-  protected Set<String> filesToDelete = new HashSet<String>();
+  protected Set<String> filesToDelete = new HashSet<>();
 
   public static void enableLogging() {
     Logger logger = Logger.getLogger(HttpTransport.class.getName());

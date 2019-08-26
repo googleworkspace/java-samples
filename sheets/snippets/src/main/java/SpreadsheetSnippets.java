@@ -125,7 +125,7 @@ public class SpreadsheetSnippets {
         // [START_EXCLUDE silent]
         values = _values;
         // [END_EXCLUDE]
-        List<ValueRange> data = new ArrayList<ValueRange>();
+        List<ValueRange> data = new ArrayList<>();
         data.add(new ValueRange()
                 .setRange(range)
                 .setValues(values));

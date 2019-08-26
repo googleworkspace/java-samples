@@ -29,7 +29,7 @@ public class BaseTest {
     protected Slides service;
     protected Drive driveService;
     protected Sheets sheetsService;
-    protected Set<String> filesToDelete = new HashSet<String>();
+    protected Set<String> filesToDelete = new HashSet<>();
 
 
     public static void enableLogging() {
