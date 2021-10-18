@@ -81,7 +81,7 @@
   </dependencies>
 
   <properties>
-    <project.http.version>1.18.0-rc</project.http.version>
+    <project.http.version>1.40.1</project.http.version>
     <project.oauth.version>1.18.0-rc</project.oauth.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
