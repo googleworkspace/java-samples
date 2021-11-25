@@ -2,8 +2,8 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 mainClassName = 'DriveQuickstart'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 version = '1.0'
 
 repositories {
