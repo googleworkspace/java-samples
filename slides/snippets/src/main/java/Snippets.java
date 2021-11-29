@@ -1,4 +1,4 @@
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.sheets.v4.Sheets;
@@ -119,7 +119,7 @@ public class Snippets {
 
     public BatchUpdatePresentationResponse createImage(String presentationId,
                                                        String slideId,
-                                                       GoogleCredential credential)
+                                                       GoogleCredentials credential)
             throws IOException {
         Slides slidesService = this.service;
         // [START slides_create_image]

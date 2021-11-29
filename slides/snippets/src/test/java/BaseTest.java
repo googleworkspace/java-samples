@@ -1,7 +1,8 @@
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.sheets.v4.Sheets;
@@ -25,7 +26,7 @@ public class BaseTest {
         enableLogging();
     }
 
-    protected GoogleCredential credential;
+    protected GoogleCredentials credential;
     protected Slides service;
     protected Drive driveService;
     protected Sheets sheetsService;
@@ -55,37 +56,37 @@ public class BaseTest {
         });
     }
 
-    public GoogleCredential getCredential() throws IOException {
-        return GoogleCredential.getApplicationDefault()
+    public GoogleCredentials getCredential() throws IOException {
+        return GoogleCredentials.getApplicationDefault()
                 .createScoped(Arrays.asList(DriveScopes.DRIVE));
     }
 
-    public Slides buildService(GoogleCredential credential)
+    public Slides buildService(GoogleCredentials credential)
             throws IOException, GeneralSecurityException {
         return new Slides.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
-                JacksonFactory.getDefaultInstance(),
-                credential)
+                GsonFactory.getDefaultInstance(),
+                new HttpCredentialsAdapter(credential))
                 .setApplicationName("Slides API Snippets")
                 .build();
     }
 
-    public Drive buildDriveService(GoogleCredential credential)
+    public Drive buildDriveService(GoogleCredentials credential)
             throws IOException, GeneralSecurityException {
         return new Drive.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
-                JacksonFactory.getDefaultInstance(),
-                credential)
+                GsonFactory.getDefaultInstance(),
+                new HttpCredentialsAdapter(credential))
                 .setApplicationName("Slides API Snippets")
                 .build();
     }
 
-    public Sheets buildSheetsService(GoogleCredential credential)
+    public Sheets buildSheetsService(GoogleCredentials credential)
             throws IOException, GeneralSecurityException {
         return new Sheets.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
-                JacksonFactory.getDefaultInstance(),
-                credential)
+                GsonFactory.getDefaultInstance(),
+                new HttpCredentialsAdapter(credential))
                 .setApplicationName("Slides API Snippets")
                 .build();
     }
