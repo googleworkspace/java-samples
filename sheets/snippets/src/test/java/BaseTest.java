@@ -1,7 +1,8 @@
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.sheets.v4.Sheets;
@@ -59,34 +60,34 @@ public class BaseTest {
     });
   }
 
-  public GoogleCredential getCredential() throws IOException {
-    return GoogleCredential.getApplicationDefault()
-        .createScoped(Arrays.asList(DriveScopes.DRIVE));
+  public GoogleCredentials getCredential() throws IOException {
+    return GoogleCredentials.getApplicationDefault()
+            .createScoped(Arrays.asList(DriveScopes.DRIVE));
   }
 
-  public Sheets buildService(GoogleCredential credential) throws IOException,
-      GeneralSecurityException {
+  public Sheets buildService(GoogleCredentials credential) throws IOException,
+          GeneralSecurityException {
     return new Sheets.Builder(
-        GoogleNetHttpTransport.newTrustedTransport(),
-        JacksonFactory.getDefaultInstance(),
-        credential)
-        .setApplicationName("Sheets API Snippets")
-        .build();
+            GoogleNetHttpTransport.newTrustedTransport(),
+            GsonFactory.getDefaultInstance(),
+            new HttpCredentialsAdapter(credential))
+            .setApplicationName("Sheets API Snippets")
+            .build();
   }
 
-  public Drive buildDriveService(GoogleCredential credential)
-      throws IOException, GeneralSecurityException {
+  public Drive buildDriveService(GoogleCredentials credential)
+          throws IOException, GeneralSecurityException {
     return new Drive.Builder(
-        GoogleNetHttpTransport.newTrustedTransport(),
-        JacksonFactory.getDefaultInstance(),
-        credential)
-        .setApplicationName("Sheets API Snippets")
-        .build();
+            GoogleNetHttpTransport.newTrustedTransport(),
+            GsonFactory.getDefaultInstance(),
+            new HttpCredentialsAdapter(credential))
+            .setApplicationName("Sheets API Snippets")
+            .build();
   }
 
   @Before
   public void setup() throws IOException, GeneralSecurityException {
-    GoogleCredential credential = getCredential();
+    GoogleCredentials credential = getCredential();
     this.service = buildService(credential);
     this.driveService = buildDriveService(credential);
     this.filesToDelete.clear();
@@ -109,47 +110,47 @@ public class BaseTest {
 
   protected String createTestSpreadsheet() throws IOException {
     Spreadsheet spreadsheet = new Spreadsheet()
-        .setProperties(new SpreadsheetProperties()
-            .setTitle("Test Spreadsheet"));
+            .setProperties(new SpreadsheetProperties()
+                    .setTitle("Test Spreadsheet"));
     spreadsheet = service.spreadsheets().create(spreadsheet)
-        .setFields("spreadsheetId")
-        .execute();
+            .setFields("spreadsheetId")
+            .execute();
     return spreadsheet.getSpreadsheetId();
   }
 
   protected void populateValuesWithStrings(String spreadsheetId) throws IOException {
     List<Request> requests = new ArrayList<>();
     requests.add(new Request().setRepeatCell(new RepeatCellRequest()
-        .setRange(new GridRange()
-            .setSheetId(0)
-            .setStartRowIndex(0)
-            .setEndRowIndex(10)
-            .setStartColumnIndex(0)
-            .setEndColumnIndex(10))
-        .setCell(new CellData()
-            .setUserEnteredValue(new ExtendedValue()
-                .setStringValue("Hello")))
-        .setFields("userEnteredValue")));
+            .setRange(new GridRange()
+                    .setSheetId(0)
+                    .setStartRowIndex(0)
+                    .setEndRowIndex(10)
+                    .setStartColumnIndex(0)
+                    .setEndColumnIndex(10))
+            .setCell(new CellData()
+                    .setUserEnteredValue(new ExtendedValue()
+                            .setStringValue("Hello")))
+            .setFields("userEnteredValue")));
     BatchUpdateSpreadsheetRequest body = new BatchUpdateSpreadsheetRequest()
-        .setRequests(requests);
+            .setRequests(requests);
     service.spreadsheets().batchUpdate(spreadsheetId, body).execute();
   }
 
   protected void populateValuesWithNumbers(String spreadsheetId) throws IOException {
     List<Request> requests = new ArrayList<>();
     requests.add(new Request().setRepeatCell(new RepeatCellRequest()
-        .setRange(new GridRange()
-            .setSheetId(0)
-            .setStartRowIndex(0)
-            .setEndRowIndex(10)
-            .setStartColumnIndex(0)
-            .setEndColumnIndex(10))
-        .setCell(new CellData()
-            .setUserEnteredValue(new ExtendedValue()
-                .setNumberValue(1337D)))
-        .setFields("userEnteredValue")));
+            .setRange(new GridRange()
+                    .setSheetId(0)
+                    .setStartRowIndex(0)
+                    .setEndRowIndex(10)
+                    .setStartColumnIndex(0)
+                    .setEndColumnIndex(10))
+            .setCell(new CellData()
+                    .setUserEnteredValue(new ExtendedValue()
+                            .setNumberValue(1337D)))
+            .setFields("userEnteredValue")));
     BatchUpdateSpreadsheetRequest body = new BatchUpdateSpreadsheetRequest()
-        .setRequests(requests);
+            .setRequests(requests);
     service.spreadsheets().batchUpdate(spreadsheetId, body).execute();
   }
 }
