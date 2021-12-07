@@ -2,8 +2,8 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 mainClassName = 'DocsQuickstart'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 version = '1.0'
 
 repositories {
@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.api-client:google-api-client:1.30.1'
-    compile 'com.google.oauth-client:google-oauth-client-jetty:1.30.1'
-    compile 'com.google.apis:google-api-services-docs:v1-rev20190827-1.30.1'
+    implementation 'com.google.api-client:google-api-client:1.30.1'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.30.1'
+    implementation 'com.google.apis:google-api-services-docs:v1-rev20190827-1.30.1'
 }

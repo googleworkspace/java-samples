@@ -2,8 +2,8 @@ apply plugin: 'java'
 apply plugin: 'application'
 
 mainClassName = 'OutputJSON'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 version = '1.0'
 
 repositories {
@@ -11,8 +11,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.api-client:google-api-client:1.23.0'
-    compile 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
-    compile 'com.google.apis:google-api-services-docs:v1-rev20190128-1.28.0'
-    compile group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
+    implementation 'com.google.api-client:google-api-client:1.23.0'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.23.0'
+    implementation 'com.google.apis:google-api-services-docs:v1-rev20190128-1.28.0'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.3.1'
 }

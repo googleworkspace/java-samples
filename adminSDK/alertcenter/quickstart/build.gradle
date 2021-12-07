@@ -3,8 +3,8 @@ apply plugin: 'application'
 apply plugin: 'idea'
 
 mainClassName = 'AdminSDKAlertCenterQuickstart'
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 version = '1.0'
 
 repositories {
@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.google.api-client:google-api-client:1.20.0'
-    compile 'com.google.auth:google-auth-library-oauth2-http:0.11.0'
-    compile 'com.google.apis:google-api-services-alertcenter:v1beta1-rev20190221-1.28.0'
+    implementation 'com.google.api-client:google-api-client:1.20.0'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:0.11.0'
+    implementation 'com.google.apis:google-api-services-alertcenter:v1beta1-rev20190221-1.28.0'
 }
