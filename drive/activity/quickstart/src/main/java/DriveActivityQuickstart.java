@@ -20,7 +20,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 
@@ -35,7 +35,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
-
+/* class to demonstarte use of Drive Activity list  API */
 public class DriveActivityQuickstart {
     /** Application name. */
     private static final String APPLICATION_NAME =
@@ -49,7 +49,7 @@ public class DriveActivityQuickstart {
 
     /** Global instance of the JSON factory. */
     private static final JsonFactory JSON_FACTORY =
-        JacksonFactory.getDefaultInstance();
+            GsonFactory.getDefaultInstance();
 
     /** Global instance of the HTTP transport. */
     private static HttpTransport HTTP_TRANSPORT;
@@ -97,6 +97,7 @@ public class DriveActivityQuickstart {
             flow, new LocalServerReceiver()).authorize("user");
         System.out.println(
                 "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
+        //returns an authorized Credential object.
         return credential;
     }
 
@@ -107,10 +108,11 @@ public class DriveActivityQuickstart {
      */
     public static Appsactivity getAppsactivityService() throws IOException {
         Credential credential = authorize();
-        return new Appsactivity.Builder(
+        Appsactivity service = new Appsactivity.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
+        return service;
     }
 
     public static void main(String[] args) throws IOException {

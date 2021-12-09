@@ -21,7 +21,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.docs.v1.Docs;
 import com.google.api.services.docs.v1.DocsScopes;
@@ -35,9 +35,13 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
+/* class to demonstarte use of Docs get documents API */
 public class DocsQuickstart {
+    /** Application name. */
     private static final String APPLICATION_NAME = "Google Docs API Java Quickstart";
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    /** Global instance of the JSON factory. */
+    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    /** Directory to store authorization tokens for this application. */
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final String DOCUMENT_ID = "195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE";
 
@@ -69,7 +73,9 @@ public class DocsQuickstart {
                 .setAccessType("offline")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        //returns an authorized Credential object.
+        return credential;
     }
 
     public static void main(String... args) throws IOException, GeneralSecurityException {
