@@ -36,9 +36,13 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
+/* class to demonstarte use of Drive files list API */
 public class DriveQuickstart {
+    /** Application name. */
     private static final String APPLICATION_NAME = "Google Drive API Java Quickstart";
+    /** Global instance of the JSON factory. */
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    /** Directory to store authorization tokens for this application. */
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
     /**
@@ -69,7 +73,9 @@ public class DriveQuickstart {
                 .setAccessType("offline")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+        //returns an authorized Credential object.
+        return credential;
     }
 
     public static void main(String... args) throws IOException, GeneralSecurityException {

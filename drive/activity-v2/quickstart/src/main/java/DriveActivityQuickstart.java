@@ -108,10 +108,11 @@ public class DriveActivityQuickstart {
     public static com.google.api.services.driveactivity.v2.DriveActivity getDriveActivityService()
             throws IOException {
         Credential credential = authorize();
-        return new com.google.api.services.driveactivity.v2.DriveActivity.Builder(
-                        HTTP_TRANSPORT, JSON_FACTORY, credential)
+        com.google.api.services.driveactivity.v2.DriveActivity service = new com.google.api.services.driveactivity.v2.DriveActivity.Builder(
+                HTTP_TRANSPORT, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
+        return service;
     }
 
     public static void main(String[] args) throws IOException {
