@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -21,6 +20,7 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
@@ -56,12 +56,12 @@
     <dependency>
       <groupId>com.google.apis</groupId>
       <artifactId>google-api-services-calendar</artifactId>
-      <version>v3-rev81-1.18.0-rc</version>
+      <version>v3-rev20211026-1.32.1</version>
     </dependency>
     <dependency>
       <groupId>com.google.api-client</groupId>
       <artifactId>google-api-client</artifactId>
-      <version>1.18.0-rc</version>
+      <version>1.32.2</version>
     </dependency>
     <dependency>
       <groupId>com.google.http-client</groupId>
@@ -81,8 +81,8 @@
   </dependencies>
 
   <properties>
-    <project.http.version>1.18.0-rc</project.http.version>
-    <project.oauth.version>1.18.0-rc</project.oauth.version>
+    <project.http.version>1.40.1</project.http.version>
+    <project.oauth.version>1.32.1</project.oauth.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>
