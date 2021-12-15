@@ -35,7 +35,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
-
+/* class to demonstarte use of Drive Activity list  API */
 public class DriveActivityQuickstart {
     /** Application name. */
     private static final String APPLICATION_NAME =
@@ -48,8 +48,7 @@ public class DriveActivityQuickstart {
     private static FileDataStoreFactory DATA_STORE_FACTORY;
 
     /** Global instance of the JSON factory. */
-    private static final JsonFactory JSON_FACTORY =
-        GsonFactory.getDefaultInstance();
+    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
     /** Global instance of the HTTP transport. */
     private static HttpTransport HTTP_TRANSPORT;
@@ -97,6 +96,7 @@ public class DriveActivityQuickstart {
             flow, new LocalServerReceiver()).authorize("user");
         System.out.println(
                 "Credentials saved to " + DATA_STORE_DIR.getAbsolutePath());
+        //returns an authorized Credential object.
         return credential;
     }
 
@@ -107,10 +107,11 @@ public class DriveActivityQuickstart {
      */
     public static Appsactivity getAppsactivityService() throws IOException {
         Credential credential = authorize();
-        return new Appsactivity.Builder(
+        Appsactivity service = new Appsactivity.Builder(
                 HTTP_TRANSPORT, JSON_FACTORY, credential)
                 .setApplicationName(APPLICATION_NAME)
                 .build();
+        return service;
     }
 
     public static void main(String[] args) throws IOException {
