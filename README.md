@@ -19,7 +19,7 @@ A collection of samples that demonstrate how to call Google Workspace APIs in Ja
 
 - [Quickstart](https://developers.google.com/calendar/quickstart/java)
 - [Sync Tokens and Etags](calendar/sync)
-- [Command line sample](https://github.com/google/google-api-java-client-samples/tree/master/calendar-cmdline-sample)
+- [Command-line sample](https://github.com/google/google-api-java-client-samples/tree/master/calendar-cmdline-sample)
 
 ### Classroom
 
@@ -32,7 +32,7 @@ A collection of samples that demonstrate how to call Google Workspace APIs in Ja
 ### Drive V3
 
 - [Quickstart](https://developers.google.com/drive/v3/web/quickstart/java)
-- [Command line sample](https://github.com/google/google-api-java-client-samples/tree/master/drive-cmdline-sample)
+- [Command-line sample](https://github.com/google/google-api-java-client-samples/tree/master/drive-cmdline-sample)
 
 ### Gmail
 
