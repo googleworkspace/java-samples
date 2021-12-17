@@ -1,12 +1,16 @@
-(Please fill out these details before submitting an issue)
+# Summary
 
-### Sample Name
+(description of issue)
+
+## Sample Name
+
 (i.e. Gmail Quickstart)
 
-### Expected Behavior
+## Expected Behavior
 
-### Actual Behavior
+## Actual Behavior
 
-### Specifications
-  - Java version (`java -version`)
-  - OS (Mac/Linux/Windows)
+## Specifications
+
+- Java version (`java -version`)
+- OS (Mac/Linux/Windows)
