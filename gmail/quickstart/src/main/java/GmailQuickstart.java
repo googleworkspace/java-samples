@@ -36,7 +36,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
-/* class to demonstarte use of Gmail list lalels API */
+/* class to demonstrate use of Gmail list lalels API */
 public class GmailQuickstart {
     /** Application name. */
     private static final String APPLICATION_NAME = "Gmail API Java Quickstart";
