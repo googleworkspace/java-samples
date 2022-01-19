@@ -3,7 +3,7 @@ apply plugin: 'application'
 
 mainClassName = 'DocsQuickstart'
 sourceCompatibility = 11
-targetCompatibility = 8
+targetCompatibility = 11
 version = '1.0'
 
 repositories {
