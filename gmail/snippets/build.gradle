@@ -1,18 +1,17 @@
 apply plugin: 'java'
 
 repositories {
-    // Use 'jcenter' for resolving your dependencies.
-    mavenLocal()
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    compile 'com.google.api-client:google-api-client:1.22.0'
-    compile 'com.google.apis:google-api-services-gmail:v1-rev62-1.22.0'
-    compile 'com.google.code.gson:gson:2.4'
-    compile 'javax.mail:mail:1.4'
-    compile 'org.apache.commons:commons-csv:1.1'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.hamcrest:hamcrest-all:1.3'
-    testCompile 'org.mockito:mockito-core:2.7.19'
+    implementation 'com.google.api-client:google-api-client:1.33.0'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:1.3.0'
+    implementation 'com.google.apis:google-api-services-gmail:v1-rev20211108-1.32.1'
+    implementation 'com.google.code.gson:gson:2.4'
+    implementation 'javax.mail:mail:1.4'
+    implementation 'org.apache.commons:commons-csv:1.1'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.hamcrest:hamcrest-all:1.3'
+    testImplementation 'org.mockito:mockito-core:4.2.0'
 }
