@@ -35,9 +35,9 @@ public class CreateFolder {
      * @throws IOException if service account credentials file not found.
      */
     private static String createFolder() throws IOException {
-        /*Load pre-authorized user credentials from the environment.
-        TODO(developer) - See https://developers.google.com/identity for
-        guides on implementing OAuth2 for your application.*/
+        // Load pre-authorized user credentials from the environment.
+        // TODO(developer) - See https://developers.google.com/identity for
+        // guides on implementing OAuth2 for your application.
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Arrays.asList(DriveScopes.DRIVE_FILE));
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
                 credentials);
@@ -58,7 +58,7 @@ public class CreateFolder {
                     .execute();
             System.out.println("Folder ID: " + file.getId());
             return file.getId();
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("An error occurred: " + e);
             return null;
         }
