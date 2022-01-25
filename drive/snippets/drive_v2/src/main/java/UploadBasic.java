@@ -36,9 +36,9 @@ public class UploadBasic {
      * @throws IOException if service account credentials file not found.
      */
     private static File uploadBasic() throws IOException{
-        /*Load pre-authorized user credentials from the environment.
-        TODO(developer) - See https://developers.google.com/identity for
-        guides on implementing OAuth2 for your application.*/
+        // Load pre-authorized user credentials from the environment.
+        // TODO(developer) - See https://developers.google.com/identity for
+        // guides on implementing OAuth2 for your application.
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Arrays.asList(DriveScopes.DRIVE_FILE));
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
                 credentials);
@@ -62,7 +62,7 @@ public class UploadBasic {
                     .execute();
             System.out.println("File ID: " + file.getId());
             return file;
-        }catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("An error occurred: " + e);
             return null;
         }
