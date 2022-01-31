@@ -41,7 +41,7 @@ public class MoveFileToFolder {
      * @param realFolderId Id of folder where the fill will be moved.
      * @return list of parent ids for the file.
      * */
-    private static List<String> moveFileToFolder(String realFileId, String realFolderId)
+    private static List<String> moveFileToFolder(String fileId, String folderId)
             throws IOException {
         /* Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
@@ -57,19 +57,16 @@ public class MoveFileToFolder {
                 .build();
 
         // Retrieve the existing parents to remove
-        File file = service.files().get(realFileId)
+        File file = service.files().get(fileId)
                 .setFields("parents")
                 .execute();
-        StringBuilder previousParents = new StringBuilder();
-        for (ParentReference parent : file.getParents()) {
-            previousParents.append(parent.getId());
-            previousParents.append(',');
-        }
+        String parentIds = file.getParents().map(ParentReference::getId);
+        String previousParents = String.join(",", parentIds);
         try {
             // Move the file to the new folder
-            file = service.files().update(realFileId, null)
-                    .setAddParents(realFolderId)
-                    .setRemoveParents(previousParents.toString())
+            file = service.files().update(fileId, null)
+                    .setAddParents(folderId)
+                    .setRemoveParents(previousParents)
                     .setFields("id, parents")
                     .execute();
 
