@@ -30,7 +30,9 @@ import java.util.Arrays;
 /* Class to demonstrate Drive's create shortcut use-case */
 public class CreateShortcut {
 
-
+    /**
+     * @throws IOException if service account credentials file not found.
+     */
     private static void createShortcut() throws IOException{
         /* Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
