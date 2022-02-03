@@ -31,6 +31,7 @@ import java.util.Arrays;
 public class CreateShortcut {
 
     /**
+     * Creates shortcut for file.
      * @throws IOException if service account credentials file not found.
      */
     private static void createShortcut() throws IOException{
