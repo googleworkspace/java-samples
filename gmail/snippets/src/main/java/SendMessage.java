@@ -46,7 +46,7 @@ public class SendMessage {
             throws MessagingException, IOException {
         // Create the email content
         String messageSubject = "Automated test mail";
-        String bodyText = "Hello. This is automated test mail.";
+        String bodyText = "Hello. This is an automated test mail.";
 
         // Encode as MIME message
         Properties props = new Properties();
