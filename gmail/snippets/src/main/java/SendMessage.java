@@ -15,19 +15,12 @@
 
 // [START gmail_send_message]
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
-import com.google.api.services.gmail.GmailScopes;
-import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.auth.oauth2.GoogleCredentials;
 import org.apache.commons.codec.binary.Base64;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Properties;
 
 import javax.mail.MessagingException;
@@ -40,32 +33,20 @@ public class SendMessage {
     /**
      * Send an email from the user's mailbox to its recipient.
      *
+     * @param service - Authorized Gmail API service instance.
      * @param fromEmailAddress - Email address to appear in the from: header
      * @param toEmailAddress - Email address of the recipient
      * @return the sent message
      * @throws MessagingException - if a wrongly formatted address is encountered.
      * @throws IOException - if service account credentials file not found.
      */
-    public static Message sendEmail(String fromEmailAddress,
+    public static Message sendEmail(Gmail service,
+                                    String fromEmailAddress,
                                     String toEmailAddress)
             throws MessagingException, IOException {
-        // Load pre-authorized user credentials from the environment.
-        // TODO(developer) - See https://developers.google.com/identity for
-        // guides on implementing OAuth2 for your application.
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Collections.singletonList(GmailScopes.GMAIL_SEND));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
-
-        // Create the gmail API client
-        Gmail service = new Gmail.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Gmail samples")
-                .build();
-
         // Create the email content
-        String messageSubject = "Test message";
-        String bodyText = "lorem ipsum.";
+        String messageSubject = "Automated test mail";
+        String bodyText = "Hello. This is an automated test mail.";
 
         // Encode as MIME message
         Properties props = new Properties();
