@@ -15,15 +15,9 @@
 
 // [START gmail_create_draft_with_attachment]
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpRequestInitializer;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.gmail.Gmail;
-import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Draft;
 import com.google.api.services.gmail.model.Message;
-import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.auth.oauth2.GoogleCredentials;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.activation.DataHandler;
@@ -39,7 +33,6 @@ import javax.mail.internet.MimeMultipart;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Properties;
 
 /* Class to demonstrate the use of Gmail Create Draft with attachment API */
@@ -47,6 +40,7 @@ public class CreateDraftWithAttachment {
     /**
      * Create a draft email.
      *
+     * @param service - Authorized Gmail API service instance.
      * @param fromEmailAddress - Email address to appear in the from: header.
      * @param toEmailAddress - Email address of the recipient.
      * @param file - Path to the file to be attached.
@@ -54,27 +48,14 @@ public class CreateDraftWithAttachment {
      * @throws MessagingException - if a wrongly formatted address is encountered.
      * @throws IOException - if service account credentials file not found.
      */
-    public static Draft createDraftMessageWithAttachment(String fromEmailAddress,
+    public static Draft createDraftMessageWithAttachment(Gmail service,
+                                                         String fromEmailAddress,
                                                          String toEmailAddress,
                                                          File file)
             throws MessagingException, IOException {
-        // Load pre-authorized user credentials from the environment.
-        // TODO(developer) - See https://developers.google.com/identity for
-        // guides on implementing OAuth2 for your application.
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Collections.singletonList(GmailScopes.GMAIL_COMPOSE));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
-
-        // Create the gmail API client
-        Gmail service = new Gmail.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Gmail samples")
-                .build();
-
         // Create the email content
-        String messageSubject = "Test message";
-        String bodyText = "lorem ipsum.";
+        String messageSubject = "Automated test mail";
+        String bodyText = "Hello. This is an automated test mail.";
 
         // Encode as MIME message
         Properties props = new Properties();
