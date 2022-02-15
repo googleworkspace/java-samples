@@ -60,7 +60,7 @@ public class CreateDrive {
             System.out.println("Drive ID: " + drive.getId());
 
             return drive.getId();
-        }catch (GoogleJsonResponseException e) {
+        } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
             System.err.println("Unable to create drive: " + e.getDetails());
             throw e;
