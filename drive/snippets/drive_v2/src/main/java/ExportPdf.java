@@ -58,7 +58,7 @@ public class ExportPdf {
                     .executeMediaAndDownloadTo(outputStream);
 
             return (ByteArrayOutputStream) outputStream;
-        }catch (GoogleJsonResponseException e) {
+        } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
             System.err.println("Unable to export file: " + e.getDetails());
             throw e;
