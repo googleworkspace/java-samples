@@ -62,7 +62,7 @@ public class UploadRevision {
             File file = request.execute();
             System.out.println("File ID: " + file.getId());
             return file.getId();
-        }catch (GoogleJsonResponseException e) {
+        } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
             System.err.println("Unable to upload file: " + e.getDetails());
             throw e;
