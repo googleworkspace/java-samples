@@ -42,8 +42,8 @@ public class CreateFilter {
         String USER_EMAIL_ADDRESS = "gduser1@workspacesamples.dev";
 
         /* Load pre-authorized user credentials from the environment.
-        TODO(developer) - See https://developers.google.com/identity for
-         guides on implementing OAuth2 for your application. */
+           TODO(developer) - See https://developers.google.com/identity for
+            guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
                 .createScoped(Arrays.asList(GmailScopes.GMAIL_SETTINGS_BASIC, GmailScopes.GMAIL_LABELS))
                 .createDelegated(USER_EMAIL_ADDRESS);
