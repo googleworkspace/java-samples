@@ -1,4 +1,4 @@
-// Copyright 2021 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,13 +34,19 @@ public class EnableAutoReply {
     /**
      * Enables the auto reply
      *
-     * @throws IOException
+     * @return the reply message and response metadata.
+     * @throws IOException - if service account credentials file not found.
      */
-    public static void autoReply() throws IOException{
-        // Load pre-authorized user credentials from the environment.
-        // TODO(developer) - See https://developers.google.com/identity for
-        // guides on implementing OAuth2 for your application.
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Collections.singleton(GmailScopes.GMAIL_SETTINGS_BASIC));
+    public static VacationSettings autoReply() throws IOException{
+        // TODO(developer) - Replace with your email address.
+        String USER_EMAIL_ADDRESS = "gduser1@workspacesamples.dev";
+
+        /* Load pre-authorized user credentials from the environment.
+           TODO(developer) - See https://developers.google.com/identity for
+            guides on implementing OAuth2 for your application. */
+        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+                .createScoped(Collections.singleton(GmailScopes.GMAIL_SETTINGS_BASIC))
+                .createDelegated(USER_EMAIL_ADDRESS);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
                 credentials);
 
@@ -57,12 +63,16 @@ public class EnableAutoReply {
                     .setEnableAutoReply(true)
                     .setResponseBodyHtml("I am on vacation and will reply when I am back in the office. Thanks!")
                     .setRestrictToDomain(true)
-                    .setStartTime(LocalDateTime.now().toEpochSecond(ZoneOffset.from(ZonedDateTime.now())) * 1000)
-                    .setEndTime(LocalDateTime.now().plusDays(7).toEpochSecond(ZoneOffset.from(ZonedDateTime.now())) * 1000);
+                    .setStartTime(LocalDateTime.now()
+                            .toEpochSecond(ZoneOffset.from(ZonedDateTime.now())) * 1000)
+                    .setEndTime(LocalDateTime.now().plusDays(7)
+                            .toEpochSecond(ZoneOffset.from(ZonedDateTime.now())) * 1000);
 
-            VacationSettings response = service.users().settings().updateVacation("me", vacationSettings).execute();
+            VacationSettings response = service.users().settings()
+                    .updateVacation("me", vacationSettings).execute();
             // Prints the auto-reply response body
             System.out.println("Enabled auto reply with message : "+response.getResponseBodyHtml());
+            return response;
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
             System.err.println("Unable to enable auto reply: " + e.getDetails());
