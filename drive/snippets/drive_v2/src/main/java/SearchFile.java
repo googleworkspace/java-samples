@@ -53,7 +53,7 @@ public class SearchFile {
                 .build();
 
         List<File> files = new ArrayList<File>();
-        // [START searchFiles]
+
         String pageToken = null;
         do {
             FileList result = service.files().list()
@@ -66,12 +66,12 @@ public class SearchFile {
                 System.out.printf("Found file: %s (%s)\n",
                         file.getTitle(), file.getId());
             }
-            // [START_EXCLUDE silent]
+
             files.addAll(result.getItems());
-            // [END_EXCLUDE]
+
             pageToken = result.getNextPageToken();
         } while (pageToken != null);
-        // [END searchFiles]
+
         return files;
     }
 }
