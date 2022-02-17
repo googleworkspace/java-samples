@@ -41,8 +41,8 @@ public class EnableForwarding {
         String USER_EMAIL_ADDRESS = "gduser1@workspacesamples.dev";
 
         /* Load pre-authorized user credentials from the environment.
-        TODO(developer) - See https://developers.google.com/identity for
-         guides on implementing OAuth2 for your application. */
+           TODO(developer) - See https://developers.google.com/identity for
+            guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
                 .createScoped(Collections.singletonList(GmailScopes.GMAIL_SETTINGS_SHARING))
                 .createDelegated(USER_EMAIL_ADDRESS);
