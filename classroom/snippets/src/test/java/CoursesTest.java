@@ -1,5 +1,3 @@
-package com.google.classroom.snippets;
- 
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.CourseAlias;
