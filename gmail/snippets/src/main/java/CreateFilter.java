@@ -1,4 +1,4 @@
-// Copyright 2021 Google LLC
+// Copyright 2022 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,41 +27,55 @@ import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 
 /* Class to demonstrate the use of Gmail Create Filter API */
 public class CreateFilter {
     /**
      * Create a new filter.
      *
-     * @throws IOException
+     * @param realLabelId - ID of the user label to add
+     * @return the created filter id
+     * @throws IOException - if service account credentials file not found.
      */
-    public static void createNewFilter() throws IOException {
-        // Load pre-authorized user credentials from the environment.
-        // TODO(developer) - See https://developers.google.com/identity for
-        // guides on implementing OAuth2 for your application.
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Collections.singleton(GmailScopes.GMAIL_SETTINGS_BASIC));
+    public static String createNewFilter(String realLabelId) throws IOException {
+        // TODO(developer) - Replace with your email address.
+        String USER_EMAIL_ADDRESS = "gduser1@workspacesamples.dev";
+
+        /* Load pre-authorized user credentials from the environment.
+           TODO(developer) - See https://developers.google.com/identity for
+            guides on implementing OAuth2 for your application. */
+        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+                .createScoped(Arrays.asList(GmailScopes.GMAIL_SETTINGS_BASIC, GmailScopes.GMAIL_LABELS))
+                .createDelegated(USER_EMAIL_ADDRESS);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
                 credentials);
 
-        // Create the gmail API client
+         // Create the gmail API client
         Gmail service = new Gmail.Builder(new NetHttpTransport(),
                 GsonFactory.getDefaultInstance(),
                 requestInitializer)
                 .setApplicationName("Gmail samples")
                 .build();
 
-        // Filter the mail from sender and archive them(skip the inbox)
+        // [START createFilter]
+        String labelId = "Label_14"; // ID of the user label to add
+        // [START_EXCLUDE silent]
+        labelId = realLabelId;
+        // [END_EXCLUDE]
+
         try {
+            // Filter the mail from sender and archive them(skip the inbox)
             Filter filter = new Filter()
                     .setCriteria(new FilterCriteria()
-                            .setFrom("gduser1@workspacesamples.dev"))
+                            .setFrom("gduser2@workspacesamples.dev"))
                     .setAction(new FilterAction()
+                            .setAddLabelIds(Arrays.asList(labelId))
                             .setRemoveLabelIds(Arrays.asList("INBOX")));
 
             Filter result = service.users().settings().filters().create("me", filter).execute();
             // Prints the new created filter ID
             System.out.println("Created filter " + result.getId());
+            return result.getId();
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
             System.err.println("Unable to create filter: " + e.getDetails());
