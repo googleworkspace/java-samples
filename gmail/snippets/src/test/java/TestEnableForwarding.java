@@ -14,7 +14,11 @@
 
 
 import com.google.api.services.gmail.model.AutoForwarding;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.MockedStatic;
+
 import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
@@ -22,10 +26,21 @@ public class TestEnableForwarding extends BaseTest {
 
     @Test
     public void TestEnableAutoForwarding() throws IOException {
-        AutoForwarding forwarding = EnableForwarding.enableAutoForwarding(FORWARDING_ADDRESS);
-        assertNotNull(forwarding);
-        forwarding = new AutoForwarding().setEnabled(false);
-        this.service.users().settings().updateAutoForwarding("me", forwarding).execute();
-        this.service.users().settings().forwardingAddresses().delete("me", FORWARDING_ADDRESS).execute();
+        try (MockedStatic credentials = useServiceAccount()) {
+            AutoForwarding forwarding = EnableForwarding.enableAutoForwarding(FORWARDING_ADDRESS);
+            assertNotNull(forwarding);
+        }
+    }
+
+    @Before
+    public void cleanup() {
+        try {
+            AutoForwarding forwarding = new AutoForwarding().setEnabled(false);
+            this.service.users().settings().updateAutoForwarding("me", forwarding).execute();
+            this.service.users().settings().forwardingAddresses().delete("me", FORWARDING_ADDRESS).execute();
+        } catch (Exception e) {
+            // Ignore -- resources might not exist
+            e.printStackTrace();
+        }
     }
 }

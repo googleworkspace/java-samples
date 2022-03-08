@@ -14,14 +14,18 @@
 
 
 import org.junit.Test;
+import org.mockito.MockedStatic;
+
 import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
-public class TestUpdateSignature extends BaseTest{
+public class TestUpdateSignature extends BaseTest {
 
     @Test
-    public void testUpdateGmailSignature() throws IOException{
-        String signature = UpdateSignature.updateGmailSignature();
-        assertEquals("Automated Signature", signature);
+    public void testUpdateGmailSignature() throws IOException {
+        try (MockedStatic credentials = useServiceAccount()) {
+            String signature = UpdateSignature.updateGmailSignature();
+            assertEquals("Automated Signature", signature);
+        }
     }
 }
