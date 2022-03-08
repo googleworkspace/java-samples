@@ -15,14 +15,18 @@
 
 import com.google.api.services.gmail.model.VacationSettings;
 import org.junit.Test;
+import org.mockito.MockedStatic;
+
 import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
-public class TestEnableAutoReply extends EnableAutoReply {
+public class TestEnableAutoReply extends BaseTest {
 
     @Test
     public void testAutoReply() throws IOException {
-        VacationSettings settings = EnableAutoReply.autoReply();
-        assertNotNull(settings);
+        try (MockedStatic credentials = useServiceAccount()) {
+            VacationSettings settings = EnableAutoReply.autoReply();
+            assertNotNull(settings);
+        }
     }
 }

@@ -61,9 +61,9 @@ public class SendMessageWithAttachment{
         // Load pre-authorized user credentials from the environment.
         // TODO(developer) - See https://developers.google.com/identity for
         // guides on implementing OAuth2 for your application.
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Collections.singletonList(GmailScopes.GMAIL_SEND));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+                .createScoped(GmailScopes.GMAIL_SEND);
+        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
         // Create the gmail API client
         Gmail service = new Gmail.Builder(new NetHttpTransport(),

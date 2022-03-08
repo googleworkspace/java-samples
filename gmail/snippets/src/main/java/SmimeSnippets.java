@@ -1,10 +1,10 @@
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.*;
 import com.google.api.services.gmail.model.SmimeInfo;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -31,11 +31,7 @@ class SmimeSnippets {
     InputStream in = null;
 
     try {
-      File file = new File(filename);
-      in = new FileInputStream(file);
-      byte fileContent[] = new byte[(int) file.length()];
-      in.read(fileContent);
-
+      byte[] fileContent = Files.readAllBytes(Paths.get(filename));
       smimeInfo = new SmimeInfo();
       smimeInfo.setPkcs12(Base64.getUrlEncoder().encodeToString(fileContent));
       if (password != null && password.length() > 0) {
@@ -43,16 +39,7 @@ class SmimeSnippets {
       }
     } catch (Exception e) {
       System.out.printf("An error occured while reading the certificate file: %s\n", e);
-    } finally {
-      try {
-        if (in != null) {
-          in.close();
-        }
-      } catch (IOException ioe) {
-        System.out.printf("An error occured while closing the input stream: %s\n", ioe);
-      }
     }
-
     return smimeInfo;
   }
   // [END create_smime_info]
@@ -115,19 +102,17 @@ class SmimeSnippets {
   public static void insertCertFromCsv(GmailServiceBuilder serviceBuilder, String csvFilename) {
     try {
       File csvFile = new File(csvFilename);
-      CSVParser parser =
-          CSVParser.parse(csvFile, java.nio.charset.StandardCharsets.UTF_8, CSVFormat.DEFAULT);
+      CSVParser parser = CSVParser.parse(csvFile, java.nio.charset.StandardCharsets.UTF_8, CSVFormat.DEFAULT);
       for (CSVRecord record : parser) {
         String userId = record.get(0);
         String certFilename = record.get(1);
         String certPassword = record.get(2);
         SmimeInfo smimeInfo = createSmimeInfo(certFilename, certPassword);
-        if (smimeInfo != null) {
-          insertSmimeInfo(
-              serviceBuilder.buildGmailServiceFromUserId(userId), userId, userId, smimeInfo);
-        } else {
+        if (smimeInfo == null) {
           System.err.printf("Unable to read certificate file for userId: %s\n", userId);
+          continue;
         }
+        insertSmimeInfo(serviceBuilder.buildGmailServiceFromUserId(userId), userId, userId, smimeInfo);
       }
     } catch (Exception e) {
       System.err.printf("An error occured while reading the CSV file: %s", e);
@@ -188,8 +173,7 @@ class SmimeSnippets {
         if (isDefaultCert) {
           defaultCertId = certId;
         }
-        LocalDateTime exp =
-            LocalDateTime.ofInstant(
+        LocalDateTime exp = LocalDateTime.ofInstant(
                 Instant.ofEpochMilli(smimeInfo.getExpiration()), ZoneId.systemDefault());
         if (exp.isAfter(expireTime)) {
           if (exp.isAfter(bestCertExpire)) {

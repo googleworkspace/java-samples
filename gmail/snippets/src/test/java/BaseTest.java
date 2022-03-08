@@ -1,13 +1,21 @@
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
+import org.junit.After;
 import org.junit.Before;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
+import java.io.InputStream;
 import java.util.*;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -16,9 +24,10 @@ import java.util.logging.Logger;
 
 public class BaseTest {
 
-    public static final String TEST_USER = "gdtest1@appsrocks.com";
-    public static final String RECIPIENT = "gdtest2@appsrocks.com";
-    public static final String FORWARDING_ADDRESS = "gdtest2@appsrocks.com";
+
+    public static final String TEST_USER = "ci-test01@workspacesamples.dev";
+    public static final String RECIPIENT = "gduser01@workspacesamples.dev";
+    public static final String FORWARDING_ADDRESS = "gduser01@workspacesamples.dev";
 
     static {
         enableLogging();
@@ -50,32 +59,41 @@ public class BaseTest {
         });
     }
 
-    public GoogleCredential getCredential() throws IOException {
-        GoogleCredential defaultCredentials = GoogleCredential.getApplicationDefault();
-        return new GoogleCredential.Builder()
-                .setServiceAccountId(defaultCredentials.getServiceAccountId())
-                .setServiceAccountPrivateKey(defaultCredentials.getServiceAccountPrivateKey())
-                .setServiceAccountPrivateKeyId(defaultCredentials.getServiceAccountPrivateKeyId())
-                .setServiceAccountUser(TEST_USER)
-                .setJsonFactory(defaultCredentials.getJsonFactory())
-                .setTransport(defaultCredentials.getTransport())
-                .setServiceAccountScopes(Arrays.asList(GmailScopes.GMAIL_COMPOSE, GmailScopes.GMAIL_SEND, GmailScopes.GMAIL_LABELS, GmailScopes.GMAIL_SETTINGS_BASIC, GmailScopes.GMAIL_SETTINGS_SHARING))
-                .build();
-    }
-
-    public Gmail buildService() throws IOException, GeneralSecurityException {
-        GoogleCredential credential = getCredential();
-        return new Gmail.Builder(
-                new NetHttpTransport(),
-                JacksonFactory.getDefaultInstance(),
-                credential)
-                .setApplicationName("Drive API Snippets")
-                .build();
+    public Gmail buildService() throws IOException {
+        String serviceAccountPath = System.getenv("SERVICE_ACCOUNT_CREDENTIALS");
+        try (InputStream stream = new FileInputStream(serviceAccountPath)) {
+            GoogleCredentials credentials = GoogleCredentials.fromStream(stream);
+            credentials = credentials.createScoped(
+                    "email",
+                    GmailScopes.MAIL_GOOGLE_COM,
+                    GmailScopes.GMAIL_SETTINGS_BASIC,
+                    GmailScopes.GMAIL_COMPOSE,
+                    GmailScopes.GMAIL_SETTINGS_SHARING,
+                    GmailScopes.GMAIL_LABELS).createDelegated(TEST_USER);
+            HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
+            return new Gmail.Builder(
+                    new NetHttpTransport(),
+                    GsonFactory.getDefaultInstance(),
+                    requestInitializer)
+                    .setApplicationName("Gmail API Snippets")
+                    .build();
+        }
     }
 
     @Before
-    public void setup() throws IOException, GeneralSecurityException {
+    public void setupService() throws IOException {
         this.service = buildService();
+    }
+
+    public MockedStatic<GoogleCredentials> useServiceAccount() throws IOException {
+        MockedStatic<GoogleCredentials> mockedGoogleCredentials;
+        String serviceAccountPath = System.getenv("SERVICE_ACCOUNT_CREDENTIALS");
+        try (InputStream stream = new FileInputStream(serviceAccountPath)) {
+            GoogleCredentials credentials = GoogleCredentials.fromStream(stream);
+            mockedGoogleCredentials = Mockito.mockStatic(GoogleCredentials.class);
+            mockedGoogleCredentials.when(GoogleCredentials::getApplicationDefault).thenReturn(credentials);
+            return mockedGoogleCredentials;
+        }
     }
 
 }
