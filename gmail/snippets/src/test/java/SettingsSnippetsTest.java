@@ -62,11 +62,16 @@ public class SettingsSnippetsTest extends BaseTest {
 
     @Test
     public void enableAutoForwarding() throws IOException, GeneralSecurityException {
+        try {
+            AutoForwarding forwarding = new AutoForwarding().setEnabled(false);
+            this.service.users().settings().updateAutoForwarding("me", forwarding).execute();
+            this.service.users().settings().forwardingAddresses().delete("me", FORWARDING_ADDRESS).execute();
+        } catch (Exception e) {
+            // Ignore - resources might not exist
+            e.printStackTrace();
+        }
         AutoForwarding forwarding = this.snippets.enableForwarding(FORWARDING_ADDRESS);
         assertNotNull(forwarding);
-        forwarding = new AutoForwarding().setEnabled(false);
-        this.service.users().settings().updateAutoForwarding("me", forwarding).execute();
-        this.service.users().settings().forwardingAddresses().delete("me", FORWARDING_ADDRESS).execute();
     }
 
     @Test
