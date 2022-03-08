@@ -39,16 +39,15 @@ public class EnableAutoReply {
      */
     public static VacationSettings autoReply() throws IOException{
         // TODO(developer) - Replace with your email address.
-        String USER_EMAIL_ADDRESS = "gduser1@workspacesamples.dev";
+        String userEmail = "ci-test01@workspacesamples.dev";
 
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
                 .createScoped(Collections.singleton(GmailScopes.GMAIL_SETTINGS_BASIC))
-                .createDelegated(USER_EMAIL_ADDRESS);
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+                .createDelegated(userEmail);
+        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
         // Create the gmail API client
         Gmail service = new Gmail.Builder(new NetHttpTransport(),

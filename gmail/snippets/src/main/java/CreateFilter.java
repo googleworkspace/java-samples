@@ -39,16 +39,15 @@ public class CreateFilter {
      */
     public static String createNewFilter(String realLabelId) throws IOException {
         // TODO(developer) - Replace with your email address.
-        String USER_EMAIL_ADDRESS = "gduser1@workspacesamples.dev";
+        String userEmail = "ci-test01@workspacesamples.dev";
 
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Arrays.asList(GmailScopes.GMAIL_SETTINGS_BASIC, GmailScopes.GMAIL_LABELS))
-                .createDelegated(USER_EMAIL_ADDRESS);
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+                .createScoped(GmailScopes.GMAIL_SETTINGS_BASIC, GmailScopes.GMAIL_LABELS)
+                .createDelegated(userEmail);
+        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
          // Create the gmail API client
         Gmail service = new Gmail.Builder(new NetHttpTransport(),
