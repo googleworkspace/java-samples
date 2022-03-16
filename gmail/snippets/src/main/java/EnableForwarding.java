@@ -37,12 +37,16 @@ public class EnableForwarding {
      * @throws IOException if service account credentials file not found.
      */
     public static AutoForwarding enableAutoForwarding(String forwardingEmail) throws IOException{
-        // Load pre-authorized user credentials from the environment.
-        // TODO(developer) - See https://developers.google.com/identity for
-        // guides on implementing OAuth2 for your application.
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Collections.singletonList(GmailScopes.GMAIL_SETTINGS_SHARING));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+        // TODO(developer) - Replace with your email address.
+        String userEmail = "ci-test01@workspacesamples.dev";
+
+        /* Load pre-authorized user credentials from the environment.
+           TODO(developer) - See https://developers.google.com/identity for
+            guides on implementing OAuth2 for your application. */
+        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+                .createScoped(GmailScopes.GMAIL_SETTINGS_SHARING)
+                .createDelegated(userEmail);
+        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
         // Create the gmail API client
         Gmail service = new Gmail.Builder(new NetHttpTransport(),

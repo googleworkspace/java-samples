@@ -17,7 +17,6 @@
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
-//import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.Drive;
 import com.google.api.services.drive.model.DriveList;
@@ -66,26 +65,25 @@ public class RecoverDrive {
         String pageToken = null;
         Permission newOrganizerPermission = new Permission()
                 .setType("user")
-                .setRole("organizer")
-                .setValue("user@example.com");
+                .setRole("organizer");
 
-        newOrganizerPermission.setValue(realUser);
+        newOrganizerPermission.setEmailAddress(realUser);
 
 
         do {
             DriveList result = service.drives().list()
                     .setQ("organizerCount = 0")
+                    .setFields("nextPageToken, drives(id, name)")
                     .setUseDomainAdminAccess(true)
-                    .setFields("nextPageToken, items(id, name)")
                     .setPageToken(pageToken)
                     .execute();
-            for (Drive drive : result.getItems()) {
+            for (Drive drive : result.getDrives()) {
                 System.out.printf("Found drive without organizer: %s (%s)\n",
                         drive.getName(), drive.getId());
                 // Note: For improved efficiency, consider batching
                 // permission insert requests
                 Permission permissionResult = service.permissions()
-                        .insert(drive.getId(), newOrganizerPermission)
+                        .create(drive.getId(), newOrganizerPermission)
                         .setUseDomainAdminAccess(true)
                         .setSupportsAllDrives(true)
                         .setFields("id")
@@ -94,7 +92,8 @@ public class RecoverDrive {
                         permissionResult.getId());
 
             }
-            drives.addAll(result.getItems());
+
+            drives.addAll(result.getDrives());
 
             pageToken = result.getNextPageToken();
         } while (pageToken != null);
