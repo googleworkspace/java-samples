@@ -56,7 +56,6 @@ public class CreateFilter {
                 .setApplicationName("Gmail samples")
                 .build();
 
-        // [START createFilter]
         String labelId = "Label_14"; // ID of the user label to add
         // [START_EXCLUDE silent]
         labelId = realLabelId;
