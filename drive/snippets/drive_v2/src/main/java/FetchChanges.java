@@ -55,9 +55,9 @@ public class FetchChanges {
             // current token from getStartPageToken()
             String pageToken = savedStartPageToken;
             while (pageToken != null) {
-                ChangeList changes = service.changes().list(pageToken)
+                ChangeList changes = service.changes().list().setPageToken(pageToken)
                         .execute();
-                for (com.google.api.services.drive.model.Change change : changes.getChanges()) {
+                for (com.google.api.services.drive.model.Change change : changes.getItems()) {
                     // Process change
                     System.out.println("Change found for file: " + change.getFileId());
                 }

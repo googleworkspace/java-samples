@@ -69,9 +69,7 @@ public class TeamDriveSnippets {
             .setSupportsTeamDrives(true)
             .setFields("id")
             .execute();
-        System.out.printf("Added organizer permission: %s\n",
-            permissionResult.getId());
-
+        System.out.printf("Added organizer permission: %s\n", permissionResult.getId());
       }
       // [START_EXCLUDE silent]
       teamDrives.addAll(result.getItems());

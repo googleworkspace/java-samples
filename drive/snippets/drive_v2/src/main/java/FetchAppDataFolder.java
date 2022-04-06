@@ -58,7 +58,7 @@ public class FetchAppDataFolder {
                 .setApplicationName("Drive samples")
                 .build();
         try {
-            File file = driveService.files().get("appDataFolder")
+            File file = service.files().get("appDataFolder")
                     .setFields("id")
                     .execute();
             System.out.println("Folder ID: " + file.getId());

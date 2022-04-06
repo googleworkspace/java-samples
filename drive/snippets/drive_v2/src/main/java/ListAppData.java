@@ -58,7 +58,7 @@ public class ListAppData {
                 .setApplicationName("Drive samples")
                 .build();
         try {
-            FileList files = driveService.files().list()
+            FileList files = service.files().list()
                     .setSpaces("appDataFolder")
                     .setFields("nextPageToken, items(id, title)")
                     .setMaxResults(10)
