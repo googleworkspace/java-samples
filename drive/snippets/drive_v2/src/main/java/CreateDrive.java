@@ -54,7 +54,7 @@ public class CreateDrive {
         driveMetadata.setName("Project Resources");
         String requestId = UUID.randomUUID().toString();
         try {
-            Drive drive = service.drives().create(requestId,
+            Drive drive = service.drives().insert(requestId,
                             driveMetadata)
                     .execute();
             System.out.println("Drive ID: " + drive.getId());

@@ -31,14 +31,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /* Class to demonstrate use case for moving file to folder.*/
 public class MoveFileToFolder {
 
 
     /**
-     * @param realFileId Id of file to be moved.
-     * @param realFolderId Id of folder where the fill will be moved.
+     * @param fileId Id of file to be moved.
+     * @param folderId Id of folder where the fill will be moved.
      * @return list of parent ids for the file.
      * */
     private static List<String> moveFileToFolder(String fileId, String folderId)
@@ -60,7 +62,10 @@ public class MoveFileToFolder {
         File file = service.files().get(fileId)
                 .setFields("parents")
                 .execute();
-        String parentIds = file.getParents().map(ParentReference::getId);
+        List<String> parentIds = file.getParents()
+                .stream()
+                .map(ParentReference::getId)
+                .collect(Collectors.toList());
         String previousParents = String.join(",", parentIds);
         try {
             // Move the file to the new folder
@@ -70,7 +75,7 @@ public class MoveFileToFolder {
                     .setFields("id, parents")
                     .execute();
 
-            List<String> parents = new ArrayList<String>();
+            List<String> parents = new ArrayList<>();
             for (ParentReference parent : file.getParents()) {
                 parents.add(parent.getId());
             }
