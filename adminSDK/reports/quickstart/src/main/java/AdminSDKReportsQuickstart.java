@@ -19,6 +19,7 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
@@ -37,8 +38,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class AdminSDKReportsQuickstart {
+    /** Application name. */
     private static final String APPLICATION_NAME = "Google Admin SDK Reports API Java Quickstart";
+    /** Global instance of the JSON factory. */
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    /** Directory to store authorization tokens for this application. */
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
     /**
@@ -82,20 +86,24 @@ public class AdminSDKReportsQuickstart {
         // Print the last 10 login events.
         String userKey = "all";
         String applicationName = "login";
-        Activities result = service.activities().list(userKey, applicationName)
-                .setMaxResults(10)
-                .execute();
-        List<Activity> activities = result.getItems();
-        if (activities == null || activities.size() == 0) {
-            System.out.println("No logins found.");
-        } else {
-            System.out.println("Logins:");
-            for (Activity activity : activities) {
-                System.out.printf("%s: %s (%s)\n",
-                        activity.getId().getTime(),
-                        activity.getActor().getEmail(),
-                        activity.getEvents().get(0).getName());
+        try {
+            Activities result = service.activities().list(userKey, applicationName)
+                    .setMaxResults(10)
+                    .execute();
+            List<Activity> activities = result.getItems();
+            if (activities == null || activities.size() == 0) {
+                System.out.println("No logins found.");
+            } else {
+                System.out.println("Logins:");
+                for (Activity activity : activities) {
+                    System.out.printf("%s: %s (%s)\n",
+                            activity.getId().getTime(),
+                            activity.getActor().getEmail(),
+                            activity.getEvents().get(0).getName());
+                }
             }
+        }catch (GoogleJsonResponseException ge){
+            ge.printStackTrace();
         }
     }
 }

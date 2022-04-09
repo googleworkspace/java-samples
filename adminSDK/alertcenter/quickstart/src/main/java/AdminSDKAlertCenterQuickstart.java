@@ -35,8 +35,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class AdminSDKAlertCenterQuickstart {
-
+  /** Application name. */
   private static final String APPLICATION_NAME = "Google Admin SDK Alert Center API Java Quickstart";
+  /** Global instance of the JSON factory. */
   private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
   /**

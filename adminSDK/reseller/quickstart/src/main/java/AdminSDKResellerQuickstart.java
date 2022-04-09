@@ -19,6 +19,7 @@ import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
@@ -37,8 +38,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class AdminSDKResellerQuickstart {
+    /** Application name. */
     private static final String APPLICATION_NAME = "Google Admin SDK Reseller API Java Quickstart";
+    /** Global instance of the JSON factory. */
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    /** Directory to store authorization tokens for this application. */
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
     /**
@@ -78,22 +82,25 @@ public class AdminSDKResellerQuickstart {
         Reseller service = new Reseller.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
-
-        // Print the first 10 subscriptions you manage.
-        Subscriptions result = service.subscriptions().list()
-                .setMaxResults(10L)
-                .execute();
-        List<Subscription> subscriptions = result.getSubscriptions();
-        if (subscriptions == null || subscriptions.size() == 0) {
-            System.out.println("No subscriptions found.");
-        } else {
-            System.out.println("Subscriptions:");
-            for (Subscription sub : subscriptions) {
-                System.out.printf("%s (%s, %s)\n",
-                        sub.getCustomerId(),
-                        sub.getSkuId(),
-                        sub.getPlan().getPlanName());
+        try {
+            // Print the first 10 subscriptions you manage.
+            Subscriptions result = service.subscriptions().list()
+                    .setMaxResults(10L)
+                    .execute();
+            List<Subscription> subscriptions = result.getSubscriptions();
+            if (subscriptions == null || subscriptions.size() == 0) {
+                System.out.println("No subscriptions found.");
+            } else {
+                System.out.println("Subscriptions:");
+                for (Subscription sub : subscriptions) {
+                    System.out.printf("%s (%s, %s)\n",
+                            sub.getCustomerId(),
+                            sub.getSkuId(),
+                            sub.getPlan().getPlanName());
+                }
             }
+        }catch (GoogleJsonResponseException ge){
+            ge.printStackTrace();
         }
     }
 }
