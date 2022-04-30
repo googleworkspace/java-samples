@@ -37,8 +37,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class AdminSDKDirectoryQuickstart {
+    /** Application name. */
     private static final String APPLICATION_NAME = "Google Admin SDK Directory API Java Quickstart";
+    /** Global instance of the JSON factory. */
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    /** Directory to store authorization tokens for this application. */
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
     /**
