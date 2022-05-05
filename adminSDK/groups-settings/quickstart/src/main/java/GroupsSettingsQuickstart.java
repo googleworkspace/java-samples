@@ -24,6 +24,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.groupssettings.Groupssettings;
+import com.google.api.services.groupssettings.model.Groups;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -77,9 +78,20 @@ public class GroupsSettingsQuickstart {
                 .setApplicationName(APPLICATION_NAME)
                 .build();
 
-        // TODO(developer) - API is ready to use
-        System.out.println("API Initialized");
+        // API is ready to use
 
+        if (args.length == 0) {
+            System.out.println("No group email specified.");
+            return;
+        }
+        try {
+            String groupEmail = args[0];
+            Groups settings = service.groups().get(groupEmail).execute();
+            System.out.println(String.format("Description: %s", settings.getDescription()));
+        } catch (Exception e) {
+            // TODO(developer) - Handle errors
+            e.printStackTrace();
+        }
     }
 }
 // [END admin_sdk_groups_settings_quickstart]
