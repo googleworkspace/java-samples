@@ -28,7 +28,7 @@ public class BaseTest {
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_ROSTERS));
+                .createScoped(ClassroomScopes.CLASSROOM_ROSTERS);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
                 credentials);
 
