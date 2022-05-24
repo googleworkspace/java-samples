@@ -4,13 +4,14 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.Course;
+import com.google.api.services.classroom.model.CourseAlias;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import org.junit.After;
 import org.junit.Before;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.UUID;
 
  // Base class for integration tests.
 public class BaseTest {
@@ -46,13 +47,20 @@ public class BaseTest {
     public void setup() throws IOException{
         this.service = buildService();
         this.testCourse = CreateCourse.createCourse();
+        createAlias(this.testCourse.getId());
     }
 
     @After
     public void tearDown() throws IOException{
         deleteCourse(this.testCourse.getId());
         this.testCourse = null;
+    }
 
+    public CourseAlias createAlias(String courseId) throws IOException {
+        String alias = "p:" + UUID.randomUUID();
+        CourseAlias courseAlias = new CourseAlias().setAlias(alias);
+        courseAlias = this.service.courses().aliases().create(courseId, courseAlias).execute();
+        return courseAlias;
     }
 
      public void deleteCourse(String courseId) throws IOException {
