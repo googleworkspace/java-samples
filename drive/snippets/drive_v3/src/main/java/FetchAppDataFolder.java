@@ -33,7 +33,7 @@ public class FetchAppDataFolder {
      * Fetches appDataFolder and prints it's folder id.
      * @return Application data folder's ID.
      */
-    public String fetchAppDataFolder() throws IOException {
+    public static String fetchAppDataFolder() throws IOException {
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application.*/
