@@ -1,87 +1,69 @@
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
-import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
-import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
-import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
+import com.google.api.services.classroom.ClassroomScopes;
+import com.google.api.services.classroom.model.Course;
+import com.google.api.services.classroom.model.CourseAlias;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
+import org.junit.After;
+import org.junit.Before;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.List;
+import java.util.UUID;
 
-/**
- * Base class for integration tests.
- */
-public abstract class BaseTest {
-    /** Application name. */
-    private static final String APPLICATION_NAME = "Google Classroom API Java Snippet Tests";
-
-    /** Directory to store user credentials. */
-    private static final java.io.File DATA_STORE_DIR = new java.io.File(
-            BaseTest.class.getResource("/credentials").toString());
-
-    /** Global instance of the {@link FileDataStoreFactory}. */
-    private static FileDataStoreFactory DATA_STORE_FACTORY;
-
-    /** Global instance of the JSON factory. */
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-
-    /** Global instance of the HTTP transport. */
-    private static HttpTransport HTTP_TRANSPORT;
-
-    /** Global instance of the scopes required by this quickstart. */
-    private static final List<String> SCOPES =
-            Arrays.asList("https://www.googleapis.com/auth/classroom.courses",
-                          "https://www.googleapis.com/auth/classroom.rosters");
-
-    static {
-        try {
-            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-            DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
-        } catch (Throwable t) {
-            t.printStackTrace();
-            System.out.print(true);
-            System.exit(1);
-        }
-    }
+ // Base class for integration tests.
+public class BaseTest {
+     protected Classroom service;
+     protected Course testCourse;
 
     /**
-     * Creates an authorized Credential object.
-     *
-     * @return an authorized Credential object.
-     * @throws IOException
-     */
-    private Credential authorize() throws IOException {
-        // Load client secrets.
-        InputStream in = BaseTest.class.getResourceAsStream("/client_secret.json");
-        GoogleClientSecrets clientSecrets =
-                GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
-        // Build flow and trigger user authorization request.
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT,
-                JSON_FACTORY, clientSecrets, SCOPES).setDataStoreFactory(DATA_STORE_FACTORY)
-                .setAccessType("offline").build();
-        Credential credential = new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver())
-                .authorize("user");
-        return credential;
-    }
-
-    /**
-     * Build and return an authorized Classroom client service.
+     * Creates a default authorization Classroom client service.
      *
      * @return an authorized Classroom client service
-     * @throws IOException
+     * @throws IOException - if credentials file not found.
      */
-    protected Classroom getService() throws IOException {
-        Credential credential = authorize();
-        return new com.google.api.services.classroom.Classroom.Builder(HTTP_TRANSPORT, JSON_FACTORY,
-                credential).setApplicationName(APPLICATION_NAME).build();
+    protected Classroom buildService() throws IOException {
+        /* Load pre-authorized user credentials from the environment.
+           TODO(developer) - See https://developers.google.com/identity for
+            guides on implementing OAuth2 for your application. */
+        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+                .createScoped(ClassroomScopes.CLASSROOM_ROSTERS);
+        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+                credentials);
+
+        // Create the classroom API client
+        Classroom service = new Classroom.Builder(new NetHttpTransport(),
+                GsonFactory.getDefaultInstance(),
+                requestInitializer)
+                .setApplicationName("Classroom Snippets")
+                .build();
+
+        return service;
     }
+
+    @Before
+    public void setup() throws IOException{
+        this.service = buildService();
+        this.testCourse = CreateCourse.createCourse();
+        createAlias(this.testCourse.getId());
+    }
+
+    @After
+    public void tearDown() throws IOException{
+        deleteCourse(this.testCourse.getId());
+        this.testCourse = null;
+    }
+
+    public CourseAlias createAlias(String courseId) throws IOException {
+        String alias = "p:" + UUID.randomUUID();
+        CourseAlias courseAlias = new CourseAlias().setAlias(alias);
+        courseAlias = this.service.courses().aliases().create(courseId, courseAlias).execute();
+        return courseAlias;
+    }
+
+     public void deleteCourse(String courseId) throws IOException {
+         this.service.courses().delete(courseId).execute();
+     }
 }
