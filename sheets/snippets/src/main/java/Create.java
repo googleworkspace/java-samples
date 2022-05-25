@@ -36,7 +36,7 @@ public class Create {
      * @return newly created spreadsheet id
      * @throws IOException - if credentials file not found.
      */
-    public static String create(String title) throws IOException {
+    public static String createSpreadsheet(String title) throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
