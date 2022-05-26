@@ -37,7 +37,7 @@ public class SearchFile {
      * @return search result list.
      * @throws IOException if service account credentials file not found.
      */
-    private static List<File> searchFile() throws IOException{
+    public static List<File> searchFile() throws IOException{
            /*Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
            guides on implementing OAuth2 for your application.*/

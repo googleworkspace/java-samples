@@ -34,7 +34,7 @@ public class ListAppData {
      * list down files in the application data folder.
      * @return list of 10 files.
      */
-    public FileList listAppData() throws IOException {
+    public static FileList listAppData() throws IOException {
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application.*/
