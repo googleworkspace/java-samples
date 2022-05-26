@@ -37,7 +37,7 @@ public class UploadWithConversion {
      * @return Inserted file id if successful, {@code null} otherwise.
      * @throws IOException if service account credentials file not found.
      */
-    private static String uploadWithConversion() throws IOException {
+    public static String uploadWithConversion() throws IOException {
         // Load pre-authorized user credentials from the environment.
         // TODO(developer) - See https://developers.google.com/identity for
         // guides on implementing OAuth2 for your application.
