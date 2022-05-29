@@ -70,13 +70,9 @@ public class ListCourseAliases {
                 pageToken = response.getNextPageToken();
             } while (pageToken != null);
 
-            if (courseAliases.isEmpty()) {
-                System.out.println("No aliases found.");
-            } else {
-                System.out.println("Aliases:");
-                for (CourseAlias courseAlias : courseAliases) {
-                    System.out.println(courseAlias.getAlias());
-                }
+            System.out.println("Aliases:");
+            for (CourseAlias courseAlias : courseAliases) {
+                System.out.println(courseAlias.getAlias());
             }
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
@@ -86,6 +82,10 @@ public class ListCourseAliases {
             } else {
                 throw e;
             }
+        }
+        catch (NullPointerException ne)
+        {
+            System.err.println("No aliases found");
         }
         return courseAliases;
     }
