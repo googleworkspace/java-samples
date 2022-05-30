@@ -39,7 +39,7 @@ public class RecoverTeamDrive {
      * @return  All team drives without an organizer.
      * @throws IOException if service account credentials file not found.
      */
-    private static List<TeamDrive> recoverTeamDrives(String realUser) throws IOException {
+    public static List<TeamDrive> recoverTeamDrives(String realUser) throws IOException {
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application.*/
