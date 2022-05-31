@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+// Unit testcase for gmail create smime info snippet
 public class TestCreateSmimeInfo {
 
     @Test

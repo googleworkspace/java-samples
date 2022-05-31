@@ -12,21 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 import com.google.api.services.gmail.model.VacationSettings;
 import org.junit.Test;
-import org.mockito.MockedStatic;
-
 import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
+// Unit testcase for gmail enable auto reply snippet
 public class TestEnableAutoReply extends BaseTest {
 
     @Test
     public void testAutoReply() throws IOException {
-        try (MockedStatic credentials = useServiceAccount()) {
-            VacationSettings settings = EnableAutoReply.autoReply();
-            assertNotNull(settings);
-        }
+        VacationSettings settings = EnableAutoReply.autoReply();
+        assertNotNull(settings);
     }
 }

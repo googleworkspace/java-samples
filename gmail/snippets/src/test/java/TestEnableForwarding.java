@@ -14,22 +14,18 @@
 
 
 import com.google.api.services.gmail.model.AutoForwarding;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.MockedStatic;
-
 import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
+// Unit testcase for gmail enable forwarding snippet
 public class TestEnableForwarding extends BaseTest {
 
     @Test
     public void TestEnableAutoForwarding() throws IOException {
-        try (MockedStatic credentials = useServiceAccount()) {
             AutoForwarding forwarding = EnableForwarding.enableAutoForwarding(FORWARDING_ADDRESS);
             assertNotNull(forwarding);
-        }
     }
 
     @Before
