@@ -35,7 +35,7 @@ public class FetchStartPageToken {
      * @return Start page token as String.
      * @throws IOException if file is not found
      */
-    private static String fetchStartPageToken() throws IOException {
+    public static String fetchStartPageToken() throws IOException {
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application. */
