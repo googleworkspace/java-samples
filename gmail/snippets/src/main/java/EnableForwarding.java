@@ -14,6 +14,7 @@
 
 
 // [START gmail_enable_forwarding]
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -34,18 +35,14 @@ public class EnableForwarding {
      *
      * @param forwardingEmail - Email address of the recipient whose email will be forwarded.
      * @return forwarding id and metadata, {@code null} otherwise.
-     * @throws IOException if service account credentials file not found.
+     * @throws IOException - if service account credentials file not found.
      */
     public static AutoForwarding enableAutoForwarding(String forwardingEmail) throws IOException{
-        // TODO(developer) - Replace with your email address.
-        String userEmail = "ci-test01@workspacesamples.dev";
-
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(GmailScopes.GMAIL_SETTINGS_SHARING)
-                .createDelegated(userEmail);
+                .createScoped(GmailScopes.GMAIL_SETTINGS_SHARING);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
         // Create the gmail API client
@@ -72,8 +69,12 @@ public class EnableForwarding {
             }
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
-            System.err.println("Unable to enable forwarding : " + e.getDetails());
-            throw e;
+            GoogleJsonError error = e.getDetails();
+            if (error.getCode() == 403) {
+                System.err.println("Unable to enable forwarding: " + e.getDetails());
+            } else {
+                throw e;
+            }
         }
         return null;
     }

@@ -14,6 +14,7 @@
 
 
 // [START gmail_create_draft]
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -32,7 +33,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Properties;
 
 /* Class to demonstrate the use of Gmail Create Draft API */
@@ -42,16 +42,16 @@ public class CreateDraft {
      *
      * @param fromEmailAddress - Email address to appear in the from: header
      * @param toEmailAddress - Email address of the recipient
-     * @return the created draft
-     * @throws MessagingException
-     * @throws IOException
+     * @return the created draft, {@code null} otherwise.
+     * @throws MessagingException - if a wrongly formatted address is encountered.
+     * @throws IOException - if service account credentials file not found.
      */
     public static Draft createDraftMessage(String fromEmailAddress,
                                            String toEmailAddress)
             throws MessagingException, IOException {
-        // Load pre-authorized user credentials from the environment.
-        // TODO(developer) - See https://developers.google.com/identity for
-        // guides on implementing OAuth2 for your application.
+        /* Load pre-authorized user credentials from the environment.
+        TODO(developer) - See https://developers.google.com/identity for
+         guides on implementing OAuth2 for your application.*/
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
                 .createScoped(GmailScopes.GMAIL_COMPOSE);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
@@ -95,9 +95,14 @@ public class CreateDraft {
             return draft;
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
-            System.err.println("Unable to create draft: " + e.getDetails());
-            throw e;
+            GoogleJsonError error = e.getDetails();
+            if (error.getCode() == 403) {
+                System.err.println("Unable to create draft: " + e.getMessage());
+            } else {
+                throw e;
+            }
         }
+        return null;
     }
 }
 // [END gmail_create_draft]

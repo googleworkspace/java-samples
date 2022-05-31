@@ -14,6 +14,7 @@
 
 
 // [START gmail_send_message]
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -42,16 +43,16 @@ public class SendMessage {
      *
      * @param fromEmailAddress - Email address to appear in the from: header
      * @param toEmailAddress - Email address of the recipient
-     * @return the sent message
+     * @return the sent message, {@code null} otherwise.
      * @throws MessagingException - if a wrongly formatted address is encountered.
      * @throws IOException - if service account credentials file not found.
      */
     public static Message sendEmail(String fromEmailAddress,
                                     String toEmailAddress)
             throws MessagingException, IOException {
-        // Load pre-authorized user credentials from the environment.
-        // TODO(developer) - See https://developers.google.com/identity for
-        // guides on implementing OAuth2 for your application.
+        /* Load pre-authorized user credentials from the environment.
+           TODO(developer) - See https://developers.google.com/identity for
+            guides on implementing OAuth2 for your application.*/
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
                 .createScoped(GmailScopes.GMAIL_SEND);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
@@ -93,9 +94,14 @@ public class SendMessage {
             return message;
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
-            System.err.println("Unable to send message: " + e.getDetails());
-            throw e;
+            GoogleJsonError error = e.getDetails();
+            if (error.getCode() == 403) {
+                System.err.println("Unable to send message: " + e.getDetails());
+            } else {
+                throw e;
+            }
         }
+        return null;
     }
 }
 // [END gmail_send_message]

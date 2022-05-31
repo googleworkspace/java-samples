@@ -14,6 +14,7 @@
 
 
 // [START gmail_create_filter]
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -33,20 +34,17 @@ public class CreateFilter {
     /**
      * Create a new filter.
      *
-     * @param realLabelId - ID of the user label to add
-     * @return the created filter id
+     * @param labelId - ID of the user label to add
+     * @return the created filter id, {@code null} otherwise.
      * @throws IOException - if service account credentials file not found.
      */
-    public static String createNewFilter(String realLabelId) throws IOException {
-        // TODO(developer) - Replace with your email address.
-        String userEmail = "ci-test01@workspacesamples.dev";
-
+    public static String createNewFilter(String labelId) throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(GmailScopes.GMAIL_SETTINGS_BASIC, GmailScopes.GMAIL_LABELS)
-                .createDelegated(userEmail);
+                .createScoped(GmailScopes.GMAIL_SETTINGS_BASIC,
+                        GmailScopes.GMAIL_LABELS);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
          // Create the gmail API client
@@ -55,11 +53,6 @@ public class CreateFilter {
                 requestInitializer)
                 .setApplicationName("Gmail samples")
                 .build();
-
-        String labelId = "Label_14"; // ID of the user label to add
-        // [START_EXCLUDE silent]
-        labelId = realLabelId;
-        // [END_EXCLUDE]
 
         try {
             // Filter the mail from sender and archive them(skip the inbox)
@@ -76,9 +69,14 @@ public class CreateFilter {
             return result.getId();
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
-            System.err.println("Unable to create filter: " + e.getDetails());
-            throw e;
+            GoogleJsonError error = e.getDetails();
+            if (error.getCode() == 403) {
+                System.err.println("Unable to create filter: " + e.getDetails());
+            } else {
+                throw e;
+            }
         }
+        return null;
     }
 }
 // [END gmail_create_filter]

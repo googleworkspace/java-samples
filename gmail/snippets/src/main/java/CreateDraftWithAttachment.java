@@ -14,6 +14,7 @@
 
 
 // [START gmail_create_draft_with_attachment]
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -45,12 +46,12 @@ import java.util.Properties;
 /* Class to demonstrate the use of Gmail Create Draft with attachment API */
 public class CreateDraftWithAttachment {
     /**
-     * Create a draft email.
+     * Create a draft email with attachment.
      *
      * @param fromEmailAddress - Email address to appear in the from: header.
      * @param toEmailAddress - Email address of the recipient.
      * @param file - Path to the file to be attached.
-     * @return the created draft
+     * @return the created draft, {@code null} otherwise.
      * @throws MessagingException - if a wrongly formatted address is encountered.
      * @throws IOException - if service account credentials file not found.
      */
@@ -58,11 +59,11 @@ public class CreateDraftWithAttachment {
                                                          String toEmailAddress,
                                                          File file)
             throws MessagingException, IOException {
-        // Load pre-authorized user credentials from the environment.
-        // TODO(developer) - See https://developers.google.com/identity for
-        // guides on implementing OAuth2 for your application.
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(
-                GmailScopes.GMAIL_COMPOSE);
+        /* Load pre-authorized user credentials from the environment.
+         TODO(developer) - See https://developers.google.com/identity for
+          guides on implementing OAuth2 for your application.*/
+        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+                .createScoped(GmailScopes.GMAIL_COMPOSE);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
         // Create the gmail API client
@@ -114,9 +115,14 @@ public class CreateDraftWithAttachment {
             return draft;
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
-            System.err.println("Unable to create draft: " + e.getDetails());
-            throw e;
+            GoogleJsonError error = e.getDetails();
+            if (error.getCode() == 403){
+                System.err.println("Unable to create draft: " + e.getDetails());
+            } else {
+                throw e;
+            }
         }
+        return null;
     }
 }
 // [END gmail_create_draft_with_attachment]

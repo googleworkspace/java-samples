@@ -14,6 +14,7 @@
 
 
 // [START gmail_update_signature]
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -25,26 +26,21 @@ import com.google.api.services.gmail.model.ListSendAsResponse;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
-import java.util.Collections;
 
 /* Class to demonstrate the use of Gmail Update Signature API */
 public class UpdateSignature {
     /**
      * Update the gmail signature.
      *
-     * @return the updated signature id
+     * @return the updated signature id , {@code null} otherwise.
      * @throws IOException - if service account credentials file not found.
      */
     public static String updateGmailSignature() throws IOException {
-        // TODO(developer) - Replace with your email address.
-        String userEmail = "gduser1@workspacesamples.dev";
-
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(GmailScopes.GMAIL_SETTINGS_BASIC)
-                .createDelegated(userEmail);
+                .createScoped(GmailScopes.GMAIL_SETTINGS_BASIC);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
         // Create the gmail API client
@@ -75,9 +71,14 @@ public class UpdateSignature {
             return result.getSignature();
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
-            System.err.println("Unable to update signature: " + e.getDetails());
-            throw e;
+            GoogleJsonError error = e.getDetails();
+            if (error.getCode() == 403) {
+                System.err.println("Unable to update signature: " + e.getDetails());
+            } else {
+                throw e;
+            }
         }
+        return null;
     }
 }
 // [END gmail_update_signature]
