@@ -35,7 +35,7 @@ public class FetchChanges {
      * @return Saved token after last page.
      * @throws IOException if file is not found
      */
-    private static String fetchChanges(String savedStartPageToken) throws IOException {
+    public static String fetchChanges(String savedStartPageToken) throws IOException {
 
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
