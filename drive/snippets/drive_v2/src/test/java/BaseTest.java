@@ -1,8 +1,8 @@
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.HttpRequestInitializer;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
@@ -51,22 +51,33 @@ public class BaseTest {
     });
   }
 
-  public GoogleCredential getCredential() throws IOException {
-    return GoogleCredential.getApplicationDefault()
-        .createScoped(Arrays.asList(DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA));
+  public GoogleCredentials getCredential() throws IOException {
+    return GoogleCredentials.getApplicationDefault()
+        .createScoped(Arrays.asList(DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA,DriveScopes.DRIVE_FILE));
   }
 
-  public Drive buildService() throws IOException, GeneralSecurityException {
-    GoogleCredential credential = getCredential();
-    return new Drive.Builder(
-        //new ApacheHttpTransport(),
-        //GoogleNetHttpTransport.newTrustedTransport(),
-        new NetHttpTransport(),
+  /**
+   * Creates a default authorization Drive client service.
+   *
+   * @return an authorized Drive client service
+   * @throws IOException - if credentials file not found.
+   */
+  protected Drive buildService() throws IOException {
+        /* Load pre-authorized user credentials from the environment.
+           TODO(developer) - See https://developers.google.com/identity for
+            guides on implementing OAuth2 for your application. */
+    GoogleCredentials credentials = getCredential();
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+            credentials);
+
+    // Create the classroom API client
+    Drive service = new Drive.Builder(new NetHttpTransport(),
             GsonFactory.getDefaultInstance(),
-        //GsonFactory.getDefaultInstance(),
-        credential)
-        .setApplicationName("Drive API Snippets")
-        .build();
+            requestInitializer)
+            .setApplicationName("Drive Snippets")
+            .build();
+
+    return service;
   }
 
   @Before
