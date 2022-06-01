@@ -36,7 +36,7 @@ public class UploadBasic {
      * @return Inserted file metadata if successful, {@code null} otherwise.
      * @throws IOException if service account credentials file not found.
      */
-    private static File uploadBasic() throws IOException{
+    public static String uploadBasic() throws IOException{
         // Load pre-authorized user credentials from the environment.
         // TODO(developer) - See https://developers.google.com/identity for
         // guides on implementing OAuth2 for your application.
@@ -62,7 +62,7 @@ public class UploadBasic {
                     .setFields("id")
                     .execute();
             System.out.println("File ID: " + file.getId());
-            return file;
+            return file.getId();
         }catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
             System.err.println("Unable to upload file: " + e.getDetails());
