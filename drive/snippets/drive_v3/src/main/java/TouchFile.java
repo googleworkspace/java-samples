@@ -38,7 +38,7 @@ public class TouchFile {
      * @return long file's latest modification date value.
      * @throws IOException if service account credentials file not found.
      * */
-    private static long touchFile(String realFileId, long realTimestamp)
+    public static long touchFile(String realFileId, long realTimestamp)
             throws IOException {
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
