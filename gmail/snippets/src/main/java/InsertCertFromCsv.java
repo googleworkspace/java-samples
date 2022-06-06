@@ -43,10 +43,9 @@ public class InsertCertFromCsv {
                 SmimeInfo smimeInfo = CreateSmimeInfo.createSmimeInfo(certFilename,
                         certPassword);
                 if (smimeInfo != null) {
-                    InsertSmimeInfo.insertSmimeInfo(certFilename,
-                            certPassword,
+                    InsertSmimeInfo.insertSmimeInfo(userId,
                             userId,
-                            userId);
+                            smimeInfo);
                 } else {
                     System.err.printf("Unable to read certificate file for userId: %s\n", userId);
                 }
