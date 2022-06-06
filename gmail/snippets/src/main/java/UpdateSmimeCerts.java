@@ -60,7 +60,7 @@ public class UpdateSmimeCerts {
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singletonList(GmailScopes.GMAIL_SETTINGS_SHARING));
+                .createScoped(GmailScopes.GMAIL_SETTINGS_SHARING);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
                 credentials);
 

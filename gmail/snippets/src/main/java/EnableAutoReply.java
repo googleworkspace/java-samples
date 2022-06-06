@@ -43,7 +43,7 @@ public class EnableAutoReply {
           TODO(developer) - See https://developers.google.com/identity for
            guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singleton(GmailScopes.GMAIL_SETTINGS_BASIC));
+                .createScoped(GmailScopes.GMAIL_SETTINGS_BASIC);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
         // Create the gmail API client
