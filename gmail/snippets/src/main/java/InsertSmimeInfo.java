@@ -14,6 +14,8 @@
 
 
 // [START gmail_insert_smime_info]
+import com.google.api.client.googleapis.json.GoogleJsonError;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
@@ -31,23 +33,21 @@ public class InsertSmimeInfo {
     /**
      * Upload an S/MIME certificate for the user.
      *
-     * @param filename Name of the file containing the S/MIME certificate.
-     * @param password Password for the certificate file, or null if the file
-     *                is not password-protected.
      * @param userId User's email address.
      * @param sendAsEmail The "send as" email address, or null if it should be the same as userId.
-     * @return An SmimeInfo object with details about the uploaded certificate.
+     * @param smimeInfo The SmimeInfo object containing the user's S/MIME certificate.
+     * @return An SmimeInfo object with details about the uploaded certificate, {@code null} otherwise.
+     * @throws IOException - if service account credentials file not found.
      */
-    public static SmimeInfo insertSmimeInfo(String filename,
-                                            String password,
-                                            String userId,
-                                            String sendAsEmail)
+    public static SmimeInfo insertSmimeInfo(String userId,
+                                            String sendAsEmail,
+                                            SmimeInfo smimeInfo)
             throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                        .createScoped(Collections.singletonList(GmailScopes.GMAIL_SETTINGS_SHARING));
+                        .createScoped(GmailScopes.GMAIL_SETTINGS_SHARING);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
                 credentials);
 
@@ -63,7 +63,6 @@ public class InsertSmimeInfo {
         }
 
         try {
-            SmimeInfo smimeInfo = CreateSmimeInfo.createSmimeInfo(filename, password);
             SmimeInfo results = service.users().settings().sendAs().smimeInfo()
                     .insert(userId, sendAsEmail, smimeInfo)
                     .execute();
@@ -72,7 +71,6 @@ public class InsertSmimeInfo {
         } catch (IOException e) {
             System.err.printf("An error occured: %s", e);
         }
-
         return null;
     }
 }
