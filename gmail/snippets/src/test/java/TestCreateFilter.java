@@ -18,11 +18,10 @@ import com.google.api.services.gmail.model.ListLabelsResponse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.MockedStatic;
-
 import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
+// Unit testcase for gmail create filter snippet
 public class TestCreateFilter extends BaseTest {
 
     private Label testLabel = null;
@@ -54,10 +53,8 @@ public class TestCreateFilter extends BaseTest {
 
     @Test
     public void testCreateNewFilter() throws IOException {
-        try (MockedStatic credentials = useServiceAccount()) {
-            String id = CreateFilter.createNewFilter(testLabel.getId());
-            assertNotNull(id);
-            this.service.users().settings().filters().delete("me", id).execute();
-        }
+        String id = CreateFilter.createNewFilter(testLabel.getId());
+        assertNotNull(id);
+        this.service.users().settings().filters().delete("me", id).execute();
     }
 }
