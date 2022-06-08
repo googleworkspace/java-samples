@@ -31,11 +31,11 @@ import java.util.UUID;
 public class CreateDrive {
 
     /**
-     * @param
+     * Create a drive.
      * @return Newly created drive id.
      * @throws IOException if service account credentials file not found.
      */
-    private static String createDrive() throws IOException {
+    public static String createDrive() throws IOException {
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application.*/

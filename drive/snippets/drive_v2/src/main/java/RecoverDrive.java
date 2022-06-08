@@ -39,7 +39,7 @@ public class RecoverDrive {
      * @return All shared drives without an organizer.
      * @throws IOException if shared drive not found.
      */
-    private static List<Drive> recoverDrives(String realUser)
+    public static List<Drive> recoverDrives(String realUser)
             throws IOException {
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
