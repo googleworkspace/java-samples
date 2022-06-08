@@ -38,7 +38,7 @@ public class MoveFileToFolder {
      * @param folderId Id of folder where the fill will be moved.
      * @return list of parent ids for the file.
      * */
-    private static List<String> moveFileToFolder(String fileId, String folderId)
+    public static List<String> moveFileToFolder(String fileId, String folderId)
             throws IOException {
         /* Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
