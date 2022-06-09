@@ -123,12 +123,12 @@ public class Quickstart {
         List<Matter> matters = response.getMatters();
         if (matters == null || matters.size() == 0) {
             System.out.println("No matters found.");
-        } else {
-            System.out.println("Matters:");
-            for (Matter matter: matters) {
-                System.out.printf("%s (%s)\n", matter.getName(),
-                        matter.getMatterId());
-            }
+            return;
+        }
+        System.out.println("Matters:");
+        for (Matter matter: matters) {
+            System.out.printf("%s (%s)\n", matter.getName(),
+                    matter.getMatterId());
         }
     }
 }

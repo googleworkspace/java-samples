@@ -36,9 +36,7 @@ public class UpdateSmimeFromCsv {
     public static void updateSmimeFromCsv(String csvFilename, LocalDateTime expireTime) {
         try {
             File csvFile = new File(csvFilename);
-            CSVParser parser =
-                    CSVParser.parse(
-                            csvFile,
+            CSVParser parser = CSVParser.parse( csvFile,
                             java.nio.charset.StandardCharsets.UTF_8,
                             CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord());
             for (CSVRecord record : parser) {

@@ -12,17 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 import org.junit.Test;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-// Unit testcase for gmail update signature snippet
-public class TestUpdateSignature extends BaseTest {
+// Unit testcase for gmail create message snippet
+public class TestCreateMessage extends BaseTest{
 
     @Test
-    public void testUpdateGmailSignature() throws IOException {
-            String signature = UpdateSignature.updateGmailSignature();
-            assertEquals("Automated Signature", signature);
+    public void testCreateMessageWithEmail() throws MessagingException,
+            IOException {
+        MimeMessage mimeMessage = CreateEmail.createEmail(RECIPIENT,
+                TEST_USER,
+                "test",
+                "Hello!");
+
+        com.google.api.services.gmail.model.Message message = CreateMessage.createMessageWithEmail(mimeMessage);
+        assertNotNull(message.getRaw()); // Weak assertion...
     }
 }

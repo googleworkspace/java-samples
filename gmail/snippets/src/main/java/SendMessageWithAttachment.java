@@ -14,6 +14,7 @@
 
 
 // [START gmail_send_message_with_attachment]
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -28,7 +29,6 @@ import com.google.api.services.gmail.model.Message;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -50,7 +50,7 @@ public class SendMessageWithAttachment{
      * @param fromEmailAddress - Email address to appear in the from: header.
      * @param toEmailAddress - Email address of the recipient.
      * @param file - Path to the file to be attached.
-     * @return the sent message.
+     * @return the sent message, {@code null} otherwise.
      * @throws MessagingException - if a wrongly formatted address is encountered.
      * @throws IOException - if service account credentials file not found.
      */
@@ -58,9 +58,9 @@ public class SendMessageWithAttachment{
                                                   String toEmailAddress,
                                                   File file)
             throws MessagingException, IOException {
-        // Load pre-authorized user credentials from the environment.
-        // TODO(developer) - See https://developers.google.com/identity for
-        // guides on implementing OAuth2 for your application.
+        /* Load pre-authorized user credentials from the environment.
+          TODO(developer) - See https://developers.google.com/identity for
+           guides on implementing OAuth2 for your application.*/
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
                 .createScoped(GmailScopes.GMAIL_SEND);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
@@ -112,9 +112,14 @@ public class SendMessageWithAttachment{
             return message;
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
-            System.err.println("Unable to send message: " + e.getDetails());
-            throw e;
+            GoogleJsonError error = e.getDetails();
+            if (error.getCode() == 403) {
+                System.err.println("Unable to send message: " + e.getDetails());
+            } else {
+                throw e;
+            }
         }
+        return null;
     }
 }
 // [END gmail_send_message_with_attachment]
