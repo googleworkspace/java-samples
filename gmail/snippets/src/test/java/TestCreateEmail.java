@@ -14,15 +14,24 @@
 
 
 import org.junit.Test;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
-// Unit testcase for gmail update signature snippet
-public class TestUpdateSignature extends BaseTest {
+// Unit testcase for gmail create email snippet
+public class TestCreateEmail extends BaseTest{
 
     @Test
-    public void testUpdateGmailSignature() throws IOException {
-            String signature = UpdateSignature.updateGmailSignature();
-            assertEquals("Automated Signature", signature);
+    public void createEmail() throws MessagingException, IOException {
+        MimeMessage mimeMessage = CreateEmail.createEmail(RECIPIENT,
+                TEST_USER,
+                "test",
+                "Hello!");
+        assertEquals("test", mimeMessage.getSubject());
+        assertEquals("Hello!", mimeMessage.getContent());
+        assertEquals(RECIPIENT, mimeMessage.getRecipients(Message.RecipientType.TO)[0].toString());
+        assertEquals(TEST_USER, mimeMessage.getFrom()[0].toString());
     }
 }

@@ -13,16 +13,19 @@
 // limitations under the License.
 
 
+import com.google.api.services.gmail.model.Draft;
 import org.junit.Test;
+import javax.mail.MessagingException;
 import java.io.IOException;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-// Unit testcase for gmail update signature snippet
-public class TestUpdateSignature extends BaseTest {
+// Unit testcase for gmail create draft snippet
+public class TestCreateDraft extends BaseTest{
 
     @Test
-    public void testUpdateGmailSignature() throws IOException {
-            String signature = UpdateSignature.updateGmailSignature();
-            assertEquals("Automated Signature", signature);
+    public void testCreateDraft() throws MessagingException, IOException {
+        Draft draft = CreateDraft.createDraftMessage(RECIPIENT,TEST_USER);
+        assertNotNull(draft);
+        this.service.users().drafts().delete("me", draft.getId()).execute();
     }
 }

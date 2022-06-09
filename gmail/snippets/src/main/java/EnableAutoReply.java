@@ -14,6 +14,7 @@
 
 
 // [START gmail_enable_auto_reply]
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -38,15 +39,11 @@ public class EnableAutoReply {
      * @throws IOException - if service account credentials file not found.
      */
     public static VacationSettings autoReply() throws IOException{
-        // TODO(developer) - Replace with your email address.
-        String userEmail = "ci-test01@workspacesamples.dev";
-
         /* Load pre-authorized user credentials from the environment.
-           TODO(developer) - See https://developers.google.com/identity for
-            guides on implementing OAuth2 for your application. */
+          TODO(developer) - See https://developers.google.com/identity for
+           guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singleton(GmailScopes.GMAIL_SETTINGS_BASIC))
-                .createDelegated(userEmail);
+                .createScoped(GmailScopes.GMAIL_SETTINGS_BASIC);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
         // Create the gmail API client
@@ -74,9 +71,14 @@ public class EnableAutoReply {
             return response;
         } catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
-            System.err.println("Unable to enable auto reply: " + e.getDetails());
-            throw e;
+            GoogleJsonError error = e.getDetails();
+            if (error.getCode() == 403) {
+                System.err.println("Unable to enable auto reply: " + e.getDetails());
+            } else {
+                throw e;
+            }
         }
+        return null;
     }
 }
 // [END gmail_enable_auto_reply]

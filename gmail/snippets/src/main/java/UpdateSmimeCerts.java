@@ -47,7 +47,8 @@ public class UpdateSmimeCerts {
      *     password-protected.
      * @param expireTime DateTime object against which the certificate expiration is compared. If
      *     None, uses the current time. @ returns: The ID of the default certificate.
-     * @return The ID of the default certifcate.
+     * @return The ID of the default certificate, {@code null} otherwise.
+     * @throws IOException - if service account credentials file not found.
      */
     public static String updateSmimeCerts(String userId,
                                           String sendAsEmail,
@@ -59,7 +60,7 @@ public class UpdateSmimeCerts {
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
         GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singletonList(GmailScopes.GMAIL_SETTINGS_SHARING));
+                .createScoped(GmailScopes.GMAIL_SETTINGS_SHARING);
         HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
                 credentials);
 
@@ -114,10 +115,11 @@ public class UpdateSmimeCerts {
         if (defaultCertId == null) {
             String defaultId = bestCertId;
             if (defaultId == null && certFilename != null) {
-                SmimeInfo insertResults = InsertSmimeInfo.insertSmimeInfo(certFilename,
-                        certPassword,
-                        userId,
-                        sendAsEmail);
+                SmimeInfo smimeInfo = CreateSmimeInfo.createSmimeInfo(certFilename,
+                        certPassword);
+                SmimeInfo insertResults = InsertSmimeInfo.insertSmimeInfo(userId,
+                        sendAsEmail,
+                        smimeInfo);
                 if (insertResults != null) {
                     defaultId = insertResults.getId();
                 }

@@ -44,7 +44,7 @@ public class ShareFile {
      * @return list of modified permissions if successful, {@code null} otherwise.
      * @throws IOException if service account credentials file not found.
      */
-    private static List<String> shareFile(String realFileId, String realUser, String realDomain) throws IOException{
+    public static List<String> shareFile(String realFileId, String realUser, String realDomain) throws IOException{
         /* Load pre-authorized user credentials from the environment.
          TODO(developer) - See https://developers.google.com/identity for
          guides on implementing OAuth2 for your application.application*/

@@ -5,14 +5,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.api-client:google-api-client:1.33.0'
-    implementation 'com.google.auth:google-auth-library-oauth2-http:1.3.0'
-    implementation 'com.google.apis:google-api-services-gmail:v1-rev20211108-1.32.1'
-    implementation 'com.google.code.gson:gson:2.4'
-    implementation 'javax.mail:mail:1.4'
-    implementation 'org.apache.commons:commons-csv:1.1'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:1.6.0'
+    implementation 'com.google.apis:google-api-services-gmail:v1-rev20220404-1.32.1'
+    implementation 'javax.mail:mail:1.4.7'
+    implementation 'org.apache.commons:commons-csv:1.9.0'
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.hamcrest:hamcrest-all:1.3'
-    //testImplementation 'org.mockito:mockito-core:4.2.0'
-    testImplementation 'org.mockito:mockito-inline:4.3.1'
+    testImplementation 'org.mockito:mockito-inline:4.5.1'
 }
