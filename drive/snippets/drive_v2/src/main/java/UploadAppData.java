@@ -37,7 +37,7 @@ public class UploadAppData {
      * Creates a file in the application data folder.
      * @return Created file's Id.
      */
-    private static String uploadAppData() throws IOException {
+    public static String uploadAppData() throws IOException {
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application.*/
