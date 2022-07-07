@@ -34,7 +34,7 @@ public class CreateShortcut {
      * Creates shortcut for file.
      * @throws IOException if service account credentials file not found.
      */
-    private static void createShortcut() throws IOException{
+    public static String createShortcut() throws IOException{
         /* Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application.*/
@@ -57,6 +57,7 @@ public class CreateShortcut {
                     .setFields("id")
                     .execute();
             System.out.println("File ID: " + file.getId());
+            return file.getId();
         }catch (GoogleJsonResponseException e) {
             // TODO(developer) - handle error appropriately
             System.err.println("Unable to create shortcut: " + e.getDetails());
