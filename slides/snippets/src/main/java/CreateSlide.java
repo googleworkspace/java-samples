@@ -41,12 +41,10 @@ public class CreateSlide {
      * Creates a new slide.
      *
      * @param presentationId - id of the presentation.
-     * @param slideId - id for the new slide.
      * @return slide id
      * @throws IOException - if credentials file not found.
      */
-    public static BatchUpdatePresentationResponse createSlide(String presentationId,
-                                                              String slideId) throws IOException {
+    public static BatchUpdatePresentationResponse createSlide(String presentationId) throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
@@ -64,6 +62,7 @@ public class CreateSlide {
 
         // Add a slide at index 1 using the predefined "TITLE_AND_TWO_COLUMNS" layout
         List<Request> requests = new ArrayList<>();
+        String slideId = "MyNewSlide_001";
         BatchUpdatePresentationResponse response = null;
         try {
             requests.add(new Request()
