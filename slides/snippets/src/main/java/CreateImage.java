@@ -46,14 +46,12 @@ public class CreateImage {
      *
      * @param presentationId - id of the presentation.
      * @param slideId - id of the shape.
-     * @param imageId - id for the image.
      * @param imageUrl - Url of the image.
      * @return image id
      * @throws IOException - if credentials file not found.
      */
     public static BatchUpdatePresentationResponse createImage(String presentationId,
                                                               String slideId,
-                                                              String imageId,
                                                               String imageUrl)
             throws IOException {
         /* Load pre-authorized user credentials from the environment.
@@ -73,6 +71,7 @@ public class CreateImage {
 
         // Create a new image, using the supplied object ID, with content downloaded from imageUrl.
         List<Request> requests = new ArrayList<>();
+        String imageId = "MyImageId_01";
         Dimension emu4M = new Dimension().setMagnitude(4000000.0).setUnit("EMU");
         requests.add(new Request()
                 .setCreateImage(new CreateImageRequest()
