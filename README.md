@@ -1,5 +1,3 @@
-# Google Workspace APIs Java Samples [![Build Status](https://travis-ci.org/googleworkspace/java-samples.svg?branch=main)](https://travis-ci.org/googleworkspace/java-samples)
-
 A collection of samples that demonstrate how to call Google Workspace APIs in Java.
 
 ## APIs
