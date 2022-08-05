@@ -19,12 +19,12 @@ import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
 // Unit testcase for createPresentation snippet
-public class TestCreatePresentation extends BaseTest{
+public class TestCreatePresentation extends BaseTest {
 
-    @Test
-    public void testCreatePresentation() throws IOException {
-        String presentationId = CreatePresentation.createPresentation("Title");
-        assertNotNull(presentationId);
-        deleteFileOnCleanup(presentationId);
-    }
+  @Test
+  public void testCreatePresentation() throws IOException {
+    String presentationId = CreatePresentation.createPresentation("Title");
+    assertNotNull(presentationId);
+    deleteFileOnCleanup(presentationId);
+  }
 }

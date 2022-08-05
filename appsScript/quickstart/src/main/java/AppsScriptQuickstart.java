@@ -13,6 +13,7 @@
 // limitations under the License.
 
 // [START apps_script_api_quickstart]
+
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -28,7 +29,6 @@ import com.google.api.services.script.model.Content;
 import com.google.api.services.script.model.CreateProjectRequest;
 import com.google.api.services.script.model.File;
 import com.google.api.services.script.model.Project;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,66 +39,71 @@ import java.util.Collections;
 import java.util.List;
 
 public class AppsScriptQuickstart {
-    private static final String APPLICATION_NAME = "Apps Script API Java Quickstart";
-    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+  private static final String APPLICATION_NAME = "Apps Script API Java Quickstart";
+  private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+  private static final String TOKENS_DIRECTORY_PATH = "tokens";
 
-    /**
-     * Global instance of the scopes required by this quickstart.
-     * If modifying these scopes, delete your previously saved credentials folder at /secret.
-     */
-    private static final List<String> SCOPES = Collections.singletonList("https://www.googleapis.com/auth/script.projects");
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+  /**
+   * Global instance of the scopes required by this quickstart.
+   * If modifying these scopes, delete your previously saved credentials folder at /secret.
+   */
+  private static final List<String> SCOPES =
+      Collections.singletonList("https://www.googleapis.com/auth/script.projects");
+  private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
-    /**
-     * Creates an authorized Credential object.
-     * @param HTTP_TRANSPORT The network HTTP Transport.
-     * @return An authorized Credential object.
-     * @throws IOException If the credentials.json file cannot be found.
-     */
-    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
-        // Load client secrets.
-        InputStream in = AppsScriptQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-        }
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
-        // Build flow and trigger user authorization request.
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                .setAccessType("offline")
-                .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+  /**
+   * Creates an authorized Credential object.
+   *
+   * @param HTTP_TRANSPORT The network HTTP Transport.
+   * @return An authorized Credential object.
+   * @throws IOException If the credentials.json file cannot be found.
+   */
+  private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
+      throws IOException {
+    // Load client secrets.
+    InputStream in = AppsScriptQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+    if (in == null) {
+      throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
     }
+    GoogleClientSecrets clientSecrets =
+        GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-    public static void main(String... args) throws IOException, GeneralSecurityException {
-        // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Script service = new Script.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
-        Script.Projects projects = service.projects();
+    // Build flow and trigger user authorization request.
+    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+        HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+        .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+        .setAccessType("offline")
+        .build();
+    LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+    return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+  }
 
-        // Creates a new script project.
-        Project createOp = projects.create(new CreateProjectRequest().setTitle("My Script")).execute();
+  public static void main(String... args) throws IOException, GeneralSecurityException {
+    // Build a new authorized API client service.
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    Script service =
+        new Script.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+            .setApplicationName(APPLICATION_NAME)
+            .build();
+    Script.Projects projects = service.projects();
 
-        // Uploads two files to the project.
-        File file1 = new File()
-                .setName("hello")
-                .setType("SERVER_JS")
-                .setSource("function helloWorld() {\n  console.log(\"Hello, world!\");\n}");
-        File file2 = new File()
-                .setName("appsscript")
-                .setType("JSON")
-                .setSource("{\"timeZone\":\"America/New_York\",\"exceptionLogging\":\"CLOUD\"}");
-        Content content = new Content().setFiles(Arrays.asList(file1, file2));
-        Content updatedContent = projects.updateContent(createOp.getScriptId(), content).execute();
+    // Creates a new script project.
+    Project createOp = projects.create(new CreateProjectRequest().setTitle("My Script")).execute();
 
-        // Logs the project URL.
-        System.out.printf("https://script.google.com/d/%s/edit\n", updatedContent.getScriptId());
-    }
+    // Uploads two files to the project.
+    File file1 = new File()
+        .setName("hello")
+        .setType("SERVER_JS")
+        .setSource("function helloWorld() {\n  console.log(\"Hello, world!\");\n}");
+    File file2 = new File()
+        .setName("appsscript")
+        .setType("JSON")
+        .setSource("{\"timeZone\":\"America/New_York\",\"exceptionLogging\":\"CLOUD\"}");
+    Content content = new Content().setFiles(Arrays.asList(file1, file2));
+    Content updatedContent = projects.updateContent(createOp.getScriptId(), content).execute();
+
+    // Logs the project URL.
+    System.out.printf("https://script.google.com/d/%s/edit\n", updatedContent.getScriptId());
+  }
 }
 // [END apps_script_api_quickstart]

@@ -12,19 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import com.google.api.services.gmail.model.Message;
-import org.junit.Test;
-import javax.mail.MessagingException;
-import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
-// Unit testcase for gmail send email snippet
-public class TestSendMessage extends BaseTest{
+import com.google.api.services.gmail.model.Message;
+import java.io.IOException;
+import javax.mail.MessagingException;
+import org.junit.Test;
 
-    @Test
-    public void testSendEmail() throws MessagingException, IOException {
-        Message message = SendMessage.sendEmail(RECIPIENT, TEST_USER);
-        assertNotNull(message);
-        this.service.users().messages().delete("me", message.getId()).execute();
-    }
+// Unit testcase for gmail send email snippet
+public class TestSendMessage extends BaseTest {
+
+  @Test
+  public void testSendEmail() throws MessagingException, IOException {
+    Message message = SendMessage.sendEmail(RECIPIENT, TEST_USER);
+    assertNotNull(message);
+    this.service.users().messages().delete("me", message.getId()).execute();
+  }
 }

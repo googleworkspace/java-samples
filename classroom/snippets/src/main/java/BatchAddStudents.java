@@ -14,6 +14,7 @@
 
 
 // [START classroom_batch_add_students]
+
 import com.google.api.client.googleapis.batch.BatchRequest;
 import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
 import com.google.api.client.googleapis.json.GoogleJsonError;
@@ -32,46 +33,46 @@ import java.util.List;
 
 /* Class to demonstrate the use of Classroom Batch Add Students API */
 public class BatchAddStudents {
-    /**
-     * Add multiple students in a specified course.
-     *
-     * @param courseId - Id of the course to add students.
-     * @param studentEmails - Email address of the students.
-     * @throws IOException - if credentials file not found.
-     */
-    public static void batchAddStudents(String courseId, List<String> studentEmails)
-            throws IOException {
+  /**
+   * Add multiple students in a specified course.
+   *
+   * @param courseId      - Id of the course to add students.
+   * @param studentEmails - Email address of the students.
+   * @throws IOException - if credentials file not found.
+   */
+  public static void batchAddStudents(String courseId, List<String> studentEmails)
+      throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_ROSTERS));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_ROSTERS));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Create the classroom API client
-        Classroom service = new Classroom.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Classroom samples")
-                .build();
+    // Create the classroom API client
+    Classroom service = new Classroom.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Classroom samples")
+        .build();
 
-        BatchRequest batch = service.batch();
-        JsonBatchCallback<Student> callback = new JsonBatchCallback<>() {
-            public void onSuccess(Student student, HttpHeaders responseHeaders) {
-                System.out.printf("User '%s' was added as a student to the course.\n",
-                        student.getProfile().getName().getFullName());
-            }
+    BatchRequest batch = service.batch();
+    JsonBatchCallback<Student> callback = new JsonBatchCallback<>() {
+      public void onSuccess(Student student, HttpHeaders responseHeaders) {
+        System.out.printf("User '%s' was added as a student to the course.\n",
+            student.getProfile().getName().getFullName());
+      }
 
-            public void onFailure(GoogleJsonError error, HttpHeaders responseHeaders) {
-                System.out.printf("Error adding student to the course: %s\n", error.getMessage());
-            }
-        };
-        for (String studentEmail : studentEmails) {
-            Student student = new Student().setUserId(studentEmail);
-            service.courses().students().create(courseId, student).queue(batch, callback);
-        }
-        batch.execute();
+      public void onFailure(GoogleJsonError error, HttpHeaders responseHeaders) {
+        System.out.printf("Error adding student to the course: %s\n", error.getMessage());
+      }
+    };
+    for (String studentEmail : studentEmails) {
+      Student student = new Student().setUserId(studentEmail);
+      service.courses().students().create(courseId, student).queue(batch, callback);
     }
+    batch.execute();
+  }
 }
 // [END classroom_batch_add_students]

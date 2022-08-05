@@ -21,9 +21,9 @@ import java.util.List;
 // Unit test class for List Course classroom snippet
 public class TestListCourses {
 
-    @Test
-    public void testListCourses() throws IOException {
-        List<Course> courses = ListCourses.listCourses();
-        Assert.assertTrue("No courses returned.", courses.size() > 0);
-    }
+  @Test
+  public void testListCourses() throws IOException {
+    List<Course> courses = ListCourses.listCourses();
+    Assert.assertTrue("No courses returned.", courses.size() > 0);
+  }
 }

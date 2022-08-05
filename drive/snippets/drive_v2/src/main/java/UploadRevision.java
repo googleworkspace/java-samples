@@ -24,49 +24,50 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
-
 import java.io.IOException;
 import java.util.Arrays;
 
 /* Class to demonstrate use-case of drive's upload revision */
 public class UploadRevision {
 
-    /**
-     * Replace the old file with new one on same file ID.
-     * @param realFileId ID of the file to be replaced.
-     * @return Inserted file ID if successful, {@code null} otherwise.
-     * @throws IOException if service account credentials file not found.
-     */
-    public static String uploadRevision(String realFileId) throws IOException{
-        // Load pre-authorized user credentials from the environment.
-        // TODO(developer) - See https://developers.google.com/identity for
-        // guides on implementing OAuth2 for your application.
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Arrays.asList(DriveScopes.DRIVE_FILE));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+  /**
+   * Replace the old file with new one on same file ID.
+   *
+   * @param realFileId ID of the file to be replaced.
+   * @return Inserted file ID if successful, {@code null} otherwise.
+   * @throws IOException if service account credentials file not found.
+   */
+  public static String uploadRevision(String realFileId) throws IOException {
+    // Load pre-authorized user credentials from the environment.
+    // TODO(developer) - See https://developers.google.com/identity for
+    // guides on implementing OAuth2 for your application.
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Arrays.asList(DriveScopes.DRIVE_FILE));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Build a new authorized API client service.
-        Drive service = new Drive.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Drive samples")
-                .build();
+    // Build a new authorized API client service.
+    Drive service = new Drive.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Drive samples")
+        .build();
 
 
-        java.io.File filePath = new java.io.File("files/photo.jpg");
-        FileContent mediaContent = new FileContent("image/jpeg", filePath);
-        try {
-            Drive.Files.Update request = service.files().update(realFileId, new File(), mediaContent)
-                    .setFields("id");
-            request.getMediaHttpUploader().setDirectUploadEnabled(true);
-            File file = request.execute();
-            System.out.println("File ID: " + file.getId());
-            return file.getId();
-        } catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            System.err.println("Unable to upload file: " + e.getDetails());
-            throw e;
-        }
+    java.io.File filePath = new java.io.File("files/photo.jpg");
+    FileContent mediaContent = new FileContent("image/jpeg", filePath);
+    try {
+      Drive.Files.Update request = service.files().update(realFileId, new File(), mediaContent)
+          .setFields("id");
+      request.getMediaHttpUploader().setDirectUploadEnabled(true);
+      File file = request.execute();
+      System.out.println("File ID: " + file.getId());
+      return file.getId();
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      System.err.println("Unable to upload file: " + e.getDetails());
+      throw e;
     }
+  }
 }
 // [END drive_upload_revision]

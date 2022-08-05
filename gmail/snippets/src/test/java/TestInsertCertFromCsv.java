@@ -12,91 +12,100 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.SmimeInfo;
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import java.io.IOException;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
 
 // Unit testcase for gmail insert cert from csv snippet
-public class TestInsertCertFromCsv extends BaseTest{
+public class TestInsertCertFromCsv extends BaseTest {
 
-    private static final long CURRENT_TIME_MS = 1234567890;
-    public static final String TEST_USER1 = "gduser1@workspacesamples.dev";
-    public static final String TEST_USER2 = "gduser2@workspacesamples.dev";
+  public static final String TEST_USER1 = "gduser1@workspacesamples.dev";
+  public static final String TEST_USER2 = "gduser2@workspacesamples.dev";
+  private static final long CURRENT_TIME_MS = 1234567890;
+  @Rule
+  public MockitoRule mockitoRule = MockitoJUnit.rule();
+  @Mock
+  private Gmail mockService;
+  @Mock
+  private Gmail.Users mockUsers;
+  @Mock
+  private Gmail.Users.Settings mockSettings;
+  @Mock
+  private Gmail.Users.Settings.SendAs mockSendAs;
+  @Mock
+  private Gmail.Users.Settings.SendAs.SmimeInfo mockSmimeInfo;
+  @Mock
+  private Gmail.Users.Settings.SendAs.SmimeInfo.Delete mockDelete;
+  @Mock
+  private Gmail.Users.Settings.SendAs.SmimeInfo.Get mockGet;
+  @Mock
+  private Gmail.Users.Settings.SendAs.SmimeInfo.Insert mockInsert;
+  @Mock
+  private Gmail.Users.Settings.SendAs.SmimeInfo.List mockList;
+  @Mock
+  private Gmail.Users.Settings.SendAs.SmimeInfo.SetDefault mockSetDefault;
 
-    @Mock
-    private Gmail mockService;
-    @Mock private Gmail.Users mockUsers;
-    @Mock private Gmail.Users.Settings mockSettings;
-    @Mock private Gmail.Users.Settings.SendAs mockSendAs;
-    @Mock private Gmail.Users.Settings.SendAs.SmimeInfo mockSmimeInfo;
-    @Mock private Gmail.Users.Settings.SendAs.SmimeInfo.Delete mockDelete;
-    @Mock private Gmail.Users.Settings.SendAs.SmimeInfo.Get mockGet;
-    @Mock private Gmail.Users.Settings.SendAs.SmimeInfo.Insert mockInsert;
-    @Mock private Gmail.Users.Settings.SendAs.SmimeInfo.List mockList;
-    @Mock private Gmail.Users.Settings.SendAs.SmimeInfo.SetDefault mockSetDefault;
+  @Before
+  public void setup() throws IOException {
+    when(mockService.users()).thenReturn(mockUsers);
+    when(mockUsers.settings()).thenReturn(mockSettings);
+    when(mockSettings.sendAs()).thenReturn(mockSendAs);
+    when(mockSendAs.smimeInfo()).thenReturn(mockSmimeInfo);
 
-    @Rule
-    public MockitoRule mockitoRule = MockitoJUnit.rule();
+    when(mockSmimeInfo.delete(any(), any(), any())).thenReturn(mockDelete);
+    when(mockSmimeInfo.get(any(), any(), any())).thenReturn(mockGet);
+    when(mockSmimeInfo.insert(any(), any(), any())).thenReturn(mockInsert);
+    when(mockSmimeInfo.list(any(), any())).thenReturn(mockList);
+    when(mockSmimeInfo.setDefault(any(), any(), any())).thenReturn(mockSetDefault);
+  }
 
-    @Before
-    public void setup() throws IOException {
-        when(mockService.users()).thenReturn(mockUsers);
-        when(mockUsers.settings()).thenReturn(mockSettings);
-        when(mockSettings.sendAs()).thenReturn(mockSendAs);
-        when(mockSendAs.smimeInfo()).thenReturn(mockSmimeInfo);
+  @Test
+  public void testInsertSmimeFromCsv() throws IOException {
+    when(mockInsert.execute()).thenReturn(makeFakeInsertResult());
+    InsertCertFromCsv.insertCertFromCsv("files/certs.csv");
 
-        when(mockSmimeInfo.delete(any(), any(), any())).thenReturn(mockDelete);
-        when(mockSmimeInfo.get(any(), any(), any())).thenReturn(mockGet);
-        when(mockSmimeInfo.insert(any(), any(), any())).thenReturn(mockInsert);
-        when(mockSmimeInfo.list(any(), any())).thenReturn(mockList);
-        when(mockSmimeInfo.setDefault(any(), any(), any())).thenReturn(mockSetDefault);
-    }
+    verifySmimeApiCalled(2);
+    verify(mockSmimeInfo).insert(eq(TEST_USER1), eq(TEST_USER1), any());
+    verify(mockSmimeInfo).insert(eq(TEST_USER2), eq(TEST_USER2), any());
+    verify(mockInsert, times(2)).execute();
+  }
 
-    @Test
-    public void testInsertSmimeFromCsv() throws IOException {
-        when(mockInsert.execute()).thenReturn(makeFakeInsertResult());
-        InsertCertFromCsv.insertCertFromCsv("files/certs.csv");
+  @Test
+  public void testInsertSmimeFromCsvFails() throws IOException {
+    when(mockInsert.execute()).thenReturn(makeFakeInsertResult());
 
-        verifySmimeApiCalled(2);
-        verify(mockSmimeInfo).insert(eq(TEST_USER1), eq(TEST_USER1), any());
-        verify(mockSmimeInfo).insert(eq(TEST_USER2), eq(TEST_USER2), any());
-        verify(mockInsert, times(2)).execute();
-    }
+    InsertCertFromCsv.insertCertFromCsv("files/notfound.csv");
+  }
 
-    @Test
-    public void testInsertSmimeFromCsvFails() throws IOException {
-        when(mockInsert.execute()).thenReturn(makeFakeInsertResult());
+  private void verifySmimeApiCalled(int numCalls) {
+    verify(mockService, times(numCalls)).users();
+    verify(mockUsers, times(numCalls)).settings();
+    verify(mockSettings, times(numCalls)).sendAs();
+    verify(mockSendAs, times(numCalls)).smimeInfo();
+  }
 
-        InsertCertFromCsv.insertCertFromCsv("files/notfound.csv");
-    }
+  private SmimeInfo makeFakeInsertResult(String id, boolean isDefault, long expiration) {
+    SmimeInfo insertResult = new SmimeInfo();
+    insertResult.setId(id);
+    insertResult.setIsDefault(isDefault);
+    insertResult.setExpiration(expiration);
 
-    private void verifySmimeApiCalled(int numCalls) {
-        verify(mockService, times(numCalls)).users();
-        verify(mockUsers, times(numCalls)).settings();
-        verify(mockSettings, times(numCalls)).sendAs();
-        verify(mockSendAs, times(numCalls)).smimeInfo();
-    }
+    return insertResult;
+  }
 
-    private SmimeInfo makeFakeInsertResult(String id, boolean isDefault, long expiration) {
-        SmimeInfo insertResult = new SmimeInfo();
-        insertResult.setId(id);
-        insertResult.setIsDefault(isDefault);
-        insertResult.setExpiration(expiration);
-
-        return insertResult;
-    }
-
-    private SmimeInfo makeFakeInsertResult() {
-        return makeFakeInsertResult("new_certificate_id", false, CURRENT_TIME_MS + 1);
-    }
+  private SmimeInfo makeFakeInsertResult() {
+    return makeFakeInsertResult("new_certificate_id", false, CURRENT_TIME_MS + 1);
+  }
 }

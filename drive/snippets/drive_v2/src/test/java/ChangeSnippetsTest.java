@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.IOException;
-
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
+import org.junit.Before;
+import org.junit.Test;
 
 public class ChangeSnippetsTest extends BaseTest {
 

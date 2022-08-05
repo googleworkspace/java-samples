@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+
 import com.google.api.services.drive.model.Drive;
 import com.google.api.services.drive.model.Permission;
 import com.google.api.services.drive.model.PermissionList;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
-
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
+import org.junit.Test;
 
 public class DriveSnippetsTest extends BaseTest {
 

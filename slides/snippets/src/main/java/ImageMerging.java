@@ -14,6 +14,7 @@
 
 
 // [START slides_image_merging]
+
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
@@ -37,78 +38,79 @@ import java.util.List;
 
 /* Class to demonstrate the use of Slides Image Merging API */
 public class ImageMerging {
-    /**
-     * Changes specified texts into images.
-     *
-     * @param templatePresentationId - id of the presentation.
-     * @param imageUrl - Url of the image.
-     * @param customerName - Name of the customer.
-     * @return merged presentation id
-     * @throws IOException - if credentials file not found.
-     */
-    public static BatchUpdatePresentationResponse imageMerging(String templatePresentationId,
-                                                               String imageUrl,
-                                                               String customerName) throws IOException {
+  /**
+   * Changes specified texts into images.
+   *
+   * @param templatePresentationId - id of the presentation.
+   * @param imageUrl               - Url of the image.
+   * @param customerName           - Name of the customer.
+   * @return merged presentation id
+   * @throws IOException - if credentials file not found.
+   */
+  public static BatchUpdatePresentationResponse imageMerging(String templatePresentationId,
+                                                             String imageUrl,
+                                                             String customerName)
+      throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Arrays.asList(SlidesScopes.PRESENTATIONS,
-                        SlidesScopes.DRIVE));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Arrays.asList(SlidesScopes.PRESENTATIONS,
+            SlidesScopes.DRIVE));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Create the slides API client
-        Slides service = new Slides.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Slides samples")
-                .build();
+    // Create the slides API client
+    Slides service = new Slides.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Slides samples")
+        .build();
 
-        // Create the drive API client
-        Drive driveService = new Drive.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Slides samples")
-                .build();
+    // Create the drive API client
+    Drive driveService = new Drive.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Slides samples")
+        .build();
 
-        // Duplicate the template presentation using the Drive API.
-        String copyTitle = customerName + " presentation";
-        File content = new File().setName(copyTitle);
-        File presentationFile =
-                driveService.files().copy(templatePresentationId, content).execute();
-        String presentationId = presentationFile.getId();
+    // Duplicate the template presentation using the Drive API.
+    String copyTitle = customerName + " presentation";
+    File content = new File().setName(copyTitle);
+    File presentationFile =
+        driveService.files().copy(templatePresentationId, content).execute();
+    String presentationId = presentationFile.getId();
 
-        // Create the image merge (replaceAllShapesWithImage) requests.
-        List<Request> requests = new ArrayList<>();
-        requests.add(new Request()
-                .setReplaceAllShapesWithImage(new ReplaceAllShapesWithImageRequest()
-                        .setImageUrl(imageUrl)
-                        .setImageReplaceMethod("CENTER_INSIDE")
-                        .setContainsText(new SubstringMatchCriteria()
-                                .setText("{{company-logo}}")
-                                .setMatchCase(true))));
+    // Create the image merge (replaceAllShapesWithImage) requests.
+    List<Request> requests = new ArrayList<>();
+    requests.add(new Request()
+        .setReplaceAllShapesWithImage(new ReplaceAllShapesWithImageRequest()
+            .setImageUrl(imageUrl)
+            .setImageReplaceMethod("CENTER_INSIDE")
+            .setContainsText(new SubstringMatchCriteria()
+                .setText("{{company-logo}}")
+                .setMatchCase(true))));
 
-        // Execute the requests.
-        BatchUpdatePresentationRequest body =
-                new BatchUpdatePresentationRequest().setRequests(requests);
-        BatchUpdatePresentationResponse response =
-                service.presentations().batchUpdate(presentationId, body).execute();
+    // Execute the requests.
+    BatchUpdatePresentationRequest body =
+        new BatchUpdatePresentationRequest().setRequests(requests);
+    BatchUpdatePresentationResponse response =
+        service.presentations().batchUpdate(presentationId, body).execute();
 
-        int numReplacements = 0;
-        try {
-            // Count total number of replacements made.
-            for (Response resp : response.getReplies()) {
-                numReplacements += resp.getReplaceAllShapesWithImage().getOccurrencesChanged();
-            }
+    int numReplacements = 0;
+    try {
+      // Count total number of replacements made.
+      for (Response resp : response.getReplies()) {
+        numReplacements += resp.getReplaceAllShapesWithImage().getOccurrencesChanged();
+      }
 
-            // Prints the merged presentation id and count of replacements.
-            System.out.println("Created merged presentation with ID: " + presentationId);
-            System.out.println("Replaced " + numReplacements + " shapes instances with images.");
-        } catch (NullPointerException ne) {
-            System.out.println("Text not found to replace with image.");
-        }
-        return response;
+      // Prints the merged presentation id and count of replacements.
+      System.out.println("Created merged presentation with ID: " + presentationId);
+      System.out.println("Replaced " + numReplacements + " shapes instances with images.");
+    } catch (NullPointerException ne) {
+      System.out.println("Text not found to replace with image.");
     }
+    return response;
+  }
 }
 // [END slides_image_merging]

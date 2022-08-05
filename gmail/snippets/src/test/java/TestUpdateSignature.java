@@ -13,16 +13,17 @@
 // limitations under the License.
 
 
-import org.junit.Test;
-import java.io.IOException;
 import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
+import org.junit.Test;
 
 // Unit testcase for gmail update signature snippet
 public class TestUpdateSignature extends BaseTest {
 
-    @Test
-    public void testUpdateGmailSignature() throws IOException {
-            String signature = UpdateSignature.updateGmailSignature();
-            assertEquals("Automated Signature", signature);
-    }
+  @Test
+  public void testUpdateGmailSignature() throws IOException {
+    String signature = UpdateSignature.updateGmailSignature();
+    assertEquals("Automated Signature", signature);
+  }
 }

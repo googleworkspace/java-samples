@@ -20,16 +20,16 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 // Unit testcase for createBulletedText snippet
-public class TestCreateBulletedText extends BaseTest{
+public class TestCreateBulletedText extends BaseTest {
 
-    @Test
-    public void testCreateBulletText() throws IOException {
-        String presentationId = createTestPresentation();
-        String pageId = createTestSlide(presentationId);
-        String boxId = createTestTextBox(presentationId, pageId);
-        BatchUpdatePresentationResponse response =
-                CreateBulletedText.createBulletedText(presentationId, boxId);
-        assertEquals(1, response.getReplies().size());
-        deleteFileOnCleanup(presentationId);
-    }
+  @Test
+  public void testCreateBulletText() throws IOException {
+    String presentationId = createTestPresentation();
+    String pageId = createTestSlide(presentationId);
+    String boxId = createTestTextBox(presentationId, pageId);
+    BatchUpdatePresentationResponse response =
+        CreateBulletedText.createBulletedText(presentationId, boxId);
+    assertEquals(1, response.getReplies().size());
+    deleteFileOnCleanup(presentationId);
+  }
 }

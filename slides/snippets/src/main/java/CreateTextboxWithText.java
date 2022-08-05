@@ -14,6 +14,7 @@
 
 
 // [START slides_create_textbox_with_text]
+
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -41,76 +42,76 @@ import java.util.List;
 
 /* Class to demonstrate the use of Slides Create Textbox API */
 public class CreateTextboxWithText {
-    /**
-     * Create a new square textbox, using the specified id.
-     *
-     * @param presentationId - id of the presentation.
-     * @param slideId - id of the slide.
-     * @param textBoxId - id for the textbox.
-     * @return textbox id
-     * @throws IOException - if credentials file not found.
-     */
-    public static BatchUpdatePresentationResponse createTextBoxWithText(
-            String presentationId, String slideId, String textBoxId) throws IOException {
+  /**
+   * Create a new square textbox, using the specified id.
+   *
+   * @param presentationId - id of the presentation.
+   * @param slideId        - id of the slide.
+   * @param textBoxId      - id for the textbox.
+   * @return textbox id
+   * @throws IOException - if credentials file not found.
+   */
+  public static BatchUpdatePresentationResponse createTextBoxWithText(
+      String presentationId, String slideId, String textBoxId) throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singleton(SlidesScopes.PRESENTATIONS));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Collections.singleton(SlidesScopes.PRESENTATIONS));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Create the slides API client
-        Slides service = new Slides.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Slides samples")
-                .build();
+    // Create the slides API client
+    Slides service = new Slides.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Slides samples")
+        .build();
 
-        // Create a new square text box, using a supplied object ID.
-        List<Request> requests = new ArrayList<>();
-        Dimension pt350 = new Dimension().setMagnitude(350.0).setUnit("PT");
-        requests.add(new Request()
-                .setCreateShape(new CreateShapeRequest()
-                        .setObjectId(textBoxId)
-                        .setShapeType("TEXT_BOX")
-                        .setElementProperties(new PageElementProperties()
-                                .setPageObjectId(slideId)
-                                .setSize(new Size()
-                                        .setHeight(pt350)
-                                        .setWidth(pt350))
-                                .setTransform(new AffineTransform()
-                                        .setScaleX(1.0)
-                                        .setScaleY(1.0)
-                                        .setTranslateX(350.0)
-                                        .setTranslateY(100.0)
-                                        .setUnit("PT")))));
+    // Create a new square text box, using a supplied object ID.
+    List<Request> requests = new ArrayList<>();
+    Dimension pt350 = new Dimension().setMagnitude(350.0).setUnit("PT");
+    requests.add(new Request()
+        .setCreateShape(new CreateShapeRequest()
+            .setObjectId(textBoxId)
+            .setShapeType("TEXT_BOX")
+            .setElementProperties(new PageElementProperties()
+                .setPageObjectId(slideId)
+                .setSize(new Size()
+                    .setHeight(pt350)
+                    .setWidth(pt350))
+                .setTransform(new AffineTransform()
+                    .setScaleX(1.0)
+                    .setScaleY(1.0)
+                    .setTranslateX(350.0)
+                    .setTranslateY(100.0)
+                    .setUnit("PT")))));
 
-        // Insert text into the box, using the object ID given to it.
-        requests.add(new Request()
-                .setInsertText(new InsertTextRequest()
-                        .setObjectId(textBoxId)
-                        .setInsertionIndex(0)
-                        .setText("New Box Text Inserted")));
-        BatchUpdatePresentationResponse response = null;
+    // Insert text into the box, using the object ID given to it.
+    requests.add(new Request()
+        .setInsertText(new InsertTextRequest()
+            .setObjectId(textBoxId)
+            .setInsertionIndex(0)
+            .setText("New Box Text Inserted")));
+    BatchUpdatePresentationResponse response = null;
 
-        try {
-            // Execute the requests.
-            BatchUpdatePresentationRequest body =
-                    new BatchUpdatePresentationRequest().setRequests(requests);
-            response = service.presentations().batchUpdate(presentationId, body).execute();
-            CreateShapeResponse createShapeResponse = response.getReplies().get(0).getCreateShape();
-            System.out.println("Created textbox with ID: " + createShapeResponse.getObjectId());
-        } catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            GoogleJsonError error = e.getDetails();
-            if (error.getCode() == 404) {
-                System.out.printf("Presentation not found with id '%s'.\n", presentationId);
-            } else {
-                throw e;
-            }
-        }
-        return response;
+    try {
+      // Execute the requests.
+      BatchUpdatePresentationRequest body =
+          new BatchUpdatePresentationRequest().setRequests(requests);
+      response = service.presentations().batchUpdate(presentationId, body).execute();
+      CreateShapeResponse createShapeResponse = response.getReplies().get(0).getCreateShape();
+      System.out.println("Created textbox with ID: " + createShapeResponse.getObjectId());
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 404) {
+        System.out.printf("Presentation not found with id '%s'.\n", presentationId);
+      } else {
+        throw e;
+      }
     }
+    return response;
+  }
 }
 // [END slides_create_textbox_with_text]

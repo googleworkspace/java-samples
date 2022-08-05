@@ -18,14 +18,14 @@ import org.junit.Test;
 import java.io.IOException;
 
 // Unit test class for Add Teacher classroom snippet
-public class TestAddTeacher extends BaseTest{
-    private String otherUser = "gduser1@workspacesamples.dev";
+public class TestAddTeacher extends BaseTest {
+  private String otherUser = "gduser1@workspacesamples.dev";
 
-    @Test
-    public void testAddTeacher() throws IOException {
-        Teacher teacher = AddTeacher.addTeacher(testCourse.getId(), this.otherUser);
-        Assert.assertNotNull("Teacher not returned.", teacher);
-        Assert.assertEquals("Teacher added to wrong course.", testCourse.getId(),
-                teacher.getCourseId());
-    }
+  @Test
+  public void testAddTeacher() throws IOException {
+    Teacher teacher = AddTeacher.addTeacher(testCourse.getId(), this.otherUser);
+    Assert.assertNotNull("Teacher not returned.", teacher);
+    Assert.assertEquals("Teacher added to wrong course.", testCourse.getId(),
+        teacher.getCourseId());
+  }
 }

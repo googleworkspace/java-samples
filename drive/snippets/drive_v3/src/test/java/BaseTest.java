@@ -17,7 +17,6 @@
 import com.google.api.client.http.FileContent;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.apache.ApacheHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
@@ -25,16 +24,17 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
-import org.junit.After;
-import org.junit.Before;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import org.junit.After;
+import org.junit.Before;
 
 public class BaseTest {
   static {
@@ -70,7 +70,8 @@ public class BaseTest {
 
   public GoogleCredentials getCredential() throws IOException {
     return GoogleCredentials.getApplicationDefault()
-            .createScoped(Arrays.asList(DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA,DriveScopes.DRIVE_FILE));
+        .createScoped(
+            Arrays.asList(DriveScopes.DRIVE, DriveScopes.DRIVE_APPDATA, DriveScopes.DRIVE_FILE));
   }
 
   /**
@@ -85,14 +86,14 @@ public class BaseTest {
             guides on implementing OAuth2 for your application. */
     GoogleCredentials credentials = getCredential();
     HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-            credentials);
+        credentials);
 
     // Create the classroom API client
     Drive service = new Drive.Builder(new NetHttpTransport(),
-            GsonFactory.getDefaultInstance(),
-            requestInitializer)
-            .setApplicationName("Drive Snippets")
-            .build();
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Drive Snippets")
+        .build();
 
     return service;
   }

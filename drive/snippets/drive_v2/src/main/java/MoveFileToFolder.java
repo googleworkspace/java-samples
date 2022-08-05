@@ -16,7 +16,6 @@
 
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.FileContent;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
@@ -26,65 +25,64 @@ import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.ParentReference;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /* Class to demonstrate use case for moving file to folder.*/
 public class MoveFileToFolder {
 
 
-    /**
-     * @param fileId Id of file to be moved.
-     * @param folderId Id of folder where the fill will be moved.
-     * @return list of parent ids for the file.
-     * */
-    public static List<String> moveFileToFolder(String fileId, String folderId)
-            throws IOException {
+  /**
+   * @param fileId   Id of file to be moved.
+   * @param folderId Id of folder where the fill will be moved.
+   * @return list of parent ids for the file.
+   */
+  public static List<String> moveFileToFolder(String fileId, String folderId)
+      throws IOException {
         /* Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application.*/
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Arrays.asList(DriveScopes.DRIVE_FILE));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
-        // Build a new authorized API client service.
-        Drive service = new Drive.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Drive samples")
-                .build();
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Arrays.asList(DriveScopes.DRIVE_FILE));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
+    // Build a new authorized API client service.
+    Drive service = new Drive.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Drive samples")
+        .build();
 
-        // Retrieve the existing parents to remove
-        File file = service.files().get(fileId)
-                .setFields("parents")
-                .execute();
-        List<String> parentIds = file.getParents()
-                .stream()
-                .map(ParentReference::getId)
-                .collect(Collectors.toList());
-        String previousParents = String.join(",", parentIds);
-        try {
-            // Move the file to the new folder
-            file = service.files().update(fileId, null)
-                    .setAddParents(folderId)
-                    .setRemoveParents(previousParents)
-                    .setFields("id, parents")
-                    .execute();
+    // Retrieve the existing parents to remove
+    File file = service.files().get(fileId)
+        .setFields("parents")
+        .execute();
+    List<String> parentIds = file.getParents()
+        .stream()
+        .map(ParentReference::getId)
+        .collect(Collectors.toList());
+    String previousParents = String.join(",", parentIds);
+    try {
+      // Move the file to the new folder
+      file = service.files().update(fileId, null)
+          .setAddParents(folderId)
+          .setRemoveParents(previousParents)
+          .setFields("id, parents")
+          .execute();
 
-            List<String> parents = new ArrayList<>();
-            for (ParentReference parent : file.getParents()) {
-                parents.add(parent.getId());
-            }
-            return parents;
-        }catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            System.err.println("Unable to move file: " + e.getDetails());
-            throw e;
-        }
+      List<String> parents = new ArrayList<>();
+      for (ParentReference parent : file.getParents()) {
+        parents.add(parent.getId());
+      }
+      return parents;
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      System.err.println("Unable to move file: " + e.getDetails());
+      throw e;
     }
+  }
 }
 // [END drive_move_file_to_folder]

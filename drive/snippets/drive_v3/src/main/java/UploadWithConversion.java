@@ -24,51 +24,52 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
-
 import java.io.IOException;
 import java.util.Arrays;
 
 /* Class to demonstrate Drive's upload with conversion use-case. */
 public class UploadWithConversion {
 
-    /**
-     * Upload file with conversion.
-     * @return Inserted file id if successful, {@code null} otherwise.
-     * @throws IOException if service account credentials file not found.
-     */
-    public static String uploadWithConversion() throws IOException {
-        // Load pre-authorized user credentials from the environment.
-        // TODO(developer) - See https://developers.google.com/identity for
-        // guides on implementing OAuth2 for your application.
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Arrays.asList(DriveScopes.DRIVE_FILE));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+  /**
+   * Upload file with conversion.
+   *
+   * @return Inserted file id if successful, {@code null} otherwise.
+   * @throws IOException if service account credentials file not found.
+   */
+  public static String uploadWithConversion() throws IOException {
+    // Load pre-authorized user credentials from the environment.
+    // TODO(developer) - See https://developers.google.com/identity for
+    // guides on implementing OAuth2 for your application.
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Arrays.asList(DriveScopes.DRIVE_FILE));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Build a new authorized API client service.
-        Drive service = new Drive.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Drive samples")
-                .build();
+    // Build a new authorized API client service.
+    Drive service = new Drive.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Drive samples")
+        .build();
 
-        // File's metadata.
-        File fileMetadata = new File();
-        fileMetadata.setName("My Report");
-        fileMetadata.setMimeType("application/vnd.google-apps.spreadsheet");
+    // File's metadata.
+    File fileMetadata = new File();
+    fileMetadata.setName("My Report");
+    fileMetadata.setMimeType("application/vnd.google-apps.spreadsheet");
 
-        java.io.File filePath = new java.io.File("files/report.csv");
-        FileContent mediaContent = new FileContent("text/csv", filePath);
-        try {
-            File file = service.files().create(fileMetadata, mediaContent)
-                    .setFields("id")
-                    .execute();
-            System.out.println("File ID: " + file.getId());
-            return file.getId();
-        }catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            System.err.println("Unable to move file: " + e.getDetails());
-            throw e;
-        }
+    java.io.File filePath = new java.io.File("files/report.csv");
+    FileContent mediaContent = new FileContent("text/csv", filePath);
+    try {
+      File file = service.files().create(fileMetadata, mediaContent)
+          .setFields("id")
+          .execute();
+      System.out.println("File ID: " + file.getId());
+      return file.getId();
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      System.err.println("Unable to move file: " + e.getDetails());
+      throw e;
     }
+  }
 }
 // [END drive_upload_with_conversion]

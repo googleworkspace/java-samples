@@ -31,8 +31,6 @@ import org.apache.commons.csv.CSVPrinter;
 
 public class HoldsReport {
 
-  private static final Logger LOGGER = Logger.getLogger(HoldsReport.class.getName());
-
   public static final String MATTER_ID = "Matter Id";
   public static final String MATTER_NAME = "Matter Name";
   public static final String HOLD_ID = "Hold Id";
@@ -46,7 +44,7 @@ public class HoldsReport {
   public static final String TERMS = "Terms";
   public static final String START_TIME = "startTime";
   public static final String END_TIME = "endTime";
-
+  private static final Logger LOGGER = Logger.getLogger(HoldsReport.class.getName());
   private Vault vaultService;
   private DirectoryService directoryService;
   private CSVPrinter printer;
@@ -71,11 +69,11 @@ public class HoldsReport {
     ListMattersResponse response =
         RetryableTemplate.callWithRetry(
             vaultService
-                    .matters()
-                    .list()
-                    .setState("OPEN")
-                    .setPageSize(100)
-                    .setPageToken(nextPageToken)
+                .matters()
+                .list()
+                .setState("OPEN")
+                .setPageSize(100)
+                .setPageToken(nextPageToken)
                 ::execute);
     List<Matter> matters = response.getMatters();
 

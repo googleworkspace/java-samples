@@ -24,7 +24,6 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
-
 import java.io.IOException;
 import java.util.Arrays;
 
@@ -32,46 +31,47 @@ import java.util.Arrays;
 public class TouchFile {
 
 
-    /**
-     * @param realFileId Id of file to be modified.
-     * @param realTimestamp Timestamp in miliseconds.
-     * @return long file's latest modification date value.
-     * @throws IOException if service account credentials file not found.
-     * */
-    public static long touchFile(String realFileId, long realTimestamp)
-            throws IOException {
+  /**
+   * @param realFileId    Id of file to be modified.
+   * @param realTimestamp Timestamp in miliseconds.
+   * @return long file's latest modification date value.
+   * @throws IOException if service account credentials file not found.
+   */
+  public static long touchFile(String realFileId, long realTimestamp)
+      throws IOException {
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application.*/
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault().createScoped(Arrays.asList(DriveScopes.DRIVE_FILE));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Arrays.asList(DriveScopes.DRIVE_FILE));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Build a new authorized API client service.
-        Drive service = new Drive.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Drive samples")
-                .build();
-        String fileId = "1sTWaJ_j7PkjzaBWtNc3IzovK5hQf21FbOw9yLeeLPNQ";
-        File fileMetadata = new File();
-        fileMetadata.setModifiedTime(new DateTime(System.currentTimeMillis()));
+    // Build a new authorized API client service.
+    Drive service = new Drive.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Drive samples")
+        .build();
+    String fileId = "1sTWaJ_j7PkjzaBWtNc3IzovK5hQf21FbOw9yLeeLPNQ";
+    File fileMetadata = new File();
+    fileMetadata.setModifiedTime(new DateTime(System.currentTimeMillis()));
 
-        fileId = realFileId;
-        fileMetadata.setModifiedTime(new DateTime(realTimestamp));
+    fileId = realFileId;
+    fileMetadata.setModifiedTime(new DateTime(realTimestamp));
 
-        try {
-            File file = service.files().update(fileId, fileMetadata)
-                    .setFields("id, modifiedDate")
-                    .execute();
-            System.out.println("Modified time: " + file.getModifiedTime());
-            return file.getModifiedTime().getValue();
-        }catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            System.err.println("Unable to move file: " + e.getDetails());
-            throw e;
-        }
+    try {
+      File file = service.files().update(fileId, fileMetadata)
+          .setFields("id, modifiedDate")
+          .execute();
+      System.out.println("Modified time: " + file.getModifiedTime());
+      return file.getModifiedTime().getValue();
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      System.err.println("Unable to move file: " + e.getDetails());
+      throw e;
     }
+  }
 
 }
 // [END drive_touch_file]

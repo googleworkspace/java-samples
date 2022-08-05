@@ -14,6 +14,7 @@
 
 
 // [START slides_copy_presentation]
+
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -30,49 +31,50 @@ import java.util.Collections;
 
 /* Class to demonstrate the use of Slides Copy Presentation API */
 public class CopyPresentation {
-    /**
-     * Copy an existing presentation.
-     *
-     * @param presentationId - id of the presentation.
-     * @param copyTitle - New title of the presentation.
-     * @return presentation id
-     * @throws IOException - if credentials file not found.
-     */
-    public static String copyPresentation(String presentationId, String copyTitle) throws IOException {
+  /**
+   * Copy an existing presentation.
+   *
+   * @param presentationId - id of the presentation.
+   * @param copyTitle      - New title of the presentation.
+   * @return presentation id
+   * @throws IOException - if credentials file not found.
+   */
+  public static String copyPresentation(String presentationId, String copyTitle)
+      throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singleton(SlidesScopes.DRIVE));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Collections.singleton(SlidesScopes.DRIVE));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Create the drive API client
-        Drive driveService = new Drive.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Slides samples")
-                .build();
+    // Create the drive API client
+    Drive driveService = new Drive.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Slides samples")
+        .build();
 
-        String presentationCopyId = null;
-        try {
-            // Copies an existing presentation using specified presentation title.
-            File copyMetadata = new File().setName(copyTitle);
-            File presentationCopyFile =
-                    driveService.files().copy(presentationId, copyMetadata).execute();
-            presentationCopyId = presentationCopyFile.getId();
-            // Prints the new copied presentation id.
-            System.out.println("New copied presentation id "+presentationCopyId);
-        } catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            GoogleJsonError error = e.getDetails();
-            if (error.getCode() == 404) {
-                System.out.printf("Presentation not found with id '%s'.\n", presentationId);
-            } else {
-                throw e;
-            }
-        }
-        return presentationCopyId;
+    String presentationCopyId = null;
+    try {
+      // Copies an existing presentation using specified presentation title.
+      File copyMetadata = new File().setName(copyTitle);
+      File presentationCopyFile =
+          driveService.files().copy(presentationId, copyMetadata).execute();
+      presentationCopyId = presentationCopyFile.getId();
+      // Prints the new copied presentation id.
+      System.out.println("New copied presentation id " + presentationCopyId);
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 404) {
+        System.out.printf("Presentation not found with id '%s'.\n", presentationId);
+      } else {
+        throw e;
+      }
     }
+    return presentationCopyId;
+  }
 }
 // [END slides_copy_presentation]

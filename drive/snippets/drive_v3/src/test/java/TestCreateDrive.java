@@ -12,19 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 // Unit test class for create-drive Drive snippet
-public class TestCreateDrive extends BaseTest{
-    @Test
-    public void createDrive() throws IOException, GeneralSecurityException {
-        String id = CreateDrive.createDrive();
-        assertNotNull(id);
-        this.service.drives().delete(id);
-    }
+public class TestCreateDrive extends BaseTest {
+  @Test
+  public void createDrive() throws IOException, GeneralSecurityException {
+    String id = CreateDrive.createDrive();
+    assertNotNull(id);
+    this.service.drives().delete(id);
+  }
 }

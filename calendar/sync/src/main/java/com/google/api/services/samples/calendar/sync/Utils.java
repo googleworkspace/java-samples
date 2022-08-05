@@ -30,7 +30,6 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Event.Reminders;
 import com.google.api.services.calendar.model.EventDateTime;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
@@ -41,20 +40,27 @@ import java.util.TimeZone;
  * A collection of utility methods used by these samples.
  */
 public class Utils {
-  /** Application name */
+  /**
+   * Application name
+   */
   private static final String APPLICATION_NAME = "Calendar Sync Samples";
 
-  /** Directory to store user credentials. */
+  /**
+   * Directory to store user credentials.
+   */
   private static final java.io.File DATA_STORE_DIR =
       new java.io.File(System.getProperty("user.home"), ".store/calendar-sync");
-
-  /** Global instance of the {@link DataStoreFactory}. */
-  private static FileDataStoreFactory dataStoreFactory;
-
-  /** Global instance of the JSON factory. */
+  /**
+   * Global instance of the JSON factory.
+   */
   private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-
-  /** Global instance of the HTTP transport. */
+  /**
+   * Global instance of the {@link DataStoreFactory}.
+   */
+  private static FileDataStoreFactory dataStoreFactory;
+  /**
+   * Global instance of the HTTP transport.
+   */
   private static HttpTransport httpTransport;
 
   static {
@@ -67,14 +73,18 @@ public class Utils {
     }
   }
 
-  /** Creates a new Calendar client to use when making requests to the API. */
+  /**
+   * Creates a new Calendar client to use when making requests to the API.
+   */
   public static Calendar createCalendarClient(List<String> scopes) throws Exception {
     Credential credential = authorize(scopes);
     return new Calendar.Builder(
         httpTransport, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build();
   }
 
-  /** Authorizes the installed application to access user's protected data. */
+  /**
+   * Authorizes the installed application to access user's protected data.
+   */
   public static Credential authorize(List<String> scopes) throws Exception {
     // Load client secrets.
     GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY,
@@ -83,7 +93,7 @@ public class Utils {
         || clientSecrets.getDetails().getClientSecret().startsWith("Enter")) {
       System.out.println(
           "Overwrite the src/main/resources/client_secrets.json file with the client secrets file "
-          + "you downloaded from your Google Developers Console project.");
+              + "you downloaded from your Google Developers Console project.");
       System.exit(1);
     }
 
@@ -94,12 +104,16 @@ public class Utils {
     return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
   }
 
-  /** Gets the datastore factory used in these samples. */
+  /**
+   * Gets the datastore factory used in these samples.
+   */
   public static DataStoreFactory getDataStoreFactory() {
     return dataStoreFactory;
   }
 
-  /** Creates a test event. */
+  /**
+   * Creates a test event.
+   */
   public static Event createTestEvent(Calendar client, String summary) throws IOException {
     Date oneHourFromNow = Utils.getRelativeDate(java.util.Calendar.HOUR, 1);
     Date twoHoursFromNow = Utils.getRelativeDate(java.util.Calendar.HOUR, 2);
@@ -116,7 +130,7 @@ public class Utils {
   /**
    * Gets a new {@link java.util.Date} relative to the current date and time.
    *
-   * @param field the field identifier from {@link java.util.Calendar} to increment
+   * @param field  the field identifier from {@link java.util.Calendar} to increment
    * @param amount the amount of the field to increment
    * @return the new date
    */

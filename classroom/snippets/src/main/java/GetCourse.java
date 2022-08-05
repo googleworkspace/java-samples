@@ -14,6 +14,7 @@
 
 
 // [START classroom_get_course]
+
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -29,43 +30,43 @@ import java.util.Collections;
 
 /* Class to demonstrate the use of Classroom Get Course API */
 public class GetCourse {
-    /**
-     * Retrieve a single course's metadata.
-     *
-     * @param courseId - Id of the course to return.
-     * @return a course
-     * @throws IOException - if credentials file not found.
-     */
-    public static Course getCourse(String courseId) throws IOException {
+  /**
+   * Retrieve a single course's metadata.
+   *
+   * @param courseId - Id of the course to return.
+   * @return a course
+   * @throws IOException - if credentials file not found.
+   */
+  public static Course getCourse(String courseId) throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_COURSES));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_COURSES));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Create the classroom API client
-        Classroom service = new Classroom.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Classroom samples")
-                .build();
+    // Create the classroom API client
+    Classroom service = new Classroom.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Classroom samples")
+        .build();
 
-        Course course = null;
-        try {
-            course = service.courses().get(courseId).execute();
-            System.out.printf("Course '%s' found.\n", course.getName());
-        } catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            GoogleJsonError error = e.getDetails();
-            if (error.getCode() == 404) {
-                System.out.printf("Course with ID '%s' not found.\n", courseId);
-            } else {
-                throw e;
-            }
-        }
-        return course;
+    Course course = null;
+    try {
+      course = service.courses().get(courseId).execute();
+      System.out.printf("Course '%s' found.\n", course.getName());
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 404) {
+        System.out.printf("Course with ID '%s' not found.\n", courseId);
+      } else {
+        throw e;
+      }
     }
+    return course;
+  }
 }
 // [END classroom_get_course]

@@ -12,26 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import static org.junit.Assert.assertEquals;
+
 import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetResponse;
 import com.google.api.services.sheets.v4.model.FindReplaceResponse;
 import com.google.api.services.sheets.v4.model.Response;
-import org.junit.Test;
 import java.io.IOException;
 import java.util.List;
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 // Unit testcase for spreadsheet batch update snippet
-public class TestBatchUpdate extends BaseTest{
+public class TestBatchUpdate extends BaseTest {
 
-    @Test
-    public void testBatchUpdate() throws IOException {
-        String spreadsheetId = Create.createSpreadsheet("Test Spreadsheet");
-        populateValuesWithStrings(spreadsheetId);
-        BatchUpdateSpreadsheetResponse response = BatchUpdate.batchUpdate(spreadsheetId, "New Title", "Hello", "Goodbye");
-        List<Response> replies = response.getReplies();
-        assertEquals(2, replies.size());
-        FindReplaceResponse findReplaceResponse = replies.get(1).getFindReplace();
-        assertEquals(100, findReplaceResponse.getOccurrencesChanged().intValue());
-        deleteFileOnCleanup(spreadsheetId);
-    }
+  @Test
+  public void testBatchUpdate() throws IOException {
+    String spreadsheetId = Create.createSpreadsheet("Test Spreadsheet");
+    populateValuesWithStrings(spreadsheetId);
+    BatchUpdateSpreadsheetResponse response =
+        BatchUpdate.batchUpdate(spreadsheetId, "New Title", "Hello", "Goodbye");
+    List<Response> replies = response.getReplies();
+    assertEquals(2, replies.size());
+    FindReplaceResponse findReplaceResponse = replies.get(1).getFindReplace();
+    assertEquals(100, findReplaceResponse.getOccurrencesChanged().intValue());
+    deleteFileOnCleanup(spreadsheetId);
+  }
 }

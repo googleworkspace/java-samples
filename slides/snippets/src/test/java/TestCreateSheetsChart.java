@@ -21,20 +21,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 // Unit testcase for createSheetsChart snippet
-public class TestCreateSheetsChart extends BaseTest{
-    // TODO(developer) - change the IDs before executing
-    private final String DATA_SPREADSHEET_ID = "1ZCGbdHSvLnp776gDGSGtkEBxWQ-FDMuWEF4EOSmeDDw";
-    private final Integer CHART_ID = 1107320627;
-    @Test
-    public void testCreateSheetsChart() throws IOException {
-        String presentationId = this.createTestPresentation();
-        String pageId = this.createTestSlide(presentationId);
-        BatchUpdatePresentationResponse response =
-                CreateSheetsChart.createSheetsChart(
-                        presentationId, pageId, DATA_SPREADSHEET_ID, CHART_ID);
-        assertEquals(1, response.getReplies().size());
-        String chartId = response.getReplies().get(0).getCreateSheetsChart().getObjectId();
-        assertNotNull(chartId);
-        deleteFileOnCleanup(presentationId);
-    }
+public class TestCreateSheetsChart extends BaseTest {
+  // TODO(developer) - change the IDs before executing
+  private final String DATA_SPREADSHEET_ID = "1ZCGbdHSvLnp776gDGSGtkEBxWQ-FDMuWEF4EOSmeDDw";
+  private final Integer CHART_ID = 1107320627;
+
+  @Test
+  public void testCreateSheetsChart() throws IOException {
+    String presentationId = this.createTestPresentation();
+    String pageId = this.createTestSlide(presentationId);
+    BatchUpdatePresentationResponse response =
+        CreateSheetsChart.createSheetsChart(
+            presentationId, pageId, DATA_SPREADSHEET_ID, CHART_ID);
+    assertEquals(1, response.getReplies().size());
+    String chartId = response.getReplies().get(0).getCreateSheetsChart().getObjectId();
+    assertNotNull(chartId);
+    deleteFileOnCleanup(presentationId);
+  }
 }

@@ -35,15 +35,14 @@ import org.apache.commons.csv.CSVPrinter;
 import org.apache.commons.csv.CSVRecord;
 
 public class DuplicateHold {
-  private static Logger logger = Logger.getLogger(DuplicateHold.class.getName());
-  private static final String ERROR_DESCRIPTION = "Error Description";
   public static final String HOLD_NAME_SUFFIX = "_hangoutsChat";
+  private static final String ERROR_DESCRIPTION = "Error Description";
   private static final int MAX_ACCOUNTS_FOR_HOLD = 100;
-
+  private static Logger logger = Logger.getLogger(DuplicateHold.class.getName());
+  Vault vaultService;
   private CSVParser csvParser;
   private boolean includeRooms;
   private CSVPrinter errorReport;
-  Vault vaultService;
   private int numberOfHolds = 0;
 
   public DuplicateHold(
@@ -66,8 +65,8 @@ public class DuplicateHold {
           (accounts.equals(""))
               ? null
               : Arrays.stream(accounts.split(","))
-                  .map(account -> new HeldAccount().setAccountId(account))
-                  .collect(Collectors.toList());
+              .map(account -> new HeldAccount().setAccountId(account))
+              .collect(Collectors.toList());
       boolean exceedsAccountLimit = false;
 
       Hold hold = new Hold().setName(name + HOLD_NAME_SUFFIX).setCorpus("HANGOUTS_CHAT");

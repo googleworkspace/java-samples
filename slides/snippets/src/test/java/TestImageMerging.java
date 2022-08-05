@@ -22,24 +22,25 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 // Unit testcase for imageMerging snippet
-public class TestImageMerging extends BaseTest{
-    // TODO(developer) - change the IDs before executing
-    private final String IMAGE_URL =
-            "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
-    private final String TEMPLATE_PRESENTATION_ID = "1wJUN1B5CQ2wQOBzmz2apky48QNK1OsE2oNKHPMLpKDc";
-    private final String CUSTOMER_NAME = "Fake Customer";
-    @Test
-    public void testImageMerge() throws IOException {
-        BatchUpdatePresentationResponse response =
-                ImageMerging.imageMerging(TEMPLATE_PRESENTATION_ID, IMAGE_URL, CUSTOMER_NAME);
-        String presentationId = response.getPresentationId();
-        assertNotNull(presentationId);
-        assertEquals(2, response.getReplies().size());
-        int numReplacements = 0;
-        for(Response resp: response.getReplies()) {
-            numReplacements += resp.getReplaceAllShapesWithImage().getOccurrencesChanged();
-        }
-        assertEquals(2, numReplacements);
-        deleteFileOnCleanup(presentationId);
+public class TestImageMerging extends BaseTest {
+  // TODO(developer) - change the IDs before executing
+  private final String IMAGE_URL =
+      "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
+  private final String TEMPLATE_PRESENTATION_ID = "1wJUN1B5CQ2wQOBzmz2apky48QNK1OsE2oNKHPMLpKDc";
+  private final String CUSTOMER_NAME = "Fake Customer";
+
+  @Test
+  public void testImageMerge() throws IOException {
+    BatchUpdatePresentationResponse response =
+        ImageMerging.imageMerging(TEMPLATE_PRESENTATION_ID, IMAGE_URL, CUSTOMER_NAME);
+    String presentationId = response.getPresentationId();
+    assertNotNull(presentationId);
+    assertEquals(2, response.getReplies().size());
+    int numReplacements = 0;
+    for (Response resp : response.getReplies()) {
+      numReplacements += resp.getReplaceAllShapesWithImage().getOccurrencesChanged();
     }
+    assertEquals(2, numReplacements);
+    deleteFileOnCleanup(presentationId);
+  }
 }

@@ -20,19 +20,20 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 // Unit testcase for refreshSheetsChart snippet
-public class TestRefreshSheetsChart extends BaseTest{
-    // TODO(developer) - change the IDs before executing
-    private final String DATA_SPREADSHEET_ID = "14KaZMq2aCAGt5acV77zaA_Ps8aDt04G7T0ei4KiXLX8";
-    private final Integer CHART_ID = 1107320627;
-    @Test
-    public void testRefreshSheetsChart() throws IOException {
-        String presentationId = this.createTestPresentation();
-        String pageId = this.createTestSlide(presentationId);
-        String chartId =
-                this.createTestSheetsChart(presentationId, pageId, DATA_SPREADSHEET_ID, CHART_ID);
-        BatchUpdatePresentationResponse response =
-                RefreshSheetsChart.refreshSheetsChart(presentationId, chartId);
-        assertEquals(1, response.getReplies().size());
-        deleteFileOnCleanup(presentationId);
-    }
+public class TestRefreshSheetsChart extends BaseTest {
+  // TODO(developer) - change the IDs before executing
+  private final String DATA_SPREADSHEET_ID = "14KaZMq2aCAGt5acV77zaA_Ps8aDt04G7T0ei4KiXLX8";
+  private final Integer CHART_ID = 1107320627;
+
+  @Test
+  public void testRefreshSheetsChart() throws IOException {
+    String presentationId = this.createTestPresentation();
+    String pageId = this.createTestSlide(presentationId);
+    String chartId =
+        this.createTestSheetsChart(presentationId, pageId, DATA_SPREADSHEET_ID, CHART_ID);
+    BatchUpdatePresentationResponse response =
+        RefreshSheetsChart.refreshSheetsChart(presentationId, chartId);
+    assertEquals(1, response.getReplies().size());
+    deleteFileOnCleanup(presentationId);
+  }
 }

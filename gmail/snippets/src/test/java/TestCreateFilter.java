@@ -13,48 +13,49 @@
 // limitations under the License.
 
 
+import static org.junit.Assert.assertNotNull;
+
 import com.google.api.services.gmail.model.Label;
 import com.google.api.services.gmail.model.ListLabelsResponse;
+import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.io.IOException;
-import static org.junit.Assert.assertNotNull;
 
 // Unit testcase for gmail create filter snippet
 public class TestCreateFilter extends BaseTest {
 
-    private Label testLabel = null;
+  private Label testLabel = null;
 
-    @Before
-    public void createLabel() throws IOException {
-        ListLabelsResponse response = this.service.users().labels().list("me").execute();
-        for (Label l : response.getLabels()) {
-            if (l.getName().equals("testLabel")) {
-                testLabel = l;
-            }
-        }
-        if (testLabel == null) {
-            Label label = new Label()
-                    .setName("testLabel")
-                    .setLabelListVisibility("labelShow")
-                    .setMessageListVisibility("show");
-            testLabel = this.service.users().labels().create("me", label).execute();
-        }
+  @Before
+  public void createLabel() throws IOException {
+    ListLabelsResponse response = this.service.users().labels().list("me").execute();
+    for (Label l : response.getLabels()) {
+      if (l.getName().equals("testLabel")) {
+        testLabel = l;
+      }
     }
+    if (testLabel == null) {
+      Label label = new Label()
+          .setName("testLabel")
+          .setLabelListVisibility("labelShow")
+          .setMessageListVisibility("show");
+      testLabel = this.service.users().labels().create("me", label).execute();
+    }
+  }
 
-    @After
-    public void deleteLabel() throws IOException {
-        if (testLabel != null) {
-            this.service.users().labels().delete("me", testLabel.getId()).execute();
-            testLabel = null;
-        }
+  @After
+  public void deleteLabel() throws IOException {
+    if (testLabel != null) {
+      this.service.users().labels().delete("me", testLabel.getId()).execute();
+      testLabel = null;
     }
+  }
 
-    @Test
-    public void testCreateNewFilter() throws IOException {
-        String id = CreateFilter.createNewFilter(testLabel.getId());
-        assertNotNull(id);
-        this.service.users().settings().filters().delete("me", id).execute();
-    }
+  @Test
+  public void testCreateNewFilter() throws IOException {
+    String id = CreateFilter.createNewFilter(testLabel.getId());
+    assertNotNull(id);
+    this.service.users().settings().filters().delete("me", id).execute();
+  }
 }

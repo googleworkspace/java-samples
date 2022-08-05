@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-import com.google.api.client.http.FileContent;
-//import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Drive;
 import com.google.api.services.drive.model.DriveList;
 import com.google.api.services.drive.model.Permission;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +36,7 @@ public class DriveSnippets {
     driveMetadata.setName("Project Resources");
     String requestId = UUID.randomUUID().toString();
     Drive drive = driveService.drives().create(requestId,
-        driveMetadata)
+            driveMetadata)
         .execute();
     System.out.println("Drive ID: " + drive.getId());
     // [END createDrive]

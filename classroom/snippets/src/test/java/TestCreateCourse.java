@@ -18,12 +18,12 @@ import org.junit.Test;
 import java.io.IOException;
 
 // Unit test class for Create Course classroom snippet
-public class TestCreateCourse extends BaseTest{
+public class TestCreateCourse extends BaseTest {
 
-    @Test
-    public void testCreateCourse() throws IOException{
-        Course course = CreateCourse.createCourse();
-        Assert.assertNotNull("Course not returned.", course);
-        deleteCourse(course.getId());
-    }
+  @Test
+  public void testCreateCourse() throws IOException {
+    Course course = CreateCourse.createCourse();
+    Assert.assertNotNull("Course not returned.", course);
+    deleteCourse(course.getId());
+  }
 }

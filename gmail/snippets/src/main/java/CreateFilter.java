@@ -14,6 +14,7 @@
 
 
 // [START gmail_create_filter]
+
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -31,52 +32,52 @@ import java.util.Arrays;
 
 /* Class to demonstrate the use of Gmail Create Filter API */
 public class CreateFilter {
-    /**
-     * Create a new filter.
-     *
-     * @param labelId - ID of the user label to add
-     * @return the created filter id, {@code null} otherwise.
-     * @throws IOException - if service account credentials file not found.
-     */
-    public static String createNewFilter(String labelId) throws IOException {
+  /**
+   * Create a new filter.
+   *
+   * @param labelId - ID of the user label to add
+   * @return the created filter id, {@code null} otherwise.
+   * @throws IOException - if service account credentials file not found.
+   */
+  public static String createNewFilter(String labelId) throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(GmailScopes.GMAIL_SETTINGS_BASIC,
-                        GmailScopes.GMAIL_LABELS);
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(GmailScopes.GMAIL_SETTINGS_BASIC,
+            GmailScopes.GMAIL_LABELS);
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
-         // Create the gmail API client
-        Gmail service = new Gmail.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Gmail samples")
-                .build();
+    // Create the gmail API client
+    Gmail service = new Gmail.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Gmail samples")
+        .build();
 
-        try {
-            // Filter the mail from sender and archive them(skip the inbox)
-            Filter filter = new Filter()
-                    .setCriteria(new FilterCriteria()
-                            .setFrom("gduser2@workspacesamples.dev"))
-                    .setAction(new FilterAction()
-                            .setAddLabelIds(Arrays.asList(labelId))
-                            .setRemoveLabelIds(Arrays.asList("INBOX")));
+    try {
+      // Filter the mail from sender and archive them(skip the inbox)
+      Filter filter = new Filter()
+          .setCriteria(new FilterCriteria()
+              .setFrom("gduser2@workspacesamples.dev"))
+          .setAction(new FilterAction()
+              .setAddLabelIds(Arrays.asList(labelId))
+              .setRemoveLabelIds(Arrays.asList("INBOX")));
 
-            Filter result = service.users().settings().filters().create("me", filter).execute();
-            // Prints the new created filter ID
-            System.out.println("Created filter " + result.getId());
-            return result.getId();
-        } catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            GoogleJsonError error = e.getDetails();
-            if (error.getCode() == 403) {
-                System.err.println("Unable to create filter: " + e.getDetails());
-            } else {
-                throw e;
-            }
-        }
-        return null;
+      Filter result = service.users().settings().filters().create("me", filter).execute();
+      // Prints the new created filter ID
+      System.out.println("Created filter " + result.getId());
+      return result.getId();
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 403) {
+        System.err.println("Unable to create filter: " + e.getDetails());
+      } else {
+        throw e;
+      }
     }
+    return null;
+  }
 }
 // [END gmail_create_filter]

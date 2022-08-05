@@ -12,20 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 // Unit test class for testing of UploadAppData snippet
-public class TestUploadAppdata extends BaseTest{
-    @Test
-    public void uploadAppData()
-            throws IOException, GeneralSecurityException {
-        String id = UploadAppData.uploadAppData();
-        assertNotNull(id);
-        deleteFileOnCleanup(id);
-    }
+public class TestUploadAppdata extends BaseTest {
+  @Test
+  public void uploadAppData()
+      throws IOException, GeneralSecurityException {
+    String id = UploadAppData.uploadAppData();
+    assertNotNull(id);
+    deleteFileOnCleanup(id);
+  }
 }

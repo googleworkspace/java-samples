@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
-
-public class TestUploadBasic extends BaseTest{
-    @Test
-    public void uploadBasic() throws IOException, GeneralSecurityException {
-        String id = UploadBasic.uploadBasic();
-        assertNotNull(id);
-        deleteFileOnCleanup(id);
-    }
+public class TestUploadBasic extends BaseTest {
+  @Test
+  public void uploadBasic() throws IOException, GeneralSecurityException {
+    String id = UploadBasic.uploadBasic();
+    assertNotNull(id);
+    deleteFileOnCleanup(id);
+  }
 }

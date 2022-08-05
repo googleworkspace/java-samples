@@ -21,18 +21,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 // Unit testcase for createTextboxWithText snippet
-public class TestCreateTextboxWithText extends BaseTest{
+public class TestCreateTextboxWithText extends BaseTest {
 
-    @Test
-    public void testCreateTextBox() throws IOException {
-        String presentationId = createTestPresentation();
-        String pageId = createTestSlide(presentationId);
-        BatchUpdatePresentationResponse response =
-                CreateTextboxWithText.createTextBoxWithText(presentationId,
-                        pageId, "MyTextBox");
-        assertEquals(2, response.getReplies().size());
-        String boxId = response.getReplies().get(0).getCreateShape().getObjectId();
-        assertNotNull(boxId);
-        deleteFileOnCleanup(presentationId);
-    }
+  @Test
+  public void testCreateTextBox() throws IOException {
+    String presentationId = createTestPresentation();
+    String pageId = createTestSlide(presentationId);
+    BatchUpdatePresentationResponse response =
+        CreateTextboxWithText.createTextBoxWithText(presentationId,
+            pageId, "MyTextBox");
+    assertEquals(2, response.getReplies().size());
+    String boxId = response.getReplies().get(0).getCreateShape().getObjectId();
+    assertNotNull(boxId);
+    deleteFileOnCleanup(presentationId);
+  }
 }

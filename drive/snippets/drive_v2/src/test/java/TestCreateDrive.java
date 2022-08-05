@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
-
-public class TestCreateDrive extends BaseTest{
-    @Test
-    public void createDrive() throws IOException, GeneralSecurityException {
-        String id = CreateDrive.createDrive();
-        assertNotNull(id);
-        this.service.drives().delete(id);
-    }
+public class TestCreateDrive extends BaseTest {
+  @Test
+  public void createDrive() throws IOException, GeneralSecurityException {
+    String id = CreateDrive.createDrive();
+    assertNotNull(id);
+    this.service.drives().delete(id);
+  }
 }

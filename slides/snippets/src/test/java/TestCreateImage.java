@@ -23,17 +23,17 @@ import static org.junit.Assert.assertNotNull;
 // Unit testcase for createImage snippet
 public class TestCreateImage extends BaseTest {
 
-    private final String IMAGE_URL =
-            "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
+  private final String IMAGE_URL =
+      "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png";
 
-    @Test
-    public void testCreateImage() throws IOException {
-        String presentationId = createTestPresentation();
-        String slideId = createTestSlide(presentationId);
-        BatchUpdatePresentationResponse response = CreateImage.createImage(
-                presentationId, slideId, IMAGE_URL);
-        assertEquals(1, response.getReplies().size());
-        String imageId = response.getReplies().get(0).getCreateImage().getObjectId();
-        assertNotNull(imageId);
-    }
+  @Test
+  public void testCreateImage() throws IOException {
+    String presentationId = createTestPresentation();
+    String slideId = createTestSlide(presentationId);
+    BatchUpdatePresentationResponse response = CreateImage.createImage(
+        presentationId, slideId, IMAGE_URL);
+    assertEquals(1, response.getReplies().size());
+    String imageId = response.getReplies().get(0).getCreateImage().getObjectId();
+    assertNotNull(imageId);
+  }
 }

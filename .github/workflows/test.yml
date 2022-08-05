@@ -14,7 +14,7 @@
 
 name: Test
 
-on: [push, pull_request, workflow_dispatch]
+on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
   matrix:
@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         # TODO - expand matrix once stable
-        java-version: [11]
+        java-version: [ 11 ]
     steps:
       - uses: actions/checkout@v3
       - name: Fetch and Diff PR with base from which it was cloned
@@ -59,7 +59,7 @@ jobs:
       - name: Run tests
         run: ./.github/scripts/test.sh
   test:
-    needs: [matrix]
+    needs: [ matrix ]
     runs-on: ubuntu-latest
     steps:
-    - run: echo "Test matrix finished"
+      - run: echo "Test matrix finished"

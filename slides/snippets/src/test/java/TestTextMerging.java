@@ -23,24 +23,25 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 // Unit testcase for textMerging snippet
-public class TestTextMerging extends BaseTest{
-    // TODO(developer) - change the IDs before executing
-    private final String TEMPLATE_PRESENTATION_ID = "1wJUN1B5CQ2wQOBzmz2apky48QNK1OsE2oNKHPMLpKDc";
-    private final String DATA_SPREADSHEET_ID = "14KaZMq2aCAGt5acV77zaA_Ps8aDt04G7T0ei4KiXLX8";
-    @Test
-    public void testTextMerge() throws IOException {
-        List<BatchUpdatePresentationResponse> responses =
-                TextMerging.textMerging(TEMPLATE_PRESENTATION_ID, DATA_SPREADSHEET_ID);
-        for (BatchUpdatePresentationResponse response: responses) {
-            String presentationId = response.getPresentationId();
-            assertNotNull(presentationId);
-            assertEquals(3, response.getReplies().size());
-            int numReplacements = 0;
-            for (Response resp : response.getReplies()) {
-                numReplacements += resp.getReplaceAllText().getOccurrencesChanged();
-            }
-            assertEquals(4, numReplacements);
-            deleteFileOnCleanup(presentationId);
-        }
+public class TestTextMerging extends BaseTest {
+  // TODO(developer) - change the IDs before executing
+  private final String TEMPLATE_PRESENTATION_ID = "1wJUN1B5CQ2wQOBzmz2apky48QNK1OsE2oNKHPMLpKDc";
+  private final String DATA_SPREADSHEET_ID = "14KaZMq2aCAGt5acV77zaA_Ps8aDt04G7T0ei4KiXLX8";
+
+  @Test
+  public void testTextMerge() throws IOException {
+    List<BatchUpdatePresentationResponse> responses =
+        TextMerging.textMerging(TEMPLATE_PRESENTATION_ID, DATA_SPREADSHEET_ID);
+    for (BatchUpdatePresentationResponse response : responses) {
+      String presentationId = response.getPresentationId();
+      assertNotNull(presentationId);
+      assertEquals(3, response.getReplies().size());
+      int numReplacements = 0;
+      for (Response resp : response.getReplies()) {
+        numReplacements += resp.getReplaceAllText().getOccurrencesChanged();
+      }
+      assertEquals(4, numReplacements);
+      deleteFileOnCleanup(presentationId);
     }
+  }
 }
