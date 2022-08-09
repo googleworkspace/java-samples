@@ -21,17 +21,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 // Unit testcase for createSlide snippet
-public class TestCreateSlide extends BaseTest{
+public class TestCreateSlide extends BaseTest {
 
-    @Test
-    public void testCreateSlide() throws IOException {
-        String presentationId = createTestPresentation();
-        BatchUpdatePresentationResponse response =
-                CreateSlide.createSlide(presentationId);
-        assertNotNull(response);
-        assertEquals(1, response.getReplies().size());
-        String pageId = response.getReplies().get(0).getCreateSlide().getObjectId();
-        assertNotNull(pageId);
-        deleteFileOnCleanup(presentationId);
-    }
+  @Test
+  public void testCreateSlide() throws IOException {
+    String presentationId = createTestPresentation();
+    BatchUpdatePresentationResponse response =
+        CreateSlide.createSlide(presentationId);
+    assertNotNull(response);
+    assertEquals(1, response.getReplies().size());
+    String pageId = response.getReplies().get(0).getCreateSlide().getObjectId();
+    assertNotNull(pageId);
+    deleteFileOnCleanup(presentationId);
+  }
 }

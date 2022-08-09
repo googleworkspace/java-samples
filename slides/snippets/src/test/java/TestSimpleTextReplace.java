@@ -20,16 +20,16 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 // Unit testcase for simpleTextReplace snippet
-public class TestSimpleTextReplace extends BaseTest{
+public class TestSimpleTextReplace extends BaseTest {
 
-    @Test
-    public void testSimpleTextReplace() throws IOException {
-        String presentationId = createTestPresentation();
-        String pageId = createTestSlide(presentationId);
-        String boxId = createTestTextBox(presentationId, pageId);
-        BatchUpdatePresentationResponse response =
-                SimpleTextReplace.simpleTextReplace(presentationId, boxId, "MY NEW TEXT");
-        assertEquals(2, response.getReplies().size());
-        deleteFileOnCleanup(presentationId);
-    }
+  @Test
+  public void testSimpleTextReplace() throws IOException {
+    String presentationId = createTestPresentation();
+    String pageId = createTestSlide(presentationId);
+    String boxId = createTestTextBox(presentationId, pageId);
+    BatchUpdatePresentationResponse response =
+        SimpleTextReplace.simpleTextReplace(presentationId, boxId, "MY NEW TEXT");
+    assertEquals(2, response.getReplies().size());
+    deleteFileOnCleanup(presentationId);
+  }
 }

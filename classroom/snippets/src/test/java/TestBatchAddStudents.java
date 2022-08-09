@@ -20,10 +20,10 @@ import java.util.List;
 // Unit test class for Batch Add Students classroom snippet
 public class TestBatchAddStudents extends BaseTest {
 
-    @Test
-    public void testBatchAddStudents() throws IOException {
-        List<String> studentEmails = Arrays.asList("gduser2@workpsacesamples.dev",
-                "gduser3@workpsacesamples.dev");
-        BatchAddStudents.batchAddStudents(testCourse.getId(), studentEmails);
-    }
+  @Test
+  public void testBatchAddStudents() throws IOException {
+    List<String> studentEmails = Arrays.asList("gduser2@workpsacesamples.dev",
+        "gduser3@workpsacesamples.dev");
+    BatchAddStudents.batchAddStudents(testCourse.getId(), studentEmails);
+  }
 }

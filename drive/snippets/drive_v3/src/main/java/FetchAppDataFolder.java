@@ -22,47 +22,50 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
-
 import java.io.IOException;
 import java.util.Arrays;
 
-/** Class to demonstrate use-case of list out application data folder and prints folder Id. */
+/**
+ * Class to demonstrate use-case of list out application data folder and prints folder Id.
+ */
 public class FetchAppDataFolder {
 
-    /**
-     * Fetches appDataFolder and prints it's folder id.
-     * @return Application data folder's ID.
-     */
-    public static String fetchAppDataFolder() throws IOException {
+  /**
+   * Fetches appDataFolder and prints it's folder id.
+   *
+   * @return Application data folder's ID.
+   */
+  public static String fetchAppDataFolder() throws IOException {
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application.*/
-        GoogleCredentials credentials = null;
-        try {
-            credentials = GoogleCredentials.getApplicationDefault().createScoped(Arrays.asList(DriveScopes.DRIVE_APPDATA));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
-
-        // Build a new authorized API client service.
-        Drive service = new Drive.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Drive samples")
-                .build();
-        try {
-            File file = service.files().get("appDataFolder")
-                    .setFields("id")
-                    .execute();
-            System.out.println("Folder ID: " + file.getId());
-            return file.getId();
-        }catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            System.err.println("Unable to fetch appdata folder: " + e.getDetails());
-            throw e;
-        }
+    GoogleCredentials credentials = null;
+    try {
+      credentials = GoogleCredentials.getApplicationDefault()
+          .createScoped(Arrays.asList(DriveScopes.DRIVE_APPDATA));
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
+
+    // Build a new authorized API client service.
+    Drive service = new Drive.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Drive samples")
+        .build();
+    try {
+      File file = service.files().get("appDataFolder")
+          .setFields("id")
+          .execute();
+      System.out.println("Folder ID: " + file.getId());
+      return file.getId();
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      System.err.println("Unable to fetch appdata folder: " + e.getDetails());
+      throw e;
+    }
+  }
 }
 // [END drive_fetch_appdata_folder]

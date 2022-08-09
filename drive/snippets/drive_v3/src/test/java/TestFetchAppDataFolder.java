@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
 
 public class TestFetchAppDataFolder {
-    @Test
-    public void fetchAppDataFolder() throws IOException, GeneralSecurityException {
-        String id = FetchAppDataFolder.fetchAppDataFolder();
-        assertNotNull(id);
-    }
+  @Test
+  public void fetchAppDataFolder() throws IOException, GeneralSecurityException {
+    String id = FetchAppDataFolder.fetchAppDataFolder();
+    assertNotNull(id);
+  }
 }

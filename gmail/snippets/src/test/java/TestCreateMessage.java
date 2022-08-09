@@ -12,24 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import org.junit.Test;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import org.junit.Test;
+
 // Unit testcase for gmail create message snippet
-public class TestCreateMessage extends BaseTest{
+public class TestCreateMessage extends BaseTest {
 
-    @Test
-    public void testCreateMessageWithEmail() throws MessagingException,
-            IOException {
-        MimeMessage mimeMessage = CreateEmail.createEmail(RECIPIENT,
-                TEST_USER,
-                "test",
-                "Hello!");
+  @Test
+  public void testCreateMessageWithEmail() throws MessagingException,
+      IOException {
+    MimeMessage mimeMessage = CreateEmail.createEmail(RECIPIENT,
+        TEST_USER,
+        "test",
+        "Hello!");
 
-        com.google.api.services.gmail.model.Message message = CreateMessage.createMessageWithEmail(mimeMessage);
-        assertNotNull(message.getRaw()); // Weak assertion...
-    }
+    com.google.api.services.gmail.model.Message message =
+        CreateMessage.createMessageWithEmail(mimeMessage);
+    assertNotNull(message.getRaw()); // Weak assertion...
+  }
 }

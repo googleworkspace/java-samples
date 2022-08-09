@@ -12,22 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetResponse;
-import org.junit.Test;
-import java.io.IOException;
 import static org.junit.Assert.assertEquals;
+
+import com.google.api.services.sheets.v4.model.BatchUpdateSpreadsheetResponse;
+import java.io.IOException;
+import org.junit.Test;
 
 // Unit testcase for spreadsheet conditional formatting snippet
 public class TestConditionalFormatting extends BaseTest {
 
-    @Test
-    public void testConditionalFormat() throws IOException {
-        String spreadsheetId = Create.createSpreadsheet("Test Spreadsheet");
-        populateValuesWithNumbers(spreadsheetId);
-        BatchUpdateSpreadsheetResponse response =
-                ConditionalFormatting.conditionalFormat(spreadsheetId);
-        assertEquals(spreadsheetId, response.getSpreadsheetId());
-        assertEquals(2, response.getReplies().size());
-        deleteFileOnCleanup(spreadsheetId);
-    }
+  @Test
+  public void testConditionalFormat() throws IOException {
+    String spreadsheetId = Create.createSpreadsheet("Test Spreadsheet");
+    populateValuesWithNumbers(spreadsheetId);
+    BatchUpdateSpreadsheetResponse response =
+        ConditionalFormatting.conditionalFormat(spreadsheetId);
+    assertEquals(spreadsheetId, response.getSpreadsheetId());
+    assertEquals(2, response.getReplies().size());
+    deleteFileOnCleanup(spreadsheetId);
+  }
 }

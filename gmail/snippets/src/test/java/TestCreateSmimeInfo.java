@@ -13,54 +13,54 @@
 // limitations under the License.
 
 
-import com.google.api.services.gmail.model.SmimeInfo;
-import org.junit.Test;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import com.google.api.services.gmail.model.SmimeInfo;
+import org.junit.Test;
+
 // Unit testcase for gmail create smime info snippet
 public class TestCreateSmimeInfo {
 
-    @Test
-    public void testCreateSmimeInfo() {
-        SmimeInfo smimeInfo = CreateSmimeInfo.createSmimeInfo(
-                "files/cert.p12",
-                null /* password */);
+  @Test
+  public void testCreateSmimeInfo() {
+    SmimeInfo smimeInfo = CreateSmimeInfo.createSmimeInfo(
+        "files/cert.p12",
+        null /* password */);
 
-        assertNotNull(smimeInfo);
-        assertNull(smimeInfo.getEncryptedKeyPassword());
-        assertNull(smimeInfo.getExpiration());
-        assertNull(smimeInfo.getId());
-        assertNull(smimeInfo.getIsDefault());
-        assertNull(smimeInfo.getIssuerCn());
-        assertNull(smimeInfo.getPem());
-        assertThat(smimeInfo.getPkcs12().length(), greaterThan(0));
-    }
+    assertNotNull(smimeInfo);
+    assertNull(smimeInfo.getEncryptedKeyPassword());
+    assertNull(smimeInfo.getExpiration());
+    assertNull(smimeInfo.getId());
+    assertNull(smimeInfo.getIsDefault());
+    assertNull(smimeInfo.getIssuerCn());
+    assertNull(smimeInfo.getPem());
+    assertThat(smimeInfo.getPkcs12().length(), greaterThan(0));
+  }
 
-    @Test
-    public void testCreateSmimeInfoWithPassword() {
-        SmimeInfo smimeInfo = CreateSmimeInfo.createSmimeInfo(
-                "files/cert.p12",
-                "certpass");
+  @Test
+  public void testCreateSmimeInfoWithPassword() {
+    SmimeInfo smimeInfo = CreateSmimeInfo.createSmimeInfo(
+        "files/cert.p12",
+        "certpass");
 
-        assertNotNull(smimeInfo);
-        assertEquals(smimeInfo.getEncryptedKeyPassword(), "certpass");
-        assertNull(smimeInfo.getExpiration());
-        assertNull(smimeInfo.getId());
-        assertNull(smimeInfo.getIsDefault());
-        assertNull(smimeInfo.getIssuerCn());
-        assertNull(smimeInfo.getPem());
-        assertThat(smimeInfo.getPkcs12().length(), greaterThan(0));
-    }
+    assertNotNull(smimeInfo);
+    assertEquals(smimeInfo.getEncryptedKeyPassword(), "certpass");
+    assertNull(smimeInfo.getExpiration());
+    assertNull(smimeInfo.getId());
+    assertNull(smimeInfo.getIsDefault());
+    assertNull(smimeInfo.getIssuerCn());
+    assertNull(smimeInfo.getPem());
+    assertThat(smimeInfo.getPkcs12().length(), greaterThan(0));
+  }
 
-    @Test
-    public void testCreateSmimeInfoFileNotFound() {
-        SmimeInfo smimeInfo = CreateSmimeInfo.createSmimeInfo(
-                "files/notfound.p12",
-                null /* password */);
-        assertNull(smimeInfo);
-    }
+  @Test
+  public void testCreateSmimeInfoFileNotFound() {
+    SmimeInfo smimeInfo = CreateSmimeInfo.createSmimeInfo(
+        "files/notfound.p12",
+        null /* password */);
+    assertNull(smimeInfo);
+  }
 }

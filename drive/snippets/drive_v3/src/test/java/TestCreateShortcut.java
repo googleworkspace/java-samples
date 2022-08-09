@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
-
-public class TestCreateShortcut extends BaseTest{
-    @Test
-    public void createShortcut() throws IOException, GeneralSecurityException {
-        String id = CreateShortcut.createShortcut();
-        assertNotNull(id);
-        deleteFileOnCleanup(id);
-    }
+public class TestCreateShortcut extends BaseTest {
+  @Test
+  public void createShortcut() throws IOException, GeneralSecurityException {
+    String id = CreateShortcut.createShortcut();
+    assertNotNull(id);
+    deleteFileOnCleanup(id);
+  }
 }

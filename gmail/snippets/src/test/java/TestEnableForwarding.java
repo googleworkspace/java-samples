@@ -13,30 +13,32 @@
 // limitations under the License.
 
 
+import static org.junit.Assert.assertNotNull;
+
 import com.google.api.services.gmail.model.AutoForwarding;
+import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
-import java.io.IOException;
-import static org.junit.Assert.assertNotNull;
 
 // Unit testcase for gmail enable forwarding snippet
 public class TestEnableForwarding extends BaseTest {
 
-    @Test
-    public void TestEnableAutoForwarding() throws IOException {
-            AutoForwarding forwarding = EnableForwarding.enableAutoForwarding(FORWARDING_ADDRESS);
-            assertNotNull(forwarding);
-    }
+  @Test
+  public void TestEnableAutoForwarding() throws IOException {
+    AutoForwarding forwarding = EnableForwarding.enableAutoForwarding(FORWARDING_ADDRESS);
+    assertNotNull(forwarding);
+  }
 
-    @Before
-    public void cleanup() {
-        try {
-            AutoForwarding forwarding = new AutoForwarding().setEnabled(false);
-            this.service.users().settings().updateAutoForwarding("me", forwarding).execute();
-            this.service.users().settings().forwardingAddresses().delete("me", FORWARDING_ADDRESS).execute();
-        } catch (Exception e) {
-            // Ignore -- resources might not exist
-            e.printStackTrace();
-        }
+  @Before
+  public void cleanup() {
+    try {
+      AutoForwarding forwarding = new AutoForwarding().setEnabled(false);
+      this.service.users().settings().updateAutoForwarding("me", forwarding).execute();
+      this.service.users().settings().forwardingAddresses().delete("me", FORWARDING_ADDRESS)
+          .execute();
+    } catch (Exception e) {
+      // Ignore -- resources might not exist
+      e.printStackTrace();
     }
+  }
 }

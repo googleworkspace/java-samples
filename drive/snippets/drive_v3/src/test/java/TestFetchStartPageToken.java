@@ -12,17 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import org.junit.Test;
-
-import java.io.IOException;
-
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+import org.junit.Test;
+
 // Unit test class for fetchStartPageToken change snippet
-public class TestFetchStartPageToken extends BaseTest{
-    @Test
-    public void fetchStartPageToken() throws IOException {
-        String token = FetchStartPageToken.fetchStartPageToken();
-        assertNotNull(token);
-    }
+public class TestFetchStartPageToken extends BaseTest {
+  @Test
+  public void fetchStartPageToken() throws IOException {
+    String token = FetchStartPageToken.fetchStartPageToken();
+    assertNotNull(token);
+  }
 }

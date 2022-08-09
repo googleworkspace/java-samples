@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
-
-public class TestUploadAppdata extends BaseTest{
-    @Test
-    public void uploadAppData()
-            throws IOException, GeneralSecurityException {
-        String id = UploadAppData.uploadAppData();
-        assertNotNull(id);
-        deleteFileOnCleanup(id);
-    }
+public class TestUploadAppdata extends BaseTest {
+  @Test
+  public void uploadAppData()
+      throws IOException, GeneralSecurityException {
+    String id = UploadAppData.uploadAppData();
+    assertNotNull(id);
+    deleteFileOnCleanup(id);
+  }
 }

@@ -13,20 +13,17 @@
 // limitations under the License.
 
 import com.google.api.services.drive.model.FileList;
-import org.junit.Test;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-
-import static org.junit.Assert.assertNotEquals;
+import org.junit.Test;
 
 // Unit test class for testing of ListAppData snippet
-public class TestListAppdata extends BaseTest{
-    @Test
-    public void listAppData() throws IOException, GeneralSecurityException {
-        String id = UploadAppData.uploadAppData();
-        deleteFileOnCleanup(id);
-        FileList files = ListAppData.listAppData();
-        assertNotEquals(0, files.getItems().size());
-    }
+public class TestListAppdata extends BaseTest {
+  @Test
+  public void listAppData() throws IOException, GeneralSecurityException {
+    String id = UploadAppData.uploadAppData();
+    deleteFileOnCleanup(id);
+    FileList files = ListAppData.listAppData();
+    assertNotEquals(0, files.getItems().size());
+  }
 }

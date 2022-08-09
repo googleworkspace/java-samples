@@ -19,15 +19,15 @@ import org.junit.Test;
 import java.io.IOException;
 
 // Unit test class for Add Student classroom snippet
-public class TestAddStudent extends BaseTest{
+public class TestAddStudent extends BaseTest {
 
-    @Test
-    public void testAddStudent() throws IOException {
-        Course course = CreateCourse.createCourse();
-        Student student = AddStudent.addStudent(course.getId(), course.getEnrollmentCode());
-        deleteCourse(course.getId());
-        Assert.assertNotNull("Student not returned.", student);
-        Assert.assertEquals("Student added to wrong course.", course.getId(),
-                student.getCourseId());
-    }
+  @Test
+  public void testAddStudent() throws IOException {
+    Course course = CreateCourse.createCourse();
+    Student student = AddStudent.addStudent(course.getId(), course.getEnrollmentCode());
+    deleteCourse(course.getId());
+    Assert.assertNotNull("Student not returned.", student);
+    Assert.assertEquals("Student added to wrong course.", course.getId(),
+        student.getCourseId());
+  }
 }

@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import org.junit.Test;
-import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
-// Unit testcase for create spreadsheet snippet
-public class TestCreate extends BaseTest{
+import java.io.IOException;
+import org.junit.Test;
 
-    @Test
-    public void testCreate() throws IOException {
-        String id = Create.createSpreadsheet("Test Spreadsheet");
-        assertNotNull(id);
-        deleteFileOnCleanup(id);
-    }
+// Unit testcase for create spreadsheet snippet
+public class TestCreate extends BaseTest {
+
+  @Test
+  public void testCreate() throws IOException {
+    String id = Create.createSpreadsheet("Test Spreadsheet");
+    assertNotNull(id);
+    deleteFileOnCleanup(id);
+  }
 }

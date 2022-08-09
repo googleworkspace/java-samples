@@ -13,6 +13,7 @@
 // limitations under the License.
 
 // [START docs_quickstart]
+
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -37,60 +38,70 @@ import java.util.List;
 
 /* class to demonstarte use of Docs get documents API */
 public class DocsQuickstart {
-    /** Application name. */
-    private static final String APPLICATION_NAME = "Google Docs API Java Quickstart";
-    /** Global instance of the JSON factory. */
-    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    /** Directory to store authorization tokens for this application. */
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
-    private static final String DOCUMENT_ID = "195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE";
+  /**
+   * Application name.
+   */
+  private static final String APPLICATION_NAME = "Google Docs API Java Quickstart";
+  /**
+   * Global instance of the JSON factory.
+   */
+  private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+  /**
+   * Directory to store authorization tokens for this application.
+   */
+  private static final String TOKENS_DIRECTORY_PATH = "tokens";
+  private static final String DOCUMENT_ID = "195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE";
 
-    /**
-     * Global instance of the scopes required by this quickstart.
-     * If modifying these scopes, delete your previously saved tokens/ folder.
-     */
-    private static final List<String> SCOPES = Collections.singletonList(DocsScopes.DOCUMENTS_READONLY);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+  /**
+   * Global instance of the scopes required by this quickstart.
+   * If modifying these scopes, delete your previously saved tokens/ folder.
+   */
+  private static final List<String> SCOPES =
+      Collections.singletonList(DocsScopes.DOCUMENTS_READONLY);
+  private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
-    /**
-     * Creates an authorized Credential object.
-     * @param HTTP_TRANSPORT The network HTTP Transport.
-     * @return An authorized Credential object.
-     * @throws IOException If the credentials.json file cannot be found.
-     */
-    private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
-        // Load client secrets.
-        InputStream in = DocsQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (in == null) {
-            throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
-        }
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
-        // Build flow and trigger user authorization request.
-        GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-                .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-                .setAccessType("offline")
-                .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
-        //returns an authorized Credential object.
-        return credential;
+  /**
+   * Creates an authorized Credential object.
+   *
+   * @param HTTP_TRANSPORT The network HTTP Transport.
+   * @return An authorized Credential object.
+   * @throws IOException If the credentials.json file cannot be found.
+   */
+  private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
+      throws IOException {
+    // Load client secrets.
+    InputStream in = DocsQuickstart.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+    if (in == null) {
+      throw new FileNotFoundException("Resource not found: " + CREDENTIALS_FILE_PATH);
     }
+    GoogleClientSecrets clientSecrets =
+        GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-    public static void main(String... args) throws IOException, GeneralSecurityException {
-        // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Docs service = new Docs.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
+    // Build flow and trigger user authorization request.
+    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+        HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+        .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+        .setAccessType("offline")
+        .build();
+    LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+    Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+    //returns an authorized Credential object.
+    return credential;
+  }
 
-        // Prints the title of the requested doc:
-        // https://docs.google.com/document/d/195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE/edit
-        Document response = service.documents().get(DOCUMENT_ID).execute();
-        String title = response.getTitle();
+  public static void main(String... args) throws IOException, GeneralSecurityException {
+    // Build a new authorized API client service.
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    Docs service = new Docs.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+        .setApplicationName(APPLICATION_NAME)
+        .build();
 
-        System.out.printf("The title of the doc is: %s\n", title);
-    }
+    // Prints the title of the requested doc:
+    // https://docs.google.com/document/d/195j9eDD3ccgjQRttHhJPymLJUCOUjs-jmwTrekvdjFE/edit
+    Document response = service.documents().get(DOCUMENT_ID).execute();
+    String title = response.getTitle();
+
+    System.out.printf("The title of the doc is: %s\n", title);
+  }
 }
 // [END docs_quickstart]

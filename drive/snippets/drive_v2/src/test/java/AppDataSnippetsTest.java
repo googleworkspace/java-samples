@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-import com.google.api.services.drive.model.File;
-import com.google.api.services.drive.model.FileList;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
 
+import com.google.api.services.drive.model.FileList;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
 public class AppDataSnippetsTest extends BaseTest {
 

@@ -18,7 +18,6 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.Change;
 import com.google.api.services.drive.model.ChangeList;
 import com.google.api.services.drive.model.StartPageToken;
-
 import java.io.IOException;
 
 public class ChangeSnippets {

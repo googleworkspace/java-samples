@@ -19,13 +19,13 @@ import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
 // Unit testcase for copy presentation snippet
-public class TestCopyPresentation extends BaseTest{
+public class TestCopyPresentation extends BaseTest {
 
-    @Test
-    public void testCopyPresentation() throws IOException {
-        String presentationId = createTestPresentation();
-        String copyId = CopyPresentation.copyPresentation(presentationId, "My Duplicate Presentation");
-        assertNotNull(copyId);
-        deleteFileOnCleanup(copyId);
-    }
+  @Test
+  public void testCopyPresentation() throws IOException {
+    String presentationId = createTestPresentation();
+    String copyId = CopyPresentation.copyPresentation(presentationId, "My Duplicate Presentation");
+    assertNotNull(copyId);
+    deleteFileOnCleanup(copyId);
+  }
 }

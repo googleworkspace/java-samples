@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import com.google.api.services.gmail.model.VacationSettings;
-import org.junit.Test;
-import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
+
+import com.google.api.services.gmail.model.VacationSettings;
+import java.io.IOException;
+import org.junit.Test;
 
 // Unit testcase for gmail enable auto reply snippet
 public class TestEnableAutoReply extends BaseTest {
 
-    @Test
-    public void testAutoReply() throws IOException {
-        VacationSettings settings = EnableAutoReply.autoReply();
-        assertNotNull(settings);
-    }
+  @Test
+  public void testAutoReply() throws IOException {
+    VacationSettings settings = EnableAutoReply.autoReply();
+    assertNotNull(settings);
+  }
 }

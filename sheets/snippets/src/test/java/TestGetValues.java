@@ -12,23 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import com.google.api.services.sheets.v4.model.ValueRange;
-import org.junit.Test;
-import java.io.IOException;
-import java.util.List;
 import static org.junit.Assert.assertEquals;
 
-// Unit testcase for spreadsheet get values snippet
-public class TestGetValues extends BaseTest{
+import com.google.api.services.sheets.v4.model.ValueRange;
+import java.io.IOException;
+import java.util.List;
+import org.junit.Test;
 
-    @Test
-    public void testGetValues() throws IOException {
-        String spreadsheetId = Create.createSpreadsheet("Test Spreadsheet");
-        populateValuesWithStrings(spreadsheetId);
-        ValueRange result = GetValues.getValues(spreadsheetId, "A1:C2");
-        List<List<Object>> values = result.getValues();
-        assertEquals(2, values.size());
-        assertEquals(3, values.get(0).size());
-        deleteFileOnCleanup(spreadsheetId);
-    }
+// Unit testcase for spreadsheet get values snippet
+public class TestGetValues extends BaseTest {
+
+  @Test
+  public void testGetValues() throws IOException {
+    String spreadsheetId = Create.createSpreadsheet("Test Spreadsheet");
+    populateValuesWithStrings(spreadsheetId);
+    ValueRange result = GetValues.getValues(spreadsheetId, "A1:C2");
+    List<List<Object>> values = result.getValues();
+    assertEquals(2, values.size());
+    assertEquals(3, values.get(0).size());
+    deleteFileOnCleanup(spreadsheetId);
+  }
 }

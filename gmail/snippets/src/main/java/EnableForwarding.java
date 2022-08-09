@@ -14,6 +14,7 @@
 
 
 // [START gmail_enable_forwarding]
+
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -26,57 +27,57 @@ import com.google.api.services.gmail.model.ForwardingAddress;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
-import java.util.Collections;
 
 /* Class to demonstrate the use of Gmail Enable Forwarding API */
 public class EnableForwarding {
-    /**
-     * Enable the auto-forwarding for an account.
-     *
-     * @param forwardingEmail - Email address of the recipient whose email will be forwarded.
-     * @return forwarding id and metadata, {@code null} otherwise.
-     * @throws IOException - if service account credentials file not found.
-     */
-    public static AutoForwarding enableAutoForwarding(String forwardingEmail) throws IOException{
+  /**
+   * Enable the auto-forwarding for an account.
+   *
+   * @param forwardingEmail - Email address of the recipient whose email will be forwarded.
+   * @return forwarding id and metadata, {@code null} otherwise.
+   * @throws IOException - if service account credentials file not found.
+   */
+  public static AutoForwarding enableAutoForwarding(String forwardingEmail) throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(GmailScopes.GMAIL_SETTINGS_SHARING);
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(GmailScopes.GMAIL_SETTINGS_SHARING);
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
-        // Create the gmail API client
-        Gmail service = new Gmail.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Gmail samples")
-                .build();
+    // Create the gmail API client
+    Gmail service = new Gmail.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Gmail samples")
+        .build();
 
-        try{
-            // Enable auto-forwarding and move forwarded messages to the trash
-            ForwardingAddress address = new ForwardingAddress()
-                    .setForwardingEmail(forwardingEmail);
-            ForwardingAddress createAddressResult = service.users().settings().forwardingAddresses()
-                    .create("me", address).execute();
-            if (createAddressResult.getVerificationStatus().equals("accepted")) {
-                AutoForwarding autoForwarding = new AutoForwarding()
-                        .setEnabled(true)
-                        .setEmailAddress(address.getForwardingEmail())
-                        .setDisposition("trash");
-                autoForwarding = service.users().settings().updateAutoForwarding("me", autoForwarding).execute();
-                System.out.println(autoForwarding.toPrettyString());
-                return autoForwarding;
-            }
-        } catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            GoogleJsonError error = e.getDetails();
-            if (error.getCode() == 403) {
-                System.err.println("Unable to enable forwarding: " + e.getDetails());
-            } else {
-                throw e;
-            }
-        }
-        return null;
+    try {
+      // Enable auto-forwarding and move forwarded messages to the trash
+      ForwardingAddress address = new ForwardingAddress()
+          .setForwardingEmail(forwardingEmail);
+      ForwardingAddress createAddressResult = service.users().settings().forwardingAddresses()
+          .create("me", address).execute();
+      if (createAddressResult.getVerificationStatus().equals("accepted")) {
+        AutoForwarding autoForwarding = new AutoForwarding()
+            .setEnabled(true)
+            .setEmailAddress(address.getForwardingEmail())
+            .setDisposition("trash");
+        autoForwarding =
+            service.users().settings().updateAutoForwarding("me", autoForwarding).execute();
+        System.out.println(autoForwarding.toPrettyString());
+        return autoForwarding;
+      }
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 403) {
+        System.err.println("Unable to enable forwarding: " + e.getDetails());
+      } else {
+        throw e;
+      }
     }
+    return null;
+  }
 }
 // [END gmail_enable_forwarding]

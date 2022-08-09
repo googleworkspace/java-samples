@@ -23,55 +23,58 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
-/** Class to demonstrate use-case of create file in the application data folder. */
+/**
+ * Class to demonstrate use-case of create file in the application data folder.
+ */
 public class UploadAppData {
 
-    /**
-     * Creates a file in the application data folder.
-     * @return Created file's Id.
-     */
-    public static String uploadAppData() throws IOException {
+  /**
+   * Creates a file in the application data folder.
+   *
+   * @return Created file's Id.
+   */
+  public static String uploadAppData() throws IOException {
         /*Load pre-authorized user credentials from the environment.
         TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application.*/
-        GoogleCredentials credentials = null;
-        try {
-            credentials = GoogleCredentials.getApplicationDefault().createScoped(Arrays.asList(DriveScopes.DRIVE_APPDATA));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
-
-        // Build a new authorized API client service.
-        Drive service = new Drive.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Drive samples")
-                .build();
-        try {
-            // File's metadata.
-            File fileMetadata = new File();
-            fileMetadata.setName("config.json");
-            fileMetadata.setParents(Collections.singletonList("appDataFolder"));
-            java.io.File filePath = new java.io.File("files/config.json");
-            FileContent mediaContent = new FileContent("application/json", filePath);
-            File file = service.files().create(fileMetadata, mediaContent)
-                    .setFields("id")
-                    .execute();
-            System.out.println("File ID: " + file.getId());
-            return file.getId();
-        }catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            System.err.println("Unable to create file: " + e.getDetails());
-            throw e;
-        }
+    GoogleCredentials credentials = null;
+    try {
+      credentials = GoogleCredentials.getApplicationDefault()
+          .createScoped(Arrays.asList(DriveScopes.DRIVE_APPDATA));
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
+
+    // Build a new authorized API client service.
+    Drive service = new Drive.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Drive samples")
+        .build();
+    try {
+      // File's metadata.
+      File fileMetadata = new File();
+      fileMetadata.setName("config.json");
+      fileMetadata.setParents(Collections.singletonList("appDataFolder"));
+      java.io.File filePath = new java.io.File("files/config.json");
+      FileContent mediaContent = new FileContent("application/json", filePath);
+      File file = service.files().create(fileMetadata, mediaContent)
+          .setFields("id")
+          .execute();
+      System.out.println("File ID: " + file.getId());
+      return file.getId();
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      System.err.println("Unable to create file: " + e.getDetails());
+      throw e;
+    }
+  }
 
 }
 // [END drive_upload_appdata]

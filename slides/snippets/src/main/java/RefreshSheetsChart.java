@@ -14,6 +14,7 @@
 
 
 // [START slides_refresh_sheets_chart]
+
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -35,58 +36,57 @@ import java.util.List;
 
 /* Class to demonstrate the use of Slides Refresh Chart API */
 public class RefreshSheetsChart {
-    /**
-     * Refresh the sheets charts.
-     *
-     * @param presentationId - id of the presentation.
-     * @param presentationChartId - id of the presentation chart.
-     * @return presentation chart id
-     * @throws IOException - if credentials file not found.
-     */
-    public static BatchUpdatePresentationResponse refreshSheetsChart(
-            String presentationId, String presentationChartId) throws IOException {
+  /**
+   * Refresh the sheets charts.
+   *
+   * @param presentationId      - id of the presentation.
+   * @param presentationChartId - id of the presentation chart.
+   * @return presentation chart id
+   * @throws IOException - if credentials file not found.
+   */
+  public static BatchUpdatePresentationResponse refreshSheetsChart(
+      String presentationId, String presentationChartId) throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singleton(SlidesScopes.PRESENTATIONS));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Collections.singleton(SlidesScopes.PRESENTATIONS));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Create the slides API client
-        Slides service = new Slides.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Slides samples")
-                .build();
+    // Create the slides API client
+    Slides service = new Slides.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Slides samples")
+        .build();
 
-        List<Request> requests = new ArrayList<>();
+    List<Request> requests = new ArrayList<>();
 
-        // Refresh an existing linked Sheets chart embedded a presentation.
-        requests.add(new Request()
-                .setRefreshSheetsChart(new RefreshSheetsChartRequest()
-                        .setObjectId(presentationChartId)));
+    // Refresh an existing linked Sheets chart embedded a presentation.
+    requests.add(new Request()
+        .setRefreshSheetsChart(new RefreshSheetsChartRequest()
+            .setObjectId(presentationChartId)));
 
-        BatchUpdatePresentationResponse response = null;
-        try {
-            // Execute the request.
-            BatchUpdatePresentationRequest body =
-                    new BatchUpdatePresentationRequest().setRequests(requests);
-            response = service.presentations().batchUpdate(presentationId, body).execute();
-            System.out.println("Refreshed a linked Sheets chart with ID " + presentationChartId);
-        } catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            GoogleJsonError error = e.getDetails();
-            if (error.getCode() == 400) {
-                System.out.printf("Presentation chart not found with id '%s'.\n", presentationChartId);
-            } else if (error.getCode() == 404) {
-                System.out.printf("Presentation not found with id '%s'.\n", presentationId);
-            }
-            else {
-                throw e;
-            }
-        }
-        return response;
+    BatchUpdatePresentationResponse response = null;
+    try {
+      // Execute the request.
+      BatchUpdatePresentationRequest body =
+          new BatchUpdatePresentationRequest().setRequests(requests);
+      response = service.presentations().batchUpdate(presentationId, body).execute();
+      System.out.println("Refreshed a linked Sheets chart with ID " + presentationChartId);
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 400) {
+        System.out.printf("Presentation chart not found with id '%s'.\n", presentationChartId);
+      } else if (error.getCode() == 404) {
+        System.out.printf("Presentation not found with id '%s'.\n", presentationId);
+      } else {
+        throw e;
+      }
     }
+    return response;
+  }
 }
 // [END slides_refresh_sheets_chart]

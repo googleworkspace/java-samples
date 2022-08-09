@@ -13,21 +13,22 @@
 // limitations under the License.
 
 
-import com.google.api.services.gmail.model.Draft;
-import org.junit.Test;
-import javax.mail.MessagingException;
-import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
-// Unit testcase for gmail create draft with attachment snippet
-public class TestCreateDraftWithAttachment extends BaseTest{
+import com.google.api.services.gmail.model.Draft;
+import java.io.IOException;
+import javax.mail.MessagingException;
+import org.junit.Test;
 
-    @Test
-    public void testCreateDraftWithAttachment() throws MessagingException, IOException {
-        Draft draft = CreateDraftWithAttachment.createDraftMessageWithAttachment(RECIPIENT,
-                TEST_USER,
-                new java.io.File("files/photo.jpg"));
-        assertNotNull(draft);
-        this.service.users().drafts().delete(TEST_USER, draft.getId()).execute();
-    }
+// Unit testcase for gmail create draft with attachment snippet
+public class TestCreateDraftWithAttachment extends BaseTest {
+
+  @Test
+  public void testCreateDraftWithAttachment() throws MessagingException, IOException {
+    Draft draft = CreateDraftWithAttachment.createDraftMessageWithAttachment(RECIPIENT,
+        TEST_USER,
+        new java.io.File("files/photo.jpg"));
+    assertNotNull(draft);
+    this.service.users().drafts().delete(TEST_USER, draft.getId()).execute();
+  }
 }

@@ -14,6 +14,7 @@
 
 
 // [START slides_create_slide]
+
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -37,64 +38,65 @@ import java.util.List;
 
 /* Class to demonstrate the use of Create Slides API */
 public class CreateSlide {
-    /**
-     * Creates a new slide.
-     *
-     * @param presentationId - id of the presentation.
-     * @return slide id
-     * @throws IOException - if credentials file not found.
-     */
-    public static BatchUpdatePresentationResponse createSlide(String presentationId) throws IOException {
+  /**
+   * Creates a new slide.
+   *
+   * @param presentationId - id of the presentation.
+   * @return slide id
+   * @throws IOException - if credentials file not found.
+   */
+  public static BatchUpdatePresentationResponse createSlide(String presentationId)
+      throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singleton(SlidesScopes.PRESENTATIONS));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Collections.singleton(SlidesScopes.PRESENTATIONS));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Create the slides API client
-        Slides service = new Slides.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Slides samples")
-                .build();
+    // Create the slides API client
+    Slides service = new Slides.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Slides samples")
+        .build();
 
-        // Add a slide at index 1 using the predefined "TITLE_AND_TWO_COLUMNS" layout
-        List<Request> requests = new ArrayList<>();
-        String slideId = "MyNewSlide_001";
-        BatchUpdatePresentationResponse response = null;
-        try {
-            requests.add(new Request()
-                    .setCreateSlide(new CreateSlideRequest()
-                            .setObjectId(slideId)
-                            .setInsertionIndex(1)
-                            .setSlideLayoutReference(new LayoutReference()
-                                    .setPredefinedLayout("TITLE_AND_TWO_COLUMNS"))));
+    // Add a slide at index 1 using the predefined "TITLE_AND_TWO_COLUMNS" layout
+    List<Request> requests = new ArrayList<>();
+    String slideId = "MyNewSlide_001";
+    BatchUpdatePresentationResponse response = null;
+    try {
+      requests.add(new Request()
+          .setCreateSlide(new CreateSlideRequest()
+              .setObjectId(slideId)
+              .setInsertionIndex(1)
+              .setSlideLayoutReference(new LayoutReference()
+                  .setPredefinedLayout("TITLE_AND_TWO_COLUMNS"))));
 
-            // If you wish to populate the slide with elements, add create requests here,
-            // using the slide ID specified above.
+      // If you wish to populate the slide with elements, add create requests here,
+      // using the slide ID specified above.
 
-            // Execute the request.
-            BatchUpdatePresentationRequest body =
-                    new BatchUpdatePresentationRequest().setRequests(requests);
-            response = service.presentations().batchUpdate(presentationId, body).execute();
-            CreateSlideResponse createSlideResponse = response.getReplies().get(0).getCreateSlide();
-            // Prints the slide id.
-            System.out.println("Created slide with ID: " + createSlideResponse.getObjectId());
-        } catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            GoogleJsonError error = e.getDetails();
-            if (error.getCode() == 400) {
-                System.out.printf(" Id '%s' should be unique among all pages and page elements.\n", presentationId);
-            } else if (error.getCode() == 404) {
-                System.out.printf("Presentation not found with id '%s'.\n", presentationId);
-            }
-            else {
-                throw e;
-            }
-        }
-        return response;
+      // Execute the request.
+      BatchUpdatePresentationRequest body =
+          new BatchUpdatePresentationRequest().setRequests(requests);
+      response = service.presentations().batchUpdate(presentationId, body).execute();
+      CreateSlideResponse createSlideResponse = response.getReplies().get(0).getCreateSlide();
+      // Prints the slide id.
+      System.out.println("Created slide with ID: " + createSlideResponse.getObjectId());
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 400) {
+        System.out.printf(" Id '%s' should be unique among all pages and page elements.\n",
+            presentationId);
+      } else if (error.getCode() == 404) {
+        System.out.printf("Presentation not found with id '%s'.\n", presentationId);
+      } else {
+        throw e;
+      }
     }
+    return response;
+  }
 }
 // [END slides_create_slide]

@@ -17,7 +17,6 @@
 import com.google.api.services.drive.model.Drive;
 import com.google.api.services.drive.model.DriveList;
 import com.google.api.services.drive.model.Permission;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +36,14 @@ public class DriveSnippets {
     driveMetadata.setName("Project Resources");
     String requestId = UUID.randomUUID().toString();
     Drive drive = driveService.drives().insert(requestId, driveMetadata)
-            .execute();
+        .execute();
     System.out.println("Drive ID: " + drive.getId());
     // [END createDrive]
     return drive.getId();
   }
 
   public List<Drive> recoverDrives(String realUser)
-          throws IOException {
+      throws IOException {
     com.google.api.services.drive.Drive driveService = this.service;
     List<Drive> drives = new ArrayList<Drive>();
     // [START recoverDrives]
@@ -57,33 +56,33 @@ public class DriveSnippets {
     // organizer is assigned.
     String pageToken = null;
     Permission newOrganizerPermission = new Permission()
-            .setType("user")
-            .setRole("organizer")
-            .setValue("user@example.com");
+        .setType("user")
+        .setRole("organizer")
+        .setValue("user@example.com");
     // [START_EXCLUDE silent]
     newOrganizerPermission.setValue(realUser);
     // [END_EXCLUDE]
 
     do {
       DriveList result = driveService.drives().list()
-              .setQ("organizerCount = 0")
-              .setUseDomainAdminAccess(true)
-              .setFields("nextPageToken, items(id, name)")
-              .setPageToken(pageToken)
-              .execute();
+          .setQ("organizerCount = 0")
+          .setUseDomainAdminAccess(true)
+          .setFields("nextPageToken, items(id, name)")
+          .setPageToken(pageToken)
+          .execute();
       for (Drive drive : result.getItems()) {
         System.out.printf("Found drive without organizer: %s (%s)\n",
-                drive.getName(), drive.getId());
+            drive.getName(), drive.getId());
         // Note: For improved efficiency, consider batching
         // permission insert requests
         Permission permissionResult = driveService.permissions()
-                .insert(drive.getId(), newOrganizerPermission)
-                .setUseDomainAdminAccess(true)
-                .setSupportsAllDrives(true)
-                .setFields("id")
-                .execute();
+            .insert(drive.getId(), newOrganizerPermission)
+            .setUseDomainAdminAccess(true)
+            .setSupportsAllDrives(true)
+            .setFields("id")
+            .execute();
         System.out.printf("Added organizer permission: %s\n",
-                permissionResult.getId());
+            permissionResult.getId());
 
       }
       // [START_EXCLUDE silent]

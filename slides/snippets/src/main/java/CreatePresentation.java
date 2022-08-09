@@ -14,6 +14,7 @@
 
 
 // [START slides_create_presentation]
+
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
@@ -28,38 +29,38 @@ import java.util.Collections;
 
 /* Class to demonstrate the use of Slides Create Presentation API */
 public class CreatePresentation {
-    /**
-     * Creates a new presentation.
-     *
-     * @param title - the name of the presentation to be created
-     * @return presentation id
-     * @throws IOException - if credentials file not found.
-     */
-    public static String createPresentation(String title) throws IOException {
+  /**
+   * Creates a new presentation.
+   *
+   * @param title - the name of the presentation to be created
+   * @return presentation id
+   * @throws IOException - if credentials file not found.
+   */
+  public static String createPresentation(String title) throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singleton(SlidesScopes.PRESENTATIONS));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Collections.singleton(SlidesScopes.PRESENTATIONS));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Create the slides API client
-        Slides service = new Slides.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Slides samples")
-                .build();
+    // Create the slides API client
+    Slides service = new Slides.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Slides samples")
+        .build();
 
-        // Creates a blank presentation with a specified title.
-        Presentation presentation = new Presentation()
-                .setTitle(title);
-        presentation = service.presentations().create(presentation)
-                .setFields("presentationId")
-                .execute();
-        // Prints the newly created presentation id.
-        System.out.println("Created presentation with ID: " + presentation.getPresentationId());
-        return presentation.getPresentationId();
-    }
+    // Creates a blank presentation with a specified title.
+    Presentation presentation = new Presentation()
+        .setTitle(title);
+    presentation = service.presentations().create(presentation)
+        .setFields("presentationId")
+        .execute();
+    // Prints the newly created presentation id.
+    System.out.println("Created presentation with ID: " + presentation.getPresentationId());
+    return presentation.getPresentationId();
+  }
 }
 // [END slides_create_presentation]

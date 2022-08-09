@@ -19,11 +19,11 @@ import java.io.IOException;
 import java.util.List;
 
 // Unit test class for List Course Aliases classroom snippet
-public class TestListCourseAliases extends BaseTest{
+public class TestListCourseAliases extends BaseTest {
 
-    @Test
-    public void testListCourseAliases() throws IOException {
-        List<CourseAlias> courseAliases = ListCourseAliases.listCourseAliases(testCourse.getId());
-        Assert.assertTrue("Incorrect number of course aliases returned.", courseAliases.size() == 1);
-    }
+  @Test
+  public void testListCourseAliases() throws IOException {
+    List<CourseAlias> courseAliases = ListCourseAliases.listCourseAliases(testCourse.getId());
+    Assert.assertTrue("Incorrect number of course aliases returned.", courseAliases.size() == 1);
+  }
 }

@@ -12,23 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import com.google.api.services.gmail.model.Message;
-import org.junit.Test;
-import javax.mail.MessagingException;
-import java.io.File;
-import java.io.IOException;
 import static org.junit.Assert.assertNotNull;
 
-// Unit testcase for gmail send email with attachment snippet
-public class TestSendMessageWithAttachment extends BaseTest{
+import com.google.api.services.gmail.model.Message;
+import java.io.File;
+import java.io.IOException;
+import javax.mail.MessagingException;
+import org.junit.Test;
 
-    @Test
-    public void testSendEmailWithAttachment() throws MessagingException,
-            IOException{
-        Message message = SendMessageWithAttachment.sendEmailWithAttachment(RECIPIENT,
-                TEST_USER,
-                new File("files/photo.jpg"));
-        assertNotNull(message);
-        this.service.users().messages().delete("me", message.getId()).execute();
-    }
+// Unit testcase for gmail send email with attachment snippet
+public class TestSendMessageWithAttachment extends BaseTest {
+
+  @Test
+  public void testSendEmailWithAttachment() throws MessagingException,
+      IOException {
+    Message message = SendMessageWithAttachment.sendEmailWithAttachment(RECIPIENT,
+        TEST_USER,
+        new File("files/photo.jpg"));
+    assertNotNull(message);
+    this.service.users().messages().delete("me", message.getId()).execute();
+  }
 }

@@ -25,12 +25,11 @@ import com.google.api.services.sheets.v4.model.ExtendedValue;
 import com.google.api.services.sheets.v4.model.GridRange;
 import com.google.api.services.sheets.v4.model.RepeatCellRequest;
 import com.google.api.services.sheets.v4.model.Request;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.auth.oauth2.GoogleCredentials;
 import org.junit.Before;
 
 public class BaseTest {
@@ -42,11 +41,11 @@ public class BaseTest {
     TODO(developer) - See https://developers.google.com/identity for
      guides on implementing OAuth2 for your application. */
     GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-            .createScoped(SheetsScopes.SPREADSHEETS,SheetsScopes.DRIVE);
+        .createScoped(SheetsScopes.SPREADSHEETS, SheetsScopes.DRIVE);
     return credentials;
   }
 
-  public Sheets buildService(GoogleCredentials credentials){
+  public Sheets buildService(GoogleCredentials credentials) {
     return new Sheets.Builder(
         new NetHttpTransport(),
         GsonFactory.getDefaultInstance(),

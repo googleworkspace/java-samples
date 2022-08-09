@@ -12,21 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import org.junit.Test;
-
-import java.io.IOException;
-
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+import org.junit.Test;
+
 // Unit test class for fetchChanges change snippet
-public class TestFetchChanges extends BaseTest{
-    @Test
-    public void fetchChanges() throws IOException {
-        String startPageToken = FetchStartPageToken.fetchStartPageToken();
-        this.createTestBlob();
-        String newStartPageToken = FetchChanges.fetchChanges(startPageToken);
-        assertNotNull(newStartPageToken);
-        assertNotEquals(startPageToken, newStartPageToken);
-    }
+public class TestFetchChanges extends BaseTest {
+  @Test
+  public void fetchChanges() throws IOException {
+    String startPageToken = FetchStartPageToken.fetchStartPageToken();
+    this.createTestBlob();
+    String newStartPageToken = FetchChanges.fetchChanges(startPageToken);
+    assertNotNull(newStartPageToken);
+    assertNotEquals(startPageToken, newStartPageToken);
+  }
 }

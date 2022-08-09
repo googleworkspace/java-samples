@@ -43,44 +43,25 @@ import org.apache.commons.cli.Options;
 
 public class MigrationHelper {
 
-  enum MigrationOptions {
-    GENERATE_REPORT("a", "genholdreport", "Generate Hold Report"),
-    DUPLICATE_HOLDS("b", "duplicateholds", "Duplicate Gmail Holds to Hangouts Chat"),
-    REPORT_FILE("f", "reportfile", "Path to holds report file"),
-    ERROR_FILE("e", "errorfile", "Path to error report file"),
-    INCLUDE_ROOMS("g", "includerooms", "Include Rooms when duplicating holds to Hangouts Chat"),
-    HELP("h", "help", "Options Help");
-
-    private final String option;
-    private final String longOpt;
-    private final String description;
-
-    MigrationOptions(String opt, String longOpt, String description) {
-      this.option = opt;
-      this.longOpt = longOpt;
-      this.description = description;
-    }
-
-    public String getOption() {
-      return option;
-    }
-  }
-
-  /** Application name. */
+  static final Option helpOption =
+      Option.builder(MigrationOptions.HELP.option)
+          .longOpt(MigrationOptions.HELP.longOpt)
+          .argName("help")
+          .desc(MigrationOptions.HELP.description)
+          .build();
+  /**
+   * Application name.
+   */
   private static final String APPLICATION_NAME = "Google Vault API Java Quickstart";
 
-  /** Directory to store authorization tokens for this application. */
+  /**
+   * Directory to store authorization tokens for this application.
+   */
   private static final java.io.File DATA_STORE_DIR = new java.io.File("tokens");
-
-  /** Global instance of the {@link FileDataStoreFactory}. */
-  private static FileDataStoreFactory DATA_STORE_FACTORY;
-
-  /** Global instance of the JSON factory. */
+  /**
+   * Global instance of the JSON factory.
+   */
   private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-
-  /** Global instance of the HTTP transport. */
-  private static HttpTransport HTTP_TRANSPORT;
-
   /**
    * Global instance of the scopes required by this quickstart.
    *
@@ -92,6 +73,14 @@ public class MigrationHelper {
           VaultScopes.EDISCOVERY,
           DirectoryScopes.ADMIN_DIRECTORY_USER_READONLY,
           DirectoryScopes.ADMIN_DIRECTORY_ORGUNIT_READONLY);
+  /**
+   * Global instance of the {@link FileDataStoreFactory}.
+   */
+  private static FileDataStoreFactory DATA_STORE_FACTORY;
+  /**
+   * Global instance of the HTTP transport.
+   */
+  private static HttpTransport HTTP_TRANSPORT;
 
   static {
     try {
@@ -105,13 +94,6 @@ public class MigrationHelper {
       System.exit(1);
     }
   }
-
-  static final Option helpOption =
-      Option.builder(MigrationOptions.HELP.option)
-          .longOpt(MigrationOptions.HELP.longOpt)
-          .argName("help")
-          .desc(MigrationOptions.HELP.description)
-          .build();
 
   static Options buildOptions() {
     Options options = new Options();
@@ -213,5 +195,28 @@ public class MigrationHelper {
             .setApplicationName(APPLICATION_NAME)
             .build();
     return service;
+  }
+
+  enum MigrationOptions {
+    GENERATE_REPORT("a", "genholdreport", "Generate Hold Report"),
+    DUPLICATE_HOLDS("b", "duplicateholds", "Duplicate Gmail Holds to Hangouts Chat"),
+    REPORT_FILE("f", "reportfile", "Path to holds report file"),
+    ERROR_FILE("e", "errorfile", "Path to error report file"),
+    INCLUDE_ROOMS("g", "includerooms", "Include Rooms when duplicating holds to Hangouts Chat"),
+    HELP("h", "help", "Options Help");
+
+    private final String option;
+    private final String longOpt;
+    private final String description;
+
+    MigrationOptions(String opt, String longOpt, String description) {
+      this.option = opt;
+      this.longOpt = longOpt;
+      this.description = description;
+    }
+
+    public String getOption() {
+      return option;
+    }
   }
 }

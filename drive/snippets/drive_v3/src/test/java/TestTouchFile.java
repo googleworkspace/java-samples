@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-
-public class TestTouchFile extends BaseTest{
-    @Test
-    public void touchFile() throws IOException, GeneralSecurityException {
-        String id = this.createTestBlob();
-        long now = System.currentTimeMillis();
-        long modifiedTime = TouchFile.touchFile(id, now);
-        assertEquals(now, modifiedTime);
-    }
+public class TestTouchFile extends BaseTest {
+  @Test
+  public void touchFile() throws IOException, GeneralSecurityException {
+    String id = this.createTestBlob();
+    long now = System.currentTimeMillis();
+    long modifiedTime = TouchFile.touchFile(id, now);
+    assertEquals(now, modifiedTime);
+  }
 }

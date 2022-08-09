@@ -14,6 +14,7 @@
 
 
 // [START sheets_append_values]
+
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -25,63 +26,62 @@ import com.google.api.services.sheets.v4.model.AppendValuesResponse;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 /* Class to demonstrate the use of Spreadsheet Append Values API */
 public class AppendValues {
-    /**
-     * Appends values to a spreadsheet.
-     *
-     * @param spreadsheetId - Id of the spreadsheet.
-     * @param range - Range of cells of the spreadsheet.
-     * @param valueInputOption - Determines how input data should be interpreted.
-     * @param values - list of rows of values to input.
-     * @return spreadsheet with appended values
-     * @throws IOException - if credentials file not found.
-     */
-    public static AppendValuesResponse appendValues(String spreadsheetId,
-                                                    String range,
-                                                    String valueInputOption,
-                                                    List<List<Object>> values)
-            throws IOException {
+  /**
+   * Appends values to a spreadsheet.
+   *
+   * @param spreadsheetId    - Id of the spreadsheet.
+   * @param range            - Range of cells of the spreadsheet.
+   * @param valueInputOption - Determines how input data should be interpreted.
+   * @param values           - list of rows of values to input.
+   * @return spreadsheet with appended values
+   * @throws IOException - if credentials file not found.
+   */
+  public static AppendValuesResponse appendValues(String spreadsheetId,
+                                                  String range,
+                                                  String valueInputOption,
+                                                  List<List<Object>> values)
+      throws IOException {
         /* Load pre-authorized user credentials from the environment.
            TODO(developer) - See https://developers.google.com/identity for
             guides on implementing OAuth2 for your application. */
-        GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-                .createScoped(Collections.singleton(SheetsScopes.SPREADSHEETS));
-        HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-                credentials);
+    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
+        .createScoped(Collections.singleton(SheetsScopes.SPREADSHEETS));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
+        credentials);
 
-        // Create the sheets API client
-        Sheets service = new Sheets.Builder(new NetHttpTransport(),
-                GsonFactory.getDefaultInstance(),
-                requestInitializer)
-                .setApplicationName("Sheets samples")
-                .build();
+    // Create the sheets API client
+    Sheets service = new Sheets.Builder(new NetHttpTransport(),
+        GsonFactory.getDefaultInstance(),
+        requestInitializer)
+        .setApplicationName("Sheets samples")
+        .build();
 
-        AppendValuesResponse result = null;
-        try {
-            // Append values to the specified range.
-            ValueRange body = new ValueRange()
-                    .setValues(values);
-            result = service.spreadsheets().values().append(spreadsheetId, range, body)
-                    .setValueInputOption(valueInputOption)
-                    .execute();
-            // Prints the spreadsheet with appended values.
-            System.out.printf("%d cells appended.", result.getUpdates().getUpdatedCells());
-        } catch (GoogleJsonResponseException e) {
-            // TODO(developer) - handle error appropriately
-            GoogleJsonError error = e.getDetails();
-            if (error.getCode() == 404) {
-                System.out.printf("Spreadsheet not found with id '%s'.\n",spreadsheetId);
-            } else {
-                throw e;
-            }
-        }
-        return result;
+    AppendValuesResponse result = null;
+    try {
+      // Append values to the specified range.
+      ValueRange body = new ValueRange()
+          .setValues(values);
+      result = service.spreadsheets().values().append(spreadsheetId, range, body)
+          .setValueInputOption(valueInputOption)
+          .execute();
+      // Prints the spreadsheet with appended values.
+      System.out.printf("%d cells appended.", result.getUpdates().getUpdatedCells());
+    } catch (GoogleJsonResponseException e) {
+      // TODO(developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 404) {
+        System.out.printf("Spreadsheet not found with id '%s'.\n", spreadsheetId);
+      } else {
+        throw e;
+      }
     }
+    return result;
+  }
 }
 // [END sheets_append_values]
