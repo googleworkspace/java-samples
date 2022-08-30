@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import static org.junit.Assert.assertNotEquals;
 import com.google.api.services.drive.model.FileList;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
