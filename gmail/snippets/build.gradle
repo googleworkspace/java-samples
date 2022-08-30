@@ -11,4 +11,5 @@ dependencies {
     implementation 'org.apache.commons:commons-csv:1.9.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-inline:4.7.0'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
 }
