@@ -17,6 +17,6 @@ dependencies {
     implementation 'com.google.apis:google-api-services-vault:v1-rev20211101-1.32.1'
     implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.9.0'
     implementation 'com.github.rholder:guava-retrying:2.0.0'
-    implementation 'com.google.apis:google-api-services-admin-directory:directory_v1-rev118-1.25.0'
+    implementation 'com.google.apis:google-api-services-admin-directory:directory_v1-rev20220816-2.0.0'
     implementation group: 'commons-cli', name: 'commons-cli', version: '1.5.0'
 }
