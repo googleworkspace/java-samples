@@ -5,7 +5,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.auth:google-auth-library-oauth2-http:1.6.0'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:1.10.0'
     implementation 'com.google.apis:google-api-services-gmail:v1-rev20220404-1.32.1'
     implementation 'javax.mail:mail:1.4.7'
     implementation 'org.apache.commons:commons-csv:1.9.0'
