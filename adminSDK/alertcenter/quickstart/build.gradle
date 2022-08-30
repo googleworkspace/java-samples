@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.api-client:google-api-client:1.33.0'
+    implementation 'com.google.api-client:google-api-client:2.0.0'
     implementation 'com.google.auth:google-auth-library-oauth2-http:1.10.0'
     implementation 'com.google.apis:google-api-services-alertcenter:v1beta1-rev20211012-1.32.1'
 }
