@@ -1,0 +1,110 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/calendar/sync"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/calendar/sync"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/calendar/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/sheets/snippets"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/sheets/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/adminSDK/alertcenter"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/adminSDK/directory/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/adminSDK/reseller/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/adminSDK/groups-settings/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/adminSDK/reports/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/classroom/snippets"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/classroom/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/docs/outputJSON"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/docs/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/slides/snippets"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/slides/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/people/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/appsScript/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/drive/snippets/drive_v2"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/drive/snippets/drive_v3"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/drive/activity/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/drive/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/drive/activity-v2/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/gmail/snippets"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/gmail/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/vault/quickstart"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gradle"
+    directory: "/vault/vault-hold-migration-api"
+    schedule:
+      interval: "weekly"
