@@ -17,10 +17,10 @@
 package com.google.vault.chatmigration;
 
 import com.github.rholder.retry.RetryException;
-import com.google.api.services.admin.directory.Directory;
-import com.google.api.services.admin.directory.model.OrgUnit;
-import com.google.api.services.admin.directory.model.OrgUnits;
-import com.google.api.services.admin.directory.model.User;
+import com.google.api.services.directory.Directory;
+import com.google.api.services.directory.model.OrgUnit;
+import com.google.api.services.directory.model.OrgUnits;
+import com.google.api.services.directory.model.User;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

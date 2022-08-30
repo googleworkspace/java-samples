@@ -16,7 +16,7 @@
 
 package com.google.vault.chatmigration;
 
-import com.google.api.services.admin.directory.model.OrgUnit;
+import com.google.api.services.directory.model.OrgUnit;
 import com.google.api.services.vault.v1.Vault;
 import com.google.api.services.vault.v1.model.Hold;
 import com.google.api.services.vault.v1.model.ListHoldsResponse;

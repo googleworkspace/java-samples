@@ -16,7 +16,7 @@
 
 package com.google.vault.chatmigration;
 
-import com.google.api.services.admin.directory.Directory;
+import com.google.api.services.directory.Directory;
 import com.google.api.services.vault.v1.Vault;
 import com.google.vault.chatmigration.MigrationHelper.MigrationOptions;
 import java.io.File;
