@@ -55,7 +55,7 @@ public class AddStudent {
         .setApplicationName("Classroom samples")
         .build();
 
-    Student student = new Student().setUserId("me");
+    Student student = new Student().setUserId("gduser1@workspacesamples.dev");
     try {
       // Enrolling a student to a specified course
       student = service.courses().students().create(courseId, student)
