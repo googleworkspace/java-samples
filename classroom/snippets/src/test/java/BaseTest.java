@@ -80,6 +80,10 @@ public class BaseTest {
   }
 
   public void deleteCourse(String courseId) throws IOException {
+    // updating the course state to be archived so the course can be deleted.
+    Course course = service.courses().get(courseId).execute();
+    course.setCourseState("ARCHIVED");
+    this.service.courses().update(courseId, course).execute();
     this.service.courses().delete(courseId).execute();
   }
 }
