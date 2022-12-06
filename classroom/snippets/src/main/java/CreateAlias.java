@@ -14,6 +14,7 @@
 
 
 // [START classroom_create_alias]
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -43,7 +44,7 @@ public class CreateAlias {
     HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
         credentials);
 
-    // Create the classroom API client
+    // Create the classroom API client.
     Classroom service = new Classroom.Builder(new NetHttpTransport(),
         GsonFactory.getDefaultInstance(),
         requestInitializer)
@@ -51,21 +52,29 @@ public class CreateAlias {
         .build();
 
     Course course = null;
+
+    /* Create a new Course with the alias set as the id field. Project-wide aliases use a prefix
+    of "p:" and can only be seen and used by the application that created them. */
+    Course content = new Course()
+        .setId("p:history_4_2022")
+        .setName("9th Grade History")
+        .setSection("Period 4")
+        .setDescriptionHeading("Welcome to 9th Grade History.")
+        .setOwnerId("me")
+        .setCourseState("PROVISIONED");
+
     try {
-      // Create the new Course
-      Course content = new Course()
-          .setId("p:history_4_2022")
-          .setName("9th Grade History")
-          .setSection("Period 4")
-          .setDescriptionHeading("Welcome to 9th Grade History.")
-          .setOwnerId("me")
-          .setCourseState("PROVISIONED");
       course = service.courses().create(content).execute();
       // Prints the new created course id and name
       System.out.printf("Course created: %s (%s)\n", course.getName(), course.getId());
     } catch (GoogleJsonResponseException e) {
       //TODO (developer) - handle error appropriately
-      throw e;
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 409) {
+        System.out.printf("The course alias already exists: %s.\n", content.getId());
+      } else {
+        throw e;
+      }
     } catch (Exception e) {
       throw e;
     }

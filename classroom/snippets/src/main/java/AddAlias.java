@@ -15,6 +15,7 @@
 
 // [START classroom_add_alias]
 
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -27,10 +28,10 @@ import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
 import java.util.Collections;
 
-/* Class to demonstrate the use of Classroom Create Alias API */
+/* Class to demonstrate the use of Classroom Create Alias API. */
 public class AddAlias {
   /**
-   * Create an aliases for an existing course.
+   * Add an alias on an existing course.
    *
    * @param courseId - id of the course to add an alias to.
    * @return - newly created course alias.
@@ -45,24 +46,31 @@ public class AddAlias {
     HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
         credentials);
 
-    // Create the classroom API client
+    // Create the classroom API client.
     Classroom service = new Classroom.Builder(new NetHttpTransport(),
         GsonFactory.getDefaultInstance(),
         requestInitializer)
         .setApplicationName("Classroom samples")
         .build();
 
+    /* Create a new CourseAlias object with a project-wide alias. Project-wide aliases use a prefix
+    of "p:" and can only be seen and used by the application that created them. */
+    CourseAlias content = new CourseAlias()
+        .setAlias("p:biology_10");
     CourseAlias courseAlias = null;
+
     try {
-      // Create new CourseAlias object
-      CourseAlias content = new CourseAlias()
-          .setAlias("p:test_alias_2");
       courseAlias = service.courses().aliases().create(courseId, content)
           .execute();
       System.out.printf("Course alias created: %s \n", courseAlias.getAlias());
     } catch (GoogleJsonResponseException e) {
       //TODO (developer) - handle error appropriately
-      throw e;
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 409) {
+        System.out.printf("The course alias already exists: %s.\n", content);
+      } else {
+        throw e;
+      }
     } catch (Exception e) {
       throw e;
     }

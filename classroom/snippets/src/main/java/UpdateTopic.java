@@ -15,6 +15,7 @@
 
 // [START classroom_update_topic]
 
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -46,7 +47,7 @@ public class UpdateTopic {
     HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
         credentials);
 
-    // Create the classroom API client
+    // Create the classroom API client.
     Classroom service = new Classroom.Builder(new NetHttpTransport(),
         GsonFactory.getDefaultInstance(),
         requestInitializer)
@@ -55,14 +56,25 @@ public class UpdateTopic {
 
     Topic topic = null;
     try {
+      // Retrieve the topic to update.
       Topic topicToUpdate = service.courses().topics().get(courseId, topicId).execute();
+
+      // Update the name field for the topic retrieved.
       topicToUpdate.setName("Semester 2");
+
+      /* Call the patch endpoint and set the updateMask query parameter to the field that needs to
+       be updated. */
       topic = service.courses().topics().patch(courseId, topicId, topicToUpdate)
           .set("updateMask", "name")
           .execute();
     } catch(GoogleJsonResponseException e) {
       // TODO(developer) - handle error appropriately
-      throw e;
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 404) {
+        System.out.printf("The courseId or topicId does not exist: %s, %s.\n", courseId, topicId);
+      } else {
+        throw e;
+      }
     } catch (Exception e) {
       throw e;
     }

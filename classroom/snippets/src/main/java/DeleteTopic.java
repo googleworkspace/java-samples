@@ -15,6 +15,7 @@
 
 // [START classroom_delete_topic]
 
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -45,7 +46,7 @@ public class DeleteTopic {
     HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
         credentials);
 
-    // Create the classroom API client
+    // Create the classroom API client.
     Classroom service = new Classroom.Builder(new NetHttpTransport(),
         GsonFactory.getDefaultInstance(),
         requestInitializer)
@@ -56,7 +57,12 @@ public class DeleteTopic {
       service.courses().topics().delete(courseId, topicId).execute();
     } catch (GoogleJsonResponseException e) {
       // TODO(developer) - handle error appropriately
-      throw e;
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 404) {
+        System.out.printf("The courseId or topicId does not exist: %s, %s.\n", courseId, topicId);
+      } else {
+        throw e;
+      }
     } catch (Exception e) {
       throw e;
     }

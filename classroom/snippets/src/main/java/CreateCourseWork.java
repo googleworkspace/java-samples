@@ -14,6 +14,7 @@
 
 
 // [START classroom_create_coursework]
+import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -21,10 +22,16 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.CourseWork;
+import com.google.api.services.classroom.model.Date;
+import com.google.api.services.classroom.model.Link;
+import com.google.api.services.classroom.model.Material;
+import com.google.api.services.classroom.model.TimeOfDay;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 /* Class to demonstrate the use of Classroom Create CourseWork API. */
 public class CreateCourseWork {
@@ -44,7 +51,7 @@ public class CreateCourseWork {
     HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
         credentials);
 
-    // Create the classroom API client
+    // Create the classroom API client.
     Classroom service = new Classroom.Builder(new NetHttpTransport(),
         GsonFactory.getDefaultInstance(),
         requestInitializer)
@@ -53,15 +60,39 @@ public class CreateCourseWork {
 
     CourseWork courseWork = null;
     try {
-      // Create new CourseWork object
+      // Create a link to add as a material on course work.
+      Link articleLink = new Link()
+          .setTitle("SR-71 Blackbird")
+          .setUrl("https://www.lockheedmartin.com/en-us/news/features/history/blackbird.html");
+
+      // Create a list of Materials to add to course work.
+      List<Material> materials = Arrays.asList(new Material().setLink(articleLink));
+
+      /* Create new CourseWork object with the material attached.
+      Set workType to `ASSIGNMENT`. Possible values of workType can be found here:
+      https://developers.google.com/classroom/reference/rest/v1/CourseWorkType
+      Set state to `PUBLISHED`. Possible values of state can be found here:
+      https://developers.google.com/classroom/reference/rest/v1/courses.courseWork#courseworkstate */
       CourseWork content = new CourseWork()
-          .setTitle("Midterm Quiz")
+          .setTitle("Supersonic aviation")
+          .setDescription("Read about how the SR-71 Blackbird, the world’s fastest and "
+              + "highest-flying manned aircraft, was built.")
+          .setMaterials(materials)
+          .setDueDate(new Date().setMonth(12).setDay(10).setYear(2022))
+          .setDueTime(new TimeOfDay().setHours(15).setMinutes(0))
           .setWorkType("ASSIGNMENT")
           .setState("PUBLISHED");
+
       courseWork = service.courses().courseWork().create(courseId, content)
           .execute();
     } catch (GoogleJsonResponseException e) {
       //TODO (developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 404) {
+        System.out.printf("The courseId does not exist: %s.\n", courseId);
+      } else {
+        throw e;
+      }
       throw e;
     } catch (Exception e) {
       throw e;
