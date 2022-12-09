@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
-/* Class to demonstrate the use of Classroom Modify Attachments StudentSubmissions API. */
+/* Class to demonstrate the use of Classroom ModifyAttachments StudentSubmissions API. */
 public class ModifyAttachmentsStudentSubmission {
   /**
    * Lists student submissions based on courseId, courseWorkId, and userId.

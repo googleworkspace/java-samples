@@ -68,6 +68,7 @@ public class PatchStudentSubmission {
       content.setDraftGrade(90.00);
       studentSubmission = service.courses().courseWork().studentSubmissions()
           .patch(courseId, courseWorkId, id, content)
+          .set("updateMask", "draftGrade,assignedGrade")
           .execute();
     } catch (GoogleJsonResponseException e) {
       GoogleJsonError error = e.getDetails();

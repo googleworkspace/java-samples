@@ -39,7 +39,7 @@ public class ListStudentSubmissions {
    * @param courseId - identifier of the course.
    * @param courseWorkId - identifier of the course work.
    * @param userId - identifier of the student whose work to return.
-   * @return - list of student submission.
+   * @return - list of student submissions.
    * @throws IOException - if credentials file not found.
    */
   public static List<StudentSubmission> listStudentSubmissions(String courseId, String courseWorkId,
