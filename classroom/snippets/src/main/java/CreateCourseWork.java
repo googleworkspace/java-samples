@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-// [START classroom_create_coursework]
+// [START classroom_create_coursework_class]
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -39,7 +39,7 @@ public class CreateCourseWork {
    * Creates course work.
    *
    * @param courseId - id of the course to create coursework in.
-   * @return - newly created CourseWork object
+   * @return - newly created CourseWork object.
    * @throws IOException - if credentials file not found.
    */
   public static CourseWork createCourseWork(String courseId) throws IOException {
@@ -57,6 +57,8 @@ public class CreateCourseWork {
         requestInitializer)
         .setApplicationName("Classroom samples")
         .build();
+
+    // [START classroom_create_coursework_code_snippet]
 
     CourseWork courseWork = null;
     try {
@@ -98,6 +100,8 @@ public class CreateCourseWork {
       throw e;
     }
     return courseWork;
+
+    // [END classroom_create_coursework_code_snippet]
   }
 }
-// [END classroom_create_coursework]
+// [END classroom_create_coursework_class]

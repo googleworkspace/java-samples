@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-// [START classroom_list_topic]
+// [START classroom_list_topic_class]
 
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -56,6 +56,8 @@ public class ListTopics {
         .setApplicationName("Classroom samples")
         .build();
 
+    // [START classroom_list_topic_code_snippet]
+
     List<Topic> topics = new ArrayList<>();
     String pageToken = null;
 
@@ -88,6 +90,9 @@ public class ListTopics {
       throw e;
     }
     return topics;
-  }
 
+    // [END classroom_list_topic_code_snippet]
+
+  }
 }
+// [END classroom_list_topic_class]

@@ -12,17 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.CourseAlias;
 import java.io.IOException;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-// Unit test class for Add Alias classroom snippet
-public class TestAddAlias extends BaseTest {
+// Unit test class for Create Alias classroom snippet
+public class TestCreateCourseWithAlias extends BaseTest {
 
   @Test
-  public void testAddAlias() throws IOException {
-    CourseAlias courseAlias = AddAlias.addCourseAlias(testCourse.getId());
-    Assert.assertNotNull("Course alias not returned.", courseAlias);
+  public void testCreateCourseWithAlias() throws IOException {
+    Course course = CreateCourseWithAlias.createCourseWithAlias();
+    List<CourseAlias> courseAliases = service.courses().aliases()
+        .list(course.getId()
+        ).execute()
+        .getAliases();
+    Assert.assertNotNull("Course not returned.", course);
+    Assert.assertTrue("No course aliases exist.", courseAliases.size() > 0);
+    deleteCourse(course.getId());
   }
 }

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-// [START classroom_get_topic]
+// [START classroom_get_topic_class]
 
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -54,6 +54,8 @@ public class GetTopic {
         .setApplicationName("Classroom samples")
         .build();
 
+    // [START classroom_get_topic_code_snippet]
+
     Topic topic = null;
     try {
       // Get the topic.
@@ -70,5 +72,9 @@ public class GetTopic {
       throw e;
     }
     return topic;
+
+    // [END classroom_get_topic_code_snippet]
+
   }
 }
+// [END classroom_get_topic_class]

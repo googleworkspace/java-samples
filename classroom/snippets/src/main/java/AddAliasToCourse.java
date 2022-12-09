@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-// [START classroom_add_alias]
+// [START classroom_add_alias_to_course_class]
 
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 /* Class to demonstrate the use of Classroom Create Alias API. */
-public class AddAlias {
+public class AddAliasToCourse {
   /**
    * Add an alias on an existing course.
    *
@@ -37,7 +37,7 @@ public class AddAlias {
    * @return - newly created course alias.
    * @throws IOException - if credentials file not found.
    */
-  public static CourseAlias addCourseAlias(String courseId) throws IOException {
+  public static CourseAlias addAliasToCourse(String courseId) throws IOException {
     /* Load pre-authorized user credentials from the environment.
        TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application. */
@@ -52,6 +52,8 @@ public class AddAlias {
         requestInitializer)
         .setApplicationName("Classroom samples")
         .build();
+
+    // [START classroom_add_alias_to_course_code_snippet]
 
     /* Create a new CourseAlias object with a project-wide alias. Project-wide aliases use a prefix
     of "p:" and can only be seen and used by the application that created them. */
@@ -75,6 +77,9 @@ public class AddAlias {
       throw e;
     }
     return courseAlias;
+
+    // [END classroom_add_alias_to_course_code_snippet]
+
   }
 }
-// [END classroom_add_alias]
+// [END classroom_add_alias_to_course_class]

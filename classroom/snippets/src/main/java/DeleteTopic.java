@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-// [START classroom_delete_topic]
+// [START classroom_delete_topic_class]
 
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -53,6 +53,8 @@ public class DeleteTopic {
         .setApplicationName("Classroom samples")
         .build();
 
+    // [START classroom_delete_topic_code_snippet]
+
     try {
       service.courses().topics().delete(courseId, topicId).execute();
     } catch (GoogleJsonResponseException e) {
@@ -66,5 +68,9 @@ public class DeleteTopic {
     } catch (Exception e) {
       throw e;
     }
+
+    // [END classroom_delete_topic_code_snippet]
+
   }
 }
+// [END classroom_delete_topic_class]

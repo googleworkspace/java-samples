@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-// [START classroom_create_alias]
+// [START classroom_create_course_with_alias_class]
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -28,14 +28,14 @@ import java.io.IOException;
 import java.util.Collections;
 
 /* Class to demonstrate how to create a course with an alias. */
-public class CreateAlias {
+public class CreateCourseWithAlias {
   /**
    * Create a new course with an alias. Set the new course id to the desired alias.
    *
    * @return - newly created course.
    * @throws IOException - if credentials file not found.
    */
-  public static Course createAlias() throws IOException {
+  public static Course createCourseWithAlias() throws IOException {
     /* Load pre-authorized user credentials from the environment.
        TODO(developer) - See https://developers.google.com/identity for
         guides on implementing OAuth2 for your application. */
@@ -50,6 +50,8 @@ public class CreateAlias {
         requestInitializer)
         .setApplicationName("Classroom samples")
         .build();
+
+    // [START classroom_create_course_with_alias_code_snippet]
 
     Course course = null;
 
@@ -79,6 +81,9 @@ public class CreateAlias {
       throw e;
     }
     return course;
+
+    // [END classroom_create_course_with_alias_code_snippet]
+
   }
 }
-// [END classroom_create_alias]
+// [END classroom_create_course_with_alias_class]

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-// [START classroom_update_topic]
+// [START classroom_update_topic_class]
 
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -54,6 +54,8 @@ public class UpdateTopic {
         .setApplicationName("Classroom samples")
         .build();
 
+    // [START classroom_update_topic_code_snippet]
+
     Topic topic = null;
     try {
       // Retrieve the topic to update.
@@ -79,5 +81,9 @@ public class UpdateTopic {
       throw e;
     }
     return topic;
+
+    // [END classroom_update_topic_code_snippet]
+
   }
 }
+// [END classroom_update_topic_class]
