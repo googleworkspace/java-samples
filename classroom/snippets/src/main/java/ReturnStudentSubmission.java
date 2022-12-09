@@ -61,6 +61,7 @@ public class ReturnStudentSubmission {
           .classroomReturn(courseId, courseWorkId, id, null)
           .execute();
     } catch (GoogleJsonResponseException e) {
+      //TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
         System.out.printf("The courseId (%s), courseWorkId (%s), or studentSubmissionId (%s) does "

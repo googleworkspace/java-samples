@@ -70,6 +70,7 @@ public class ListStudentSubmissions {
           .execute();
       studentSubmissions.addAll(response.getStudentSubmissions());
     } catch (GoogleJsonResponseException e) {
+      //TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
         System.out.printf("The courseId (%s), courseWorkId (%s), or userId (%s) does "
