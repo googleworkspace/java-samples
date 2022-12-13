@@ -18,14 +18,14 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-// Unit test class for ListStudentsSubmissions classroom snippet
-public class TestListStudentsSubmissions extends BaseTest {
+// Unit test class for ListSubmissions classroom snippet
+public class TestListSubmissions extends BaseTest {
 
   @Test
-  public void testListStudentsSubmissions() throws IOException {
-    List<StudentSubmission> studentSubmissions = ListStudentsSubmissions.listStudentsSubmissions(
+  public void testListSubmissions() throws IOException {
+    List<StudentSubmission> submissions = ListSubmissions.listSubmissions(
         testCourse.getId(),
         "-");
-    Assert.assertNotNull("Student Submissions not returned.", studentSubmissions);
+    Assert.assertNotNull("Submissions not returned.", submissions);
   }
 }

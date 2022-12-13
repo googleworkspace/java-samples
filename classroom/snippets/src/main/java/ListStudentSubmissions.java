@@ -34,7 +34,7 @@ import java.util.List;
 /* Class to demonstrate the use of Classroom List StudentSubmissions API. */
 public class ListStudentSubmissions {
   /**
-   * Lists student submissions based on courseId, courseWorkId, and userId.
+   * Retrieves a specific student's submissions for the specified course work.
    *
    * @param courseId - identifier of the course.
    * @param courseWorkId - identifier of the course work.

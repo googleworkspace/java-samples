@@ -32,16 +32,16 @@ import java.util.Collections;
 import java.util.List;
 
 /* Class to demonstrate the use of Classroom List StudentSubmissions API. */
-public class ListStudentsSubmissions {
+public class ListSubmissions {
   /**
-   * Lists students submissions based on courseId and courseWorkId.
+   * Retrieves submissions for all students for the specified course work in a course.
    *
    * @param courseId - identifier of the course.
    * @param courseWorkId - identifier of the course work.
    * @return - list of student submissions.
    * @throws IOException - if credentials file not found.
    */
-  public static List<StudentSubmission> listStudentsSubmissions(String courseId, String courseWorkId)
+  public static List<StudentSubmission> listSubmissions(String courseId, String courseWorkId)
       throws IOException {
     /* Load pre-authorized user credentials from the environment.
      TODO(developer) - See https://developers.google.com/identity for

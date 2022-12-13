@@ -30,7 +30,7 @@ import java.util.Collections;
 /* Class to demonstrate the use of Classroom Return StudentSubmissions API. */
 public class ReturnStudentSubmission {
   /**
-   * Return student submission.
+   * Return a student submission back to the student which updates the submission state to `RETURNED`.
    *
    * @param courseId - identifier of the course.
    * @param courseWorkId - identifier of the course work.

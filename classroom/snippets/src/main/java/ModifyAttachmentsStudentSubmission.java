@@ -35,7 +35,7 @@ import java.util.Collections;
 /* Class to demonstrate the use of Classroom ModifyAttachments StudentSubmissions API. */
 public class ModifyAttachmentsStudentSubmission {
   /**
-   * Lists student submissions based on courseId, courseWorkId, and userId.
+   * Modify attachments on a student submission.
    *
    * @param courseId - identifier of the course.
    * @param courseWorkId - identifier of the course work.
@@ -69,6 +69,8 @@ public class ModifyAttachmentsStudentSubmission {
       Attachment attachment = new Attachment().setLink(link);
       ModifyAttachmentsRequest modifyAttachmentsRequest = new ModifyAttachmentsRequest()
           .setAddAttachments(Arrays.asList(attachment));
+
+      // The modified studentSubmission object is returned with the new attachment added to it.
       studentSubmission = service.courses().courseWork().studentSubmissions().modifyAttachments(
           courseId, courseWorkId, id, modifyAttachmentsRequest)
           .execute();

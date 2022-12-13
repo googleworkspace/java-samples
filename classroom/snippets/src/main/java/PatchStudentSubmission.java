@@ -31,7 +31,7 @@ import java.util.Collections;
 /* Class to demonstrate the use of Classroom Patch StudentSubmissions API. */
 public class PatchStudentSubmission {
   /**
-   * Updates one or more fields of a student submission.
+   * Updates the draft grade and/or assigned grade of a student submission.
    *
    * @param courseId - identifier of the course.
    * @param courseWorkId - identifier of the course work.
@@ -60,12 +60,14 @@ public class PatchStudentSubmission {
 
     StudentSubmission studentSubmission = null;
     try {
-      //
+      // Updating the draftGrade and assignedGrade fields for the specific student submission.
       StudentSubmission content = service.courses().courseWork().studentSubmissions()
           .get(courseId, courseWorkId, id)
           .execute();
       content.setAssignedGrade(80.00);
       content.setDraftGrade(90.00);
+
+      // The updated studentSubmission object is returned with the new draftGrade and assignedGrade.
       studentSubmission = service.courses().courseWork().studentSubmissions()
           .patch(courseId, courseWorkId, id, content)
           .set("updateMask", "draftGrade,assignedGrade")
