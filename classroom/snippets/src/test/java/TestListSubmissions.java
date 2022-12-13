@@ -26,6 +26,6 @@ public class TestListSubmissions extends BaseTest {
     List<StudentSubmission> submissions = ListSubmissions.listSubmissions(
         testCourse.getId(),
         "-");
-    Assert.assertNotNull("Submissions not returned.", submissions);
+    Assert.assertNotNull("No submissions returned.", submissions);
   }
 }

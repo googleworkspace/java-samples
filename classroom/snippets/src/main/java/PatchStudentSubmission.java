@@ -36,7 +36,7 @@ public class PatchStudentSubmission {
    * @param courseId - identifier of the course.
    * @param courseWorkId - identifier of the course work.
    * @param id - identifier of the student submission.
-   * @return - updated StudentSubmission instance.
+   * @return - the updated student submission.
    * @throws IOException - if credentials file not found.
    */
   public static StudentSubmission patchStudentSubmission(String courseId, String courseWorkId,

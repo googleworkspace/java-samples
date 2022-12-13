@@ -68,7 +68,9 @@ public class ListStudentSubmissions {
           .list(courseId, courseWorkId)
           .set("userId", userId)
           .execute();
-      studentSubmissions.addAll(response.getStudentSubmissions());
+      if (response.getStudentSubmissions() != null) {
+        studentSubmissions.addAll(response.getStudentSubmissions());
+      }
     } catch (GoogleJsonResponseException e) {
       //TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();

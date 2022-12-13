@@ -40,7 +40,7 @@ public class ModifyAttachmentsStudentSubmission {
    * @param courseId - identifier of the course.
    * @param courseWorkId - identifier of the course work.
    * @param id - identifier of the student submission.
-   * @return - the modified student submissions.
+   * @return - the modified student submission.
    * @throws IOException - if credentials file not found.
    */
   public static StudentSubmission modifyAttachments(String courseId, String courseWorkId, String id)

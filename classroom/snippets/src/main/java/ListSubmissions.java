@@ -72,7 +72,7 @@ public class ListSubmissions {
       //TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
-        System.out.printf("The courseId (%s) or courseWorkId (%s) (%s) does not exist.\n", courseId,
+        System.out.printf("The courseId (%s) or courseWorkId (%s) does not exist.\n", courseId,
             courseWorkId);
       } else {
         throw e;
