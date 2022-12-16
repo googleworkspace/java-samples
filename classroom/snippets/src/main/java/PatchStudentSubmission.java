@@ -64,14 +64,19 @@ public class PatchStudentSubmission {
       StudentSubmission content = service.courses().courseWork().studentSubmissions()
           .get(courseId, courseWorkId, id)
           .execute();
-      content.setAssignedGrade(80.00);
-      content.setDraftGrade(90.00);
+      content.setAssignedGrade(90.00);
+      content.setDraftGrade(80.00);
 
       // The updated studentSubmission object is returned with the new draftGrade and assignedGrade.
       studentSubmission = service.courses().courseWork().studentSubmissions()
           .patch(courseId, courseWorkId, id, content)
           .set("updateMask", "draftGrade,assignedGrade")
           .execute();
+
+      /* Prints the updated student submission. */
+      System.out.printf("Updated student submission draft grade (%s) and assigned grade (%s).\n",
+          studentSubmission.getDraftGrade(),
+          studentSubmission.getAssignedGrade());
     } catch (GoogleJsonResponseException e) {
       //TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();

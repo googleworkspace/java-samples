@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-// [START classroom_list_aliases]
+// [START classroom_list_aliases_class]
 
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -57,6 +57,8 @@ public class ListCourseAliases {
         .setApplicationName("Classroom samples")
         .build();
 
+    // [START classroom_list_aliases_code_snippet]
+
     String pageToken = null;
     List<CourseAlias> courseAliases = new ArrayList<>();
 
@@ -89,6 +91,8 @@ public class ListCourseAliases {
       }
     }
     return courseAliases;
+
+    // [END classroom_list_aliases_code_snippet]
   }
 }
-// [END classroom_list_aliases]
+// [END classroom_list_aliases_class]
