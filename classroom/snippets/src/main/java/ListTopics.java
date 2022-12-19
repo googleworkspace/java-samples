@@ -67,8 +67,10 @@ public class ListTopics {
             .setPageSize(100)
             .setPageToken(pageToken)
             .execute();
-        topics.addAll(response.getTopic());
-        pageToken = response.getNextPageToken();
+        if (response.getTopic() != null) {
+          topics.addAll(response.getTopic());
+          pageToken = response.getNextPageToken();
+        }
       } while (pageToken != null);
 
       if (topics.isEmpty()) {

@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-// [START classroom_get_topic_class]
+// [START classroom_list_submissions_class]
 
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
@@ -22,28 +22,32 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
-import com.google.api.services.classroom.model.Topic;
+import com.google.api.services.classroom.model.ListStudentSubmissionsResponse;
+import com.google.api.services.classroom.model.StudentSubmission;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
-/* Class to demonstrate how to get a topic. */
-public class GetTopic {
+/* Class to demonstrate the use of Classroom List StudentSubmissions API. */
+public class ListSubmissions {
   /**
-   * Get a topic in a course.
+   * Retrieves submissions for all students for the specified course work in a course.
    *
-   * @param courseId - the id of the course the topic belongs to.
-   * @param topicId - the id of the topic to retrieve.
-   * @return - the topic to retrieve.
+   * @param courseId - identifier of the course.
+   * @param courseWorkId - identifier of the course work.
+   * @return - list of student submissions.
    * @throws IOException - if credentials file not found.
    */
-  public static Topic getTopic(String courseId, String topicId) throws IOException {
+  public static List<StudentSubmission> listSubmissions(String courseId, String courseWorkId)
+      throws IOException {
     /* Load pre-authorized user credentials from the environment.
      TODO(developer) - See https://developers.google.com/identity for
       guides on implementing OAuth2 for your application. */
     GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_TOPICS));
+        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
     HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
         credentials);
 
@@ -54,28 +58,45 @@ public class GetTopic {
         .setApplicationName("Classroom samples")
         .build();
 
-    // [START classroom_get_topic_code_snippet]
+    // [START classroom_list_submissions_code_snippet]
 
-    Topic topic = null;
+    List<StudentSubmission> studentSubmissions = new ArrayList<>();
+    String pageToken = null;
+
     try {
-      // Get the topic.
-      topic = service.courses().topics().get(courseId, topicId).execute();
-      System.out.printf("Topic '%s' found.\n", topic.getName());
+      do {
+        ListStudentSubmissionsResponse response = service.courses().courseWork().studentSubmissions()
+            .list(courseId, courseWorkId)
+            .execute();
+        if (response.getStudentSubmissions() != null) {
+          studentSubmissions.addAll(response.getStudentSubmissions());
+        }
+      } while (pageToken != null);
+
+      if (studentSubmissions.isEmpty()) {
+        System.out.println("No student submission found.");
+      } else {
+        for (StudentSubmission submission : studentSubmissions) {
+          System.out.printf("Student id (%s), student submission id (%s)\n", submission.getUserId(),
+              submission.getId());
+        }
+      }
     } catch (GoogleJsonResponseException e) {
       //TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
-        System.out.printf("The courseId or topicId does not exist: %s, %s.\n", courseId, topicId);
+        System.out.printf("The courseId (%s) or courseWorkId (%s) does not exist.\n", courseId,
+            courseWorkId);
       } else {
         throw e;
       }
     } catch (Exception e) {
       throw e;
     }
-    return topic;
+    return studentSubmissions;
 
-    // [END classroom_get_topic_code_snippet]
+    // [END classroom_list_submissions_code_snippet]
 
   }
 }
-// [END classroom_get_topic_class]
+// [END classroom_list_submissions_class]

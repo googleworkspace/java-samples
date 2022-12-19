@@ -69,7 +69,10 @@ public class UpdateTopic {
       topic = service.courses().topics().patch(courseId, topicId, topicToUpdate)
           .set("updateMask", "name")
           .execute();
-    } catch(GoogleJsonResponseException e) {
+
+      /* Prints the updated topic. */
+      System.out.printf("Topic '%s' updated.\n", topic.getName());
+    } catch (GoogleJsonResponseException e) {
       // TODO(developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {

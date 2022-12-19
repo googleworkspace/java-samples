@@ -80,13 +80,14 @@ public class CreateCourseWork {
           .setDescription("Read about how the SR-71 Blackbird, the world’s fastest and "
               + "highest-flying manned aircraft, was built.")
           .setMaterials(materials)
-          .setDueDate(new Date().setMonth(12).setDay(10).setYear(2022))
-          .setDueTime(new TimeOfDay().setHours(15).setMinutes(0))
           .setWorkType("ASSIGNMENT")
           .setState("PUBLISHED");
 
       courseWork = service.courses().courseWork().create(courseId, content)
           .execute();
+
+      /* Prints the created courseWork. */
+      System.out.printf("CourseWork created: %s\n", courseWork.getTitle());
     } catch (GoogleJsonResponseException e) {
       //TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
