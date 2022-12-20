@@ -27,6 +27,7 @@ import com.google.api.services.classroom.model.ListGuardianInvitationsResponse;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class ListGuardianInvitationsByStudent {
      TODO(developer) - See https://developers.google.com/identity for
       guides on implementing OAuth2 for your application. */
     GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS));
+        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS_READONLY));
     HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
         credentials);
 
@@ -58,7 +59,7 @@ public class ListGuardianInvitationsByStudent {
 
     // [START classroom_list_guardian_invitations_code_snippet]
 
-    List<GuardianInvitation> guardianInvitations = null;
+    List<GuardianInvitation> guardianInvitations = new ArrayList<>();
     String pageToken = null;
 
     try {
@@ -77,7 +78,7 @@ public class ListGuardianInvitationsByStudent {
         System.out.println("No guardian invitations found.");
       } else {
         for (GuardianInvitation invitation : guardianInvitations) {
-          System.out.printf("Guardian invitation sent to %s", invitation.getInvitedEmailAddress());
+          System.out.printf("Guardian invitation: %s\n", invitation.getInvitedEmailAddress());
         }
       }
     } catch (GoogleJsonResponseException e) {

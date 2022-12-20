@@ -27,16 +27,17 @@ import com.google.api.services.classroom.model.ListGuardiansResponse;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /* Class to demonstrate the use of Classroom List Guardians API. */
 public class ListGuardians {
   /**
-   * Retrieves guardians for a specific student.
+   * Retrieves active guardians for a specific student.
    *
    * @param studentId - the id of the student.
-   * @return a list of guardians for a specific student.
+   * @return a list of active guardians for a specific student.
    * @throws IOException - if credentials file not found.
    */
   public static List<Guardian> listGuardians(String studentId) throws IOException {
@@ -44,7 +45,7 @@ public class ListGuardians {
      TODO(developer) - See https://developers.google.com/identity for
       guides on implementing OAuth2 for your application. */
     GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS));
+        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS_READONLY));
     HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
         credentials);
 
@@ -57,7 +58,7 @@ public class ListGuardians {
 
     // [START classroom_list_guardians_code_snippet]
 
-    List<Guardian> guardians = null;
+    List<Guardian> guardians = new ArrayList<>();
     String pageToken = null;
 
     try {
@@ -76,7 +77,9 @@ public class ListGuardians {
         System.out.println("No guardians found.");
       } else {
         for (Guardian guardian : guardians) {
-          System.out.printf("Guardian: %s", guardian.getGuardianProfile().getName().getFullName());
+          System.out.printf("Guardian name: %s, guardian email: %s\n",
+              guardian.getGuardianProfile().getName().getFullName(),
+              guardian.getInvitedEmailAddress());
         }
       }
 
