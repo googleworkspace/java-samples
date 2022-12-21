@@ -15,17 +15,15 @@
 
 // [START classroom_list_guardians_class]
 
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.Guardian;
 import com.google.api.services.classroom.model.ListGuardiansResponse;
-import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,19 +38,16 @@ public class ListGuardians {
    * @return a list of active guardians for a specific student.
    * @throws IOException - if credentials file not found.
    */
-  public static List<Guardian> listGuardians(String studentId) throws IOException {
-    /* Load pre-authorized user credentials from the environment.
-     TODO(developer) - See https://developers.google.com/identity for
-      guides on implementing OAuth2 for your application. */
-    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS_READONLY));
-    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-        credentials);
+  public static List<Guardian> listGuardians(String studentId) throws Exception {
+    /* Scopes required by this API call. If modifying these scopes, delete your previously saved
+    tokens/ folder. */
+    final List<String> SCOPES =
+        Collections.singletonList(ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS);
 
-    // Create the classroom API client.
-    Classroom service = new Classroom.Builder(new NetHttpTransport(),
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    Classroom service = new Classroom.Builder(HTTP_TRANSPORT,
         GsonFactory.getDefaultInstance(),
-        requestInitializer)
+        ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
         .setApplicationName("Classroom samples")
         .build();
 
@@ -77,8 +72,9 @@ public class ListGuardians {
         System.out.println("No guardians found.");
       } else {
         for (Guardian guardian : guardians) {
-          System.out.printf("Guardian name: %s, guardian email: %s\n",
+          System.out.printf("Guardian name: %s, guardian id: %s, guardian email: %s\n",
               guardian.getGuardianProfile().getName().getFullName(),
+              guardian.getGuardianId(),
               guardian.getInvitedEmailAddress());
         }
       }

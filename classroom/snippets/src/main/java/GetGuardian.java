@@ -13,7 +13,7 @@
 // limitations under the License.
 
 
-// [START classroom_create_guardian_invitation_class]
+// [START classroom_get_guardian_class]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
@@ -22,24 +22,21 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
-import com.google.api.services.classroom.model.GuardianInvitation;
+import com.google.api.services.classroom.model.Guardian;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-/* Class to demonstrate the use of Classroom Create Guardian Invitation API. */
-public class CreateGuardianInvitation {
+/* Class to demonstrate the use of Classroom Get Guardian API. */
+public class GetGuardian {
   /**
-   * Creates a guardian invitation by sending an email to the guardian for confirmation.
+   * Retrieve a guardian for a specific student.
    *
-   * @param studentId - the id of the student.
-   * @param guardianEmail - email to send the guardian invitation to.
-   * @return - the newly created guardian invitation.
+   * @param studentId - the id of the student the guardian belongs to.
+   * @param guardianId - the id of the guardian to delete.
    * @throws IOException - if credentials file not found.
    */
-  public static GuardianInvitation createGuardianInvitation(String studentId, String guardianEmail)
-      throws Exception {
-
+  public static void getGuardian(String studentId, String guardianId) throws Exception {
     /* Scopes required by this API call. If modifying these scopes, delete your previously saved
     tokens/ folder. */
     final List<String> SCOPES =
@@ -54,37 +51,25 @@ public class CreateGuardianInvitation {
         .setApplicationName("Classroom samples")
         .build();
 
-    // [START classroom_create_guardian_invitation_code_snippet]
+    // [START classroom_get_guardian_code_snippet]
+    Guardian guardian = null;
 
-    GuardianInvitation guardianInvitation = null;
-
-    /* Create a GuardianInvitation object with state set to PENDING. See
-    https://developers.google.com/classroom/reference/rest/v1/userProfiles.guardianInvitations#guardianinvitationstate
-    for other possible states of guardian invitations. */
-    GuardianInvitation content = new GuardianInvitation()
-        .setStudentId(studentId)
-        .setInvitedEmailAddress(guardianEmail)
-        .setState("PENDING");
     try {
-      guardianInvitation = service.userProfiles().guardianInvitations()
-          .create(studentId, content)
+      guardian = service.userProfiles().guardians().get(studentId, guardianId)
           .execute();
-
-      System.out.printf("Invitation created: %s\n", guardianInvitation.getInvitationId());
+      System.out.printf("Guardian retrieved: %s", guardian.getInvitedEmailAddress());
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
-        System.out.printf("There is no record of studentId: %s", studentId);
+        System.err.printf("There is no record of guardianId (%s).\n", guardianId);
+        throw e;
       } else {
         throw e;
       }
     } catch (Exception e) {
       throw e;
     }
-    return guardianInvitation;
-
-    // [END classroom_create_guardian_invitation_code_snippet]
+    // [END classroom_get_guardian_code_snippet]
   }
 }
-// [END classroom_create_guardian_invitation_class]
+// [END classroom_get_guardian_class]

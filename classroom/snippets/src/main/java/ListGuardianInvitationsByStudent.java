@@ -15,17 +15,15 @@
 
 // [START classroom_list_guardian_invitations_class]
 
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.GuardianInvitation;
 import com.google.api.services.classroom.model.ListGuardianInvitationsResponse;
-import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,19 +39,19 @@ public class ListGuardianInvitationsByStudent {
    * @throws IOException - if credentials file not found.
    */
   public static List<GuardianInvitation> listGuardianInvitationsByStudent(String studentId)
-      throws IOException {
-    /* Load pre-authorized user credentials from the environment.
-     TODO(developer) - See https://developers.google.com/identity for
-      guides on implementing OAuth2 for your application. */
-    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS_READONLY));
-    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-        credentials);
+      throws Exception {
 
-    // Create the classroom API client.
-    Classroom service = new Classroom.Builder(new NetHttpTransport(),
+    /* Scopes required by this API call. If modifying these scopes, delete your previously saved
+    tokens/ folder. */
+    final List<String> SCOPES =
+        Collections.singletonList(ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS);
+
+    // Create the classroom API client
+    ClassroomCredentials classroomCredentials = new ClassroomCredentials();
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    Classroom service = new Classroom.Builder(HTTP_TRANSPORT,
         GsonFactory.getDefaultInstance(),
-        requestInitializer)
+        classroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
         .setApplicationName("Classroom samples")
         .build();
 
@@ -78,7 +76,7 @@ public class ListGuardianInvitationsByStudent {
         System.out.println("No guardian invitations found.");
       } else {
         for (GuardianInvitation invitation : guardianInvitations) {
-          System.out.printf("Guardian invitation: %s\n", invitation.getInvitedEmailAddress());
+          System.out.printf("Guardian invitation id: %s\n", invitation.getInvitationId());
         }
       }
     } catch (GoogleJsonResponseException e) {

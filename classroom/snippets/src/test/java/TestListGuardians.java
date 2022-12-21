@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import com.google.api.services.classroom.model.Guardian;
-import java.io.IOException;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +21,7 @@ import org.junit.Test;
 public class TestListGuardians {
 
   @Test
-  public void testListGuardians() throws IOException {
+  public void testListGuardians() throws Exception {
     String studentId = "insert_student_id";
     List<Guardian> guardianList = ListGuardians.listGuardians(studentId);
 

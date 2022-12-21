@@ -12,20 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import com.google.api.services.classroom.model.GuardianInvitation;
-import java.util.List;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import org.junit.Assert;
 import org.junit.Test;
 
-// Unit test class for List Guardian Invitations classroom snippet
-public class TestListGuardianInvitationsByStudent {
+// Unit test class for Delete Guardian classroom snippet
+public class TestDeleteGuardian {
 
   @Test
-  public void testListGuardianInvitationsByStudent() throws Exception {
+  public void testDeleteGuardian() throws Exception {
     String studentId = "insert_student_id";
-    List<GuardianInvitation> invitationList = ListGuardianInvitationsByStudent
-        .listGuardianInvitationsByStudent(studentId);
+    String guardianId = "insert_guardian_id";
+    DeleteGuardian.deleteGuardian(studentId, guardianId);
 
-    Assert.assertTrue("No guardian invitations returned.", invitationList.size() > 0);
+    Assert.assertThrows("Not found", GoogleJsonResponseException.class, () ->
+        GetGuardian.getGuardian(studentId, guardianId));
   }
 }

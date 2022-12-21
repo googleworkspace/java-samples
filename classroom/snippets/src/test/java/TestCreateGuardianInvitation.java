@@ -13,19 +13,19 @@
 // limitations under the License.
 
 import com.google.api.services.classroom.model.GuardianInvitation;
-import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-// Unit test class for List Guardian Invitations classroom snippet
-public class TestListGuardianInvitationsByStudent {
+// Unit test class for Create Guardian Invitation classroom snippet
+public class TestCreateGuardianInvitation {
 
   @Test
-  public void testListGuardianInvitationsByStudent() throws Exception {
+  public void testCreateGuardianInvitation() throws Exception {
     String studentId = "insert_student_id";
-    List<GuardianInvitation> invitationList = ListGuardianInvitationsByStudent
-        .listGuardianInvitationsByStudent(studentId);
+    String guardianEmail = "insert_guardian_email";
+    GuardianInvitation guardianInvitation = CreateGuardianInvitation.createGuardianInvitation(studentId,
+        guardianEmail);
 
-    Assert.assertTrue("No guardian invitations returned.", invitationList.size() > 0);
+    Assert.assertTrue("Guardian invitation not created.", guardianInvitation != null);
   }
 }
