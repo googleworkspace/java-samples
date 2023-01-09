@@ -60,6 +60,7 @@ public class GetTopic {
     try {
       // Get the topic.
       topic = service.courses().topics().get(courseId, topicId).execute();
+      System.out.printf("Topic '%s' found.\n", topic.getName());
     } catch (GoogleJsonResponseException e) {
       //TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
