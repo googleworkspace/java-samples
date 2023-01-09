@@ -60,8 +60,10 @@ public class ListGuardians {
       do {
         ListGuardiansResponse response = service.userProfiles().guardians()
             .list(studentId)
+            .setPageToken(pageToken)
             .execute();
 
+        /* Ensure that the response is not null before retrieving data from it to avoid errors. */
         if (response.getGuardians() != null) {
           guardians.addAll(response.getGuardians());
           pageToken = response.getNextPageToken();

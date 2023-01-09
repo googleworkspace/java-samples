@@ -43,11 +43,10 @@ public class GetGuardian {
         Collections.singletonList(ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS);
 
     // Create the classroom API client
-    ClassroomCredentials classroomCredentials = new ClassroomCredentials();
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service = new Classroom.Builder(HTTP_TRANSPORT,
         GsonFactory.getDefaultInstance(),
-        classroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+        ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
         .setApplicationName("Classroom samples")
         .build();
 

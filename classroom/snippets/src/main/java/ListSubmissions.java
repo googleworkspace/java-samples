@@ -61,12 +61,30 @@ public class ListSubmissions {
     // [START classroom_list_submissions_code_snippet]
 
     List<StudentSubmission> studentSubmissions = new ArrayList<>();
+    String pageToken = null;
+
     try {
-      ListStudentSubmissionsResponse response = service.courses().courseWork().studentSubmissions()
-          .list(courseId, courseWorkId)
-          .execute();
-      if (response.getStudentSubmissions() != null) {
-        studentSubmissions.addAll(response.getStudentSubmissions());
+      do {
+        ListStudentSubmissionsResponse response = service.courses().courseWork().studentSubmissions()
+            .list(courseId, courseWorkId)
+            .setPageToken(pageToken)
+            .execute();
+
+        /* Ensure that the response is not null before retrieving data from it to avoid errors. */
+        if (response.getStudentSubmissions() != null) {
+          studentSubmissions.addAll(response.getStudentSubmissions());
+          pageToken = response.getNextPageToken();
+        }
+      } while (pageToken != null);
+
+      if (studentSubmissions.isEmpty()) {
+        System.out.println("No submissions found.");
+      } else {
+        System.out.println("Submissions:");
+        for (StudentSubmission submission : studentSubmissions) {
+          System.out.printf("Submission id (%s) for user (%s)", submission.getId(),
+              submission.getUserId());
+        }
       }
     } catch (GoogleJsonResponseException e) {
       //TODO (developer) - handle error appropriately

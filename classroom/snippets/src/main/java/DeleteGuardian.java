@@ -42,11 +42,10 @@ public class DeleteGuardian {
         Collections.singletonList(ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS);
 
     // Create the classroom API client
-    ClassroomCredentials classroomCredentials = new ClassroomCredentials();
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service = new Classroom.Builder(HTTP_TRANSPORT,
         GsonFactory.getDefaultInstance(),
-        classroomCredentials.getCredentials(HTTP_TRANSPORT,SCOPES))
+        ClassroomCredentials.getCredentials(HTTP_TRANSPORT,SCOPES))
         .setApplicationName("Classroom samples")
         .build();
 
@@ -54,6 +53,7 @@ public class DeleteGuardian {
     try {
       service.userProfiles().guardians().delete(studentId, guardianId)
           .execute();
+      System.out.printf("The guardian with id %s was deleted.\n", guardianId);
     } catch (GoogleJsonResponseException e) {
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {

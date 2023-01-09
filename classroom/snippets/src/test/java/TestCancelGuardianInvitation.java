@@ -22,10 +22,16 @@ public class TestCancelGuardianInvitation {
   @Test
   public void testCancelGuardianInvitation() throws Exception {
     String studentId = "insert_student_id";
-    String invitationId = "insert_invitation_id";
+    String guardianEmail = "insert_guardian_email";
+
+    GuardianInvitation invitation = CreateGuardianInvitation.createGuardianInvitation(studentId,
+        guardianEmail);
+
     GuardianInvitation guardianInvitation = CancelGuardianInvitation.cancelGuardianInvitation(studentId,
-        invitationId);
+        invitation.getInvitationId());
 
     Assert.assertTrue("Guardian invitation not canceled.", guardianInvitation != null);
+    Assert.assertTrue("Guardian invitation state not updated.", guardianInvitation.getState()
+        .equals("COMPLETE"));
   }
 }
