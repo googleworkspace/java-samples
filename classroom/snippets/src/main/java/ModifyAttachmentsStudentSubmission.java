@@ -74,6 +74,11 @@ public class ModifyAttachmentsStudentSubmission {
       studentSubmission = service.courses().courseWork().studentSubmissions().modifyAttachments(
           courseId, courseWorkId, id, modifyAttachmentsRequest)
           .execute();
+
+      /* Prints the modified student submission. */
+      System.out.printf("Modified student submission attachments: '%s'.\n", studentSubmission
+          .getAssignmentSubmission()
+          .getAttachments());
     } catch (GoogleJsonResponseException e) {
       //TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();

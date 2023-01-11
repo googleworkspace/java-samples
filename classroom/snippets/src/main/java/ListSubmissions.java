@@ -78,12 +78,11 @@ public class ListSubmissions {
       } while (pageToken != null);
 
       if (studentSubmissions.isEmpty()) {
-        System.out.println("No submissions found.");
+        System.out.println("No student submission found.");
       } else {
-        System.out.println("Submissions:");
         for (StudentSubmission submission : studentSubmissions) {
-          System.out.printf("Submission id (%s) for user (%s)", submission.getId(),
-              submission.getUserId());
+          System.out.printf("Student id (%s), student submission id (%s)\n", submission.getUserId(),
+              submission.getId());
         }
       }
     } catch (GoogleJsonResponseException e) {
