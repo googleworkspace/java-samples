@@ -67,9 +67,13 @@ public class ListSubmissions {
       do {
         ListStudentSubmissionsResponse response = service.courses().courseWork().studentSubmissions()
             .list(courseId, courseWorkId)
+            .setPageToken(pageToken)
             .execute();
+
+        /* Ensure that the response is not null before retrieving data from it to avoid errors. */
         if (response.getStudentSubmissions() != null) {
           studentSubmissions.addAll(response.getStudentSubmissions());
+          pageToken = response.getNextPageToken();
         }
       } while (pageToken != null);
 

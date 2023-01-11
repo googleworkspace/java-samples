@@ -69,8 +69,11 @@ public class ListStudentSubmissions {
         // Set the userId as a query parameter on the request.
         ListStudentSubmissionsResponse response = service.courses().courseWork().studentSubmissions()
             .list(courseId, courseWorkId)
+            .setPageToken(pageToken)
             .set("userId", userId)
             .execute();
+
+        /* Ensure that the response is not null before retrieving data from it to avoid errors. */
         if (response.getStudentSubmissions() != null) {
           studentSubmissions.addAll(response.getStudentSubmissions());
           pageToken = response.getNextPageToken();

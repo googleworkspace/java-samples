@@ -67,6 +67,8 @@ public class ListTopics {
             .setPageSize(100)
             .setPageToken(pageToken)
             .execute();
+
+        /* Ensure that the response is not null before retrieving data from it to avoid errors. */
         if (response.getTopic() != null) {
           topics.addAll(response.getTopic());
           pageToken = response.getNextPageToken();
