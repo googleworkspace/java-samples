@@ -47,15 +47,13 @@ public class BaseTest {
 
     // Create the classroom API client
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-    Classroom service =
+    return service =
         new Classroom.Builder(
                 HTTP_TRANSPORT,
                 GsonFactory.getDefaultInstance(),
                 ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
-
-    return service;
   }
 
   @Before
@@ -71,11 +69,10 @@ public class BaseTest {
     this.testCourse = null;
   }
 
-  public CourseAlias createAlias(String courseId) throws IOException {
+  public void createAlias(String courseId) throws IOException {
     String alias = "p:" + UUID.randomUUID();
     CourseAlias courseAlias = new CourseAlias().setAlias(alias);
-    courseAlias = this.service.courses().aliases().create(courseId, courseAlias).execute();
-    return courseAlias;
+    this.service.courses().aliases().create(courseId, courseAlias).execute();
   }
 
   public void deleteCourse(String courseId) throws IOException {
