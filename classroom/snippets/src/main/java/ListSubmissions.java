@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_list_submissions_class]
 
 import com.google.api.client.googleapis.json.GoogleJsonError;
@@ -44,19 +43,19 @@ public class ListSubmissions {
   public static List<StudentSubmission> listSubmissions(String courseId, String courseWorkId)
       throws IOException {
     /* Load pre-authorized user credentials from the environment.
-     TODO(developer) - See https://developers.google.com/identity for
-      guides on implementing OAuth2 for your application. */
-    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
-    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-        credentials);
+    TODO(developer) - See https://developers.google.com/identity for
+     guides on implementing OAuth2 for your application. */
+    GoogleCredentials credentials =
+        GoogleCredentials.getApplicationDefault()
+            .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
     // Create the classroom API client.
-    Classroom service = new Classroom.Builder(new NetHttpTransport(),
-        GsonFactory.getDefaultInstance(),
-        requestInitializer)
-        .setApplicationName("Classroom samples")
-        .build();
+    Classroom service =
+        new Classroom.Builder(
+                new NetHttpTransport(), GsonFactory.getDefaultInstance(), requestInitializer)
+            .setApplicationName("Classroom samples")
+            .build();
 
     // [START classroom_list_submissions_code_snippet]
 
@@ -65,11 +64,19 @@ public class ListSubmissions {
 
     try {
       do {
-        ListStudentSubmissionsResponse response = service.courses().courseWork().studentSubmissions()
-            .list(courseId, courseWorkId)
-            .execute();
+        ListStudentSubmissionsResponse response =
+            service
+                .courses()
+                .courseWork()
+                .studentSubmissions()
+                .list(courseId, courseWorkId)
+                .setPageToken(pageToken)
+                .execute();
+
+        /* Ensure that the response is not null before retrieving data from it to avoid errors. */
         if (response.getStudentSubmissions() != null) {
           studentSubmissions.addAll(response.getStudentSubmissions());
+          pageToken = response.getNextPageToken();
         }
       } while (pageToken != null);
 
@@ -77,16 +84,17 @@ public class ListSubmissions {
         System.out.println("No student submission found.");
       } else {
         for (StudentSubmission submission : studentSubmissions) {
-          System.out.printf("Student id (%s), student submission id (%s)\n", submission.getUserId(),
-              submission.getId());
+          System.out.printf(
+              "Student id (%s), student submission id (%s)\n",
+              submission.getUserId(), submission.getId());
         }
       }
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
-        System.out.printf("The courseId (%s) or courseWorkId (%s) does not exist.\n", courseId,
-            courseWorkId);
+        System.out.printf(
+            "The courseId (%s) or courseWorkId (%s) does not exist.\n", courseId, courseWorkId);
       } else {
         throw e;
       }

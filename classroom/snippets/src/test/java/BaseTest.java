@@ -1,28 +1,26 @@
-/*
- * Copyright 2022 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
-import com.google.api.client.http.HttpRequestInitializer;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.CourseAlias;
-import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.auth.oauth2.GoogleCredentials;
+import java.util.Collections;
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 
@@ -40,27 +38,24 @@ public class BaseTest {
    * @return an authorized Classroom client service
    * @throws IOException - if credentials file not found.
    */
-  protected Classroom buildService() throws IOException {
-        /* Load pre-authorized user credentials from the environment.
-           TODO(developer) - See https://developers.google.com/identity for
-            guides on implementing OAuth2 for your application. */
-    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-        .createScoped(ClassroomScopes.CLASSROOM_ROSTERS);
-    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-        credentials);
+  protected Classroom buildService() throws Exception {
+    /* Scopes required by this API call. If modifying these scopes, delete your previously saved
+    tokens/ folder. */
+    final List<String> SCOPES = Collections.singletonList(ClassroomScopes.CLASSROOM_COURSES);
 
     // Create the classroom API client
-    Classroom service = new Classroom.Builder(new NetHttpTransport(),
-        GsonFactory.getDefaultInstance(),
-        requestInitializer)
-        .setApplicationName("Classroom Snippets")
-        .build();
-
-    return service;
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    return service =
+        new Classroom.Builder(
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
   }
 
   @Before
-  public void setup() throws IOException {
+  public void setup() throws Exception {
     this.service = buildService();
     this.testCourse = CreateCourse.createCourse();
     createAlias(this.testCourse.getId());
@@ -72,11 +67,10 @@ public class BaseTest {
     this.testCourse = null;
   }
 
-  public CourseAlias createAlias(String courseId) throws IOException {
+  public void createAlias(String courseId) throws IOException {
     String alias = "p:" + UUID.randomUUID();
     CourseAlias courseAlias = new CourseAlias().setAlias(alias);
-    courseAlias = this.service.courses().aliases().create(courseId, courseAlias).execute();
-    return courseAlias;
+    this.service.courses().aliases().create(courseId, courseAlias).execute();
   }
 
   public void deleteCourse(String courseId) throws IOException {

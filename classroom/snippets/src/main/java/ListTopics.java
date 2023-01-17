@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_list_topic_class]
 
 import com.google.api.client.googleapis.json.GoogleJsonError;
@@ -42,19 +41,19 @@ public class ListTopics {
    */
   public static List<Topic> listTopics(String courseId) throws IOException {
     /* Load pre-authorized user credentials from the environment.
-     TODO(developer) - See https://developers.google.com/identity for
-      guides on implementing OAuth2 for your application. */
-    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_TOPICS));
-    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-        credentials);
+    TODO(developer) - See https://developers.google.com/identity for
+     guides on implementing OAuth2 for your application. */
+    GoogleCredentials credentials =
+        GoogleCredentials.getApplicationDefault()
+            .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_TOPICS));
+    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
 
     // Create the classroom API client.
-    Classroom service = new Classroom.Builder(new NetHttpTransport(),
-        GsonFactory.getDefaultInstance(),
-        requestInitializer)
-        .setApplicationName("Classroom samples")
-        .build();
+    Classroom service =
+        new Classroom.Builder(
+                new NetHttpTransport(), GsonFactory.getDefaultInstance(), requestInitializer)
+            .setApplicationName("Classroom samples")
+            .build();
 
     // [START classroom_list_topic_code_snippet]
 
@@ -63,10 +62,16 @@ public class ListTopics {
 
     try {
       do {
-        ListTopicResponse response = service.courses().topics().list(courseId)
-            .setPageSize(100)
-            .setPageToken(pageToken)
-            .execute();
+        ListTopicResponse response =
+            service
+                .courses()
+                .topics()
+                .list(courseId)
+                .setPageSize(100)
+                .setPageToken(pageToken)
+                .execute();
+
+        /* Ensure that the response is not null before retrieving data from it to avoid errors. */
         if (response.getTopic() != null) {
           topics.addAll(response.getTopic());
           pageToken = response.getNextPageToken();
@@ -81,7 +86,7 @@ public class ListTopics {
         }
       }
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
         System.out.printf("The courseId does not exist: %s.\n", courseId);
