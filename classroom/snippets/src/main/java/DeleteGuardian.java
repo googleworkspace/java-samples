@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_delete_guardian_class]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -43,16 +42,17 @@ public class DeleteGuardian {
 
     // Create the classroom API client
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-    Classroom service = new Classroom.Builder(HTTP_TRANSPORT,
-        GsonFactory.getDefaultInstance(),
-        ClassroomCredentials.getCredentials(HTTP_TRANSPORT,SCOPES))
-        .setApplicationName("Classroom samples")
-        .build();
+    Classroom service =
+        new Classroom.Builder(
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
 
     // [START classroom_delete_guardian_code_snippet]
     try {
-      service.userProfiles().guardians().delete(studentId, guardianId)
-          .execute();
+      service.userProfiles().guardians().delete(studentId, guardianId).execute();
       System.out.printf("The guardian with id %s was deleted.\n", guardianId);
     } catch (GoogleJsonResponseException e) {
       GoogleJsonError error = e.getDetails();

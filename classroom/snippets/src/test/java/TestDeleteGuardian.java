@@ -25,7 +25,7 @@ public class TestDeleteGuardian {
     String guardianId = "insert_guardian_id";
     DeleteGuardian.deleteGuardian(studentId, guardianId);
 
-    Assert.assertThrows(GoogleJsonResponseException.class, () ->
-        GetGuardian.getGuardian(studentId, guardianId));
+    Assert.assertThrows(
+        GoogleJsonResponseException.class, () -> GetGuardian.getGuardian(studentId, guardianId));
   }
 }

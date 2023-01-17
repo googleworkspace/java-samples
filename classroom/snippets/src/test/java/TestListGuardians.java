@@ -27,5 +27,4 @@ public class TestListGuardians {
 
     Assert.assertTrue("No guardians returned.", guardianList.size() > 0);
   }
-
 }

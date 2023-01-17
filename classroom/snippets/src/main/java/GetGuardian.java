@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_get_guardian_class]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -44,18 +43,19 @@ public class GetGuardian {
 
     // Create the classroom API client
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-    Classroom service = new Classroom.Builder(HTTP_TRANSPORT,
-        GsonFactory.getDefaultInstance(),
-        ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
-        .setApplicationName("Classroom samples")
-        .build();
+    Classroom service =
+        new Classroom.Builder(
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
 
     // [START classroom_get_guardian_code_snippet]
     Guardian guardian = null;
 
     try {
-      guardian = service.userProfiles().guardians().get(studentId, guardianId)
-          .execute();
+      guardian = service.userProfiles().guardians().get(studentId, guardianId).execute();
       System.out.printf("Guardian retrieved: %s", guardian.getInvitedEmailAddress());
     } catch (GoogleJsonResponseException e) {
       GoogleJsonError error = e.getDetails();

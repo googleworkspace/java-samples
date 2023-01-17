@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_list_guardian_invitations_class]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -48,11 +47,13 @@ public class ListGuardianInvitationsByStudent {
 
     // Create the classroom API client
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-    Classroom service = new Classroom.Builder(HTTP_TRANSPORT,
-        GsonFactory.getDefaultInstance(),
-        ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
-        .setApplicationName("Classroom samples")
-        .build();
+    Classroom service =
+        new Classroom.Builder(
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
 
     // [START classroom_list_guardian_invitations_code_snippet]
 
@@ -61,10 +62,13 @@ public class ListGuardianInvitationsByStudent {
 
     try {
       do {
-        ListGuardianInvitationsResponse response = service.userProfiles().guardianInvitations()
-            .list(studentId)
-            .setPageToken(pageToken)
-            .execute();
+        ListGuardianInvitationsResponse response =
+            service
+                .userProfiles()
+                .guardianInvitations()
+                .list(studentId)
+                .setPageToken(pageToken)
+                .execute();
 
         /* Ensure that the response is not null before retrieving data from it to avoid errors. */
         if (response.getGuardianInvitations() != null) {

@@ -40,8 +40,7 @@ public class ClassroomCredentials {
    * @return An authorized Credential object.
    * @throws IOException If the credentials.json file cannot be found.
    */
-  static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT,
-      Collection SCOPES)
+  static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, Collection SCOPES)
       throws IOException {
     // Load client secrets.
     InputStream in = ClassroomCredentials.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
@@ -53,11 +52,11 @@ public class ClassroomCredentials {
         GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
     // Build flow and trigger user authorization request.
-    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-        HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
-        .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
-        .setAccessType("offline")
-        .build();
+    GoogleAuthorizationCodeFlow flow =
+        new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+            .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+            .setAccessType("offline")
+            .build();
 
     LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
     return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");

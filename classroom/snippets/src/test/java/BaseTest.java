@@ -43,16 +43,17 @@ public class BaseTest {
   protected Classroom buildService() throws Exception {
     /* Scopes required by this API call. If modifying these scopes, delete your previously saved
     tokens/ folder. */
-    final List<String> SCOPES =
-        Collections.singletonList(ClassroomScopes.CLASSROOM_COURSES);
+    final List<String> SCOPES = Collections.singletonList(ClassroomScopes.CLASSROOM_COURSES);
 
     // Create the classroom API client
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-    Classroom service = new Classroom.Builder(HTTP_TRANSPORT,
-        GsonFactory.getDefaultInstance(),
-        ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
-        .setApplicationName("Classroom samples")
-        .build();
+    Classroom service =
+        new Classroom.Builder(
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
 
     return service;
   }

@@ -23,8 +23,8 @@ public class TestCreateGuardianInvitation {
   public void testCreateGuardianInvitation() throws Exception {
     String studentId = "insert_student_id";
     String guardianEmail = "insert_guardian_email";
-    GuardianInvitation guardianInvitation = CreateGuardianInvitation.createGuardianInvitation(studentId,
-        guardianEmail);
+    GuardianInvitation guardianInvitation =
+        CreateGuardianInvitation.createGuardianInvitation(studentId, guardianEmail);
 
     Assert.assertTrue("Guardian invitation not created.", guardianInvitation != null);
   }

@@ -23,8 +23,8 @@ public class TestListGuardianInvitationsByStudent {
   @Test
   public void testListGuardianInvitationsByStudent() throws Exception {
     String studentId = "insert_student_id";
-    List<GuardianInvitation> invitationList = ListGuardianInvitationsByStudent
-        .listGuardianInvitationsByStudent(studentId);
+    List<GuardianInvitation> invitationList =
+        ListGuardianInvitationsByStudent.listGuardianInvitationsByStudent(studentId);
 
     Assert.assertTrue("No guardian invitations returned.", invitationList.size() > 0);
   }
