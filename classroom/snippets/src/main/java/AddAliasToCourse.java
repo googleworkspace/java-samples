@@ -18,14 +18,11 @@
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.CourseAlias;
-import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
