@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ public class TestCreateGuardianInvitation {
   public void testCreateGuardianInvitation() throws Exception {
     String studentId = "insert_student_id";
     String guardianEmail = "insert_guardian_email";
-    GuardianInvitation guardianInvitation = CreateGuardianInvitation.createGuardianInvitation(studentId,
-        guardianEmail);
+    GuardianInvitation guardianInvitation =
+        CreateGuardianInvitation.createGuardianInvitation(studentId, guardianEmail);
 
     Assert.assertTrue("Guardian invitation not created.", guardianInvitation != null);
   }

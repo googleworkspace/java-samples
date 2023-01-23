@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 
 // [START classroom_create_guardian_invitation_class]
 
@@ -47,11 +46,13 @@ public class CreateGuardianInvitation {
 
     // Create the classroom API client
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-    Classroom service = new Classroom.Builder(HTTP_TRANSPORT,
-        GsonFactory.getDefaultInstance(),
-        ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
-        .setApplicationName("Classroom samples")
-        .build();
+    Classroom service =
+        new Classroom.Builder(
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
 
     // [START classroom_create_guardian_invitation_code_snippet]
 
@@ -60,18 +61,18 @@ public class CreateGuardianInvitation {
     /* Create a GuardianInvitation object with state set to PENDING. See
     https://developers.google.com/classroom/reference/rest/v1/userProfiles.guardianInvitations#guardianinvitationstate
     for other possible states of guardian invitations. */
-    GuardianInvitation content = new GuardianInvitation()
-        .setStudentId(studentId)
-        .setInvitedEmailAddress(guardianEmail)
-        .setState("PENDING");
+    GuardianInvitation content =
+        new GuardianInvitation()
+            .setStudentId(studentId)
+            .setInvitedEmailAddress(guardianEmail)
+            .setState("PENDING");
     try {
-      guardianInvitation = service.userProfiles().guardianInvitations()
-          .create(studentId, content)
-          .execute();
+      guardianInvitation =
+          service.userProfiles().guardianInvitations().create(studentId, content).execute();
 
       System.out.printf("Invitation created: %s\n", guardianInvitation.getInvitationId());
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
         System.out.printf("There is no record of studentId: %s", studentId);

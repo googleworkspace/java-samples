@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 
 // [START classroom_list_guardians_class]
 
@@ -45,11 +44,13 @@ public class ListGuardians {
         Collections.singletonList(ClassroomScopes.CLASSROOM_GUARDIANLINKS_STUDENTS);
 
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-    Classroom service = new Classroom.Builder(HTTP_TRANSPORT,
-        GsonFactory.getDefaultInstance(),
-        ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
-        .setApplicationName("Classroom samples")
-        .build();
+    Classroom service =
+        new Classroom.Builder(
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
 
     // [START classroom_list_guardians_code_snippet]
 
@@ -58,10 +59,8 @@ public class ListGuardians {
 
     try {
       do {
-        ListGuardiansResponse response = service.userProfiles().guardians()
-            .list(studentId)
-            .setPageToken(pageToken)
-            .execute();
+        ListGuardiansResponse response =
+            service.userProfiles().guardians().list(studentId).setPageToken(pageToken).execute();
 
         /* Ensure that the response is not null before retrieving data from it to avoid errors. */
         if (response.getGuardians() != null) {
@@ -74,7 +73,8 @@ public class ListGuardians {
         System.out.println("No guardians found.");
       } else {
         for (Guardian guardian : guardians) {
-          System.out.printf("Guardian name: %s, guardian id: %s, guardian email: %s\n",
+          System.out.printf(
+              "Guardian name: %s, guardian id: %s, guardian email: %s\n",
               guardian.getGuardianProfile().getName().getFullName(),
               guardian.getGuardianId(),
               guardian.getInvitedEmailAddress());

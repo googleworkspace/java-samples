@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ public class TestListGuardianInvitationsByStudent {
   @Test
   public void testListGuardianInvitationsByStudent() throws Exception {
     String studentId = "insert_student_id";
-    List<GuardianInvitation> invitationList = ListGuardianInvitationsByStudent
-        .listGuardianInvitationsByStudent(studentId);
+    List<GuardianInvitation> invitationList =
+        ListGuardianInvitationsByStudent.listGuardianInvitationsByStudent(studentId);
 
     Assert.assertTrue("No guardian invitations returned.", invitationList.size() > 0);
   }

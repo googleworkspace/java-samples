@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,11 +46,13 @@ public class CancelGuardianInvitation {
 
     // Create the classroom API client
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-    Classroom service = new Classroom.Builder(HTTP_TRANSPORT,
-        GsonFactory.getDefaultInstance(),
-        ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
-        .setApplicationName("Classroom samples")
-        .build();
+    Classroom service =
+        new Classroom.Builder(
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
 
     // [START classroom_cancel_guardian_invitation_code_snippet]
 
@@ -58,26 +60,29 @@ public class CancelGuardianInvitation {
 
     try {
       /* Change the state of the GuardianInvitation from PENDING to COMPLETE. See
-    https://developers.google.com/classroom/reference/rest/v1/userProfiles.guardianInvitations#guardianinvitationstate
-    for other possible states of guardian invitations. */
-      GuardianInvitation content = service.userProfiles().guardianInvitations()
-          .get(studentId, invitationId)
-          .execute();
+      https://developers.google.com/classroom/reference/rest/v1/userProfiles.guardianInvitations#guardianinvitationstate
+      for other possible states of guardian invitations. */
+      GuardianInvitation content =
+          service.userProfiles().guardianInvitations().get(studentId, invitationId).execute();
       content.setState("COMPLETE");
 
-      guardianInvitation = service.userProfiles().guardianInvitations()
-          .patch(studentId, invitationId, content)
-          .set("updateMask", "state")
-          .execute();
+      guardianInvitation =
+          service
+              .userProfiles()
+              .guardianInvitations()
+              .patch(studentId, invitationId, content)
+              .set("updateMask", "state")
+              .execute();
 
-      System.out.printf("Invitation (%s) state set to %s\n.", guardianInvitation.getInvitationId(),
-          guardianInvitation.getState());
+      System.out.printf(
+          "Invitation (%s) state set to %s\n.",
+          guardianInvitation.getInvitationId(), guardianInvitation.getState());
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
-        System.out.printf("There is no record of studentId (%s) or invitationId (%s).", studentId,
-            invitationId);
+        System.out.printf(
+            "There is no record of studentId (%s) or invitationId (%s).", studentId, invitationId);
       } else {
         throw e;
       }
