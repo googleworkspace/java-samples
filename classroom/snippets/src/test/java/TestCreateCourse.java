@@ -21,7 +21,7 @@ import java.io.IOException;
 public class TestCreateCourse extends BaseTest {
 
   @Test
-  public void testCreateCourse() throws IOException {
+  public void testCreateCourse() throws Exception {
     Course course = CreateCourse.createCourse();
     Assert.assertNotNull("Course not returned.", course);
     deleteCourse(course.getId());

@@ -22,7 +22,7 @@ import org.junit.Test;
 public class TestAddAliasToCourse extends BaseTest {
 
   @Test
-  public void testAddCourseAlias() throws IOException {
+  public void testAddCourseAlias() throws Exception {
     CourseAlias courseAlias = AddAliasToCourse.addAliasToCourse(testCourse.getId());
     List<CourseAlias> courseAliases = service.courses().aliases()
         .list(testCourse.getId()

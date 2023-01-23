@@ -22,7 +22,7 @@ import java.io.IOException;
 public class TestAddStudent extends BaseTest {
 
   @Test
-  public void testAddStudent() throws IOException {
+  public void testAddStudent() throws Exception {
     Course course = CreateCourse.createCourse();
     Student student = AddStudent.addStudent(course.getId(), course.getEnrollmentCode());
     deleteCourse(course.getId());
