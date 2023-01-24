@@ -41,7 +41,7 @@ public class AddAliasToCourse {
     tokens/ folder. */
     final List<String> SCOPES = Collections.singletonList(ClassroomScopes.CLASSROOM_COURSES);
 
-    // Create the classroom API client
+    // Create the classroom API client.
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
