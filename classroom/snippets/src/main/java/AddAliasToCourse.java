@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_add_alias_to_course_class]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -24,11 +23,13 @@ import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.CourseAlias;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
 /* Class to demonstrate the use of Classroom Create Alias API. */
 public class AddAliasToCourse {
+
   /**
    * Add an alias on an existing course.
    *
@@ -36,7 +37,8 @@ public class AddAliasToCourse {
    * @return - newly created course alias.
    * @throws IOException - if credentials file not found.
    */
-  public static CourseAlias addAliasToCourse(String courseId) throws Exception {
+  public static CourseAlias addAliasToCourse(String courseId)
+      throws GeneralSecurityException, IOException {
     /* Scopes required by this API call. If modifying these scopes, delete your previously saved
     tokens/ folder. */
     final List<String> SCOPES = Collections.singletonList(ClassroomScopes.CLASSROOM_COURSES);

@@ -14,6 +14,7 @@
 
 import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.Student;
+import java.security.GeneralSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.io.IOException;
 public class TestAddStudent extends BaseTest {
 
   @Test
-  public void testAddStudent() throws Exception {
+  public void testAddStudent() throws GeneralSecurityException, IOException {
     Course course = CreateCourse.createCourse();
     Student student = AddStudent.addStudent(course.getId(), course.getEnrollmentCode());
     deleteCourse(course.getId());

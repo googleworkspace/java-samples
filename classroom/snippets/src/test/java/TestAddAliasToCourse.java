@@ -14,6 +14,7 @@
 
 import com.google.api.services.classroom.model.CourseAlias;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +23,7 @@ import org.junit.Test;
 public class TestAddAliasToCourse extends BaseTest {
 
   @Test
-  public void testAddCourseAlias() throws Exception {
+  public void testAddCourseAlias() throws GeneralSecurityException, IOException {
     CourseAlias courseAlias = AddAliasToCourse.addAliasToCourse(testCourse.getId());
     List<CourseAlias> courseAliases = service.courses().aliases()
         .list(testCourse.getId()

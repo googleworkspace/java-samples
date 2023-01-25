@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_create_course]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -24,18 +23,20 @@ import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.Course;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
 /* Class to demonstrate the use of Classroom Create Course API */
 public class CreateCourse {
+
   /**
    * Creates a course
    *
    * @return newly created course
    * @throws IOException - if credentials file not found.
    */
-  public static Course createCourse() throws Exception {
+  public static Course createCourse() throws GeneralSecurityException, IOException {
     /* Scopes required by this API call. If modifying these scopes, delete your previously saved
     tokens/ folder. */
     final List<String> SCOPES = Collections.singletonList(ClassroomScopes.CLASSROOM_COURSES);

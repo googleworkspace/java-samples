@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import com.google.api.services.classroom.model.Course;
+import java.security.GeneralSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import java.io.IOException;
 public class TestCreateCourse extends BaseTest {
 
   @Test
-  public void testCreateCourse() throws Exception {
+  public void testCreateCourse() throws GeneralSecurityException, IOException {
     Course course = CreateCourse.createCourse();
     Assert.assertNotNull("Course not returned.", course);
     deleteCourse(course.getId());
