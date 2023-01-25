@@ -15,21 +15,25 @@
 
 // [START classroom_add_student]
 
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.Student;
-import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
-import java.util.Collections;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /* Class to demonstrate the use of Classroom Add Student API */
 public class AddStudent {
+  /* Scopes required by this API call. If modifying these scopes, delete your previously saved
+      tokens/ folder. */
+  static ArrayList<String> SCOPES = new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
+
   /**
    * Add a student in a specified course.
    *
@@ -39,21 +43,17 @@ public class AddStudent {
    * @throws IOException - if credentials file not found.
    */
   public static Student addStudent(String courseId, String enrollmentCode)
-      throws IOException {
-        /* Load pre-authorized user credentials from the environment.
-           TODO(developer) - See https://developers.google.com/identity for
-            guides on implementing OAuth2 for your application. */
-    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_ROSTERS));
-    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-        credentials);
+      throws GeneralSecurityException, IOException {
 
-    // Create the classroom API client
-    Classroom service = new Classroom.Builder(new NetHttpTransport(),
-        GsonFactory.getDefaultInstance(),
-        requestInitializer)
-        .setApplicationName("Classroom samples")
-        .build();
+    // Create the classroom API client.
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    Classroom service =
+        new Classroom.Builder(
+            HTTP_TRANSPORT,
+            GsonFactory.getDefaultInstance(),
+            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
 
     Student student = new Student().setUserId("gduser1@workspacesamples.dev");
     try {

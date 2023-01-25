@@ -24,11 +24,14 @@ import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.CourseAlias;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /* Class to demonstrate the use of Classroom Create Alias API. */
 public class AddAliasToCourse {
+  /* Scopes required by this API call. If modifying these scopes, delete your previously saved
+  tokens/ folder. */
+  static ArrayList<String> SCOPES = new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSES));
 
   /**
    * Add an alias on an existing course.
@@ -39,9 +42,6 @@ public class AddAliasToCourse {
    */
   public static CourseAlias addAliasToCourse(String courseId)
       throws GeneralSecurityException, IOException {
-    /* Scopes required by this API call. If modifying these scopes, delete your previously saved
-    tokens/ folder. */
-    final List<String> SCOPES = Collections.singletonList(ClassroomScopes.CLASSROOM_COURSES);
 
     // Create the classroom API client.
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();

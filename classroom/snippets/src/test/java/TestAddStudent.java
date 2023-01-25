@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.Student;
 import java.security.GeneralSecurityException;
 import org.junit.Assert;
@@ -24,11 +23,12 @@ public class TestAddStudent extends BaseTest {
 
   @Test
   public void testAddStudent() throws GeneralSecurityException, IOException {
-    Course course = CreateCourse.createCourse();
-    Student student = AddStudent.addStudent(course.getId(), course.getEnrollmentCode());
-    deleteCourse(course.getId());
+    // Include the scopes required to run the code example for testing purposes.
+    setup(AddStudent.SCOPES);
+    Student student = AddStudent.addStudent(testCourse.getId(), testCourse.getEnrollmentCode());
     Assert.assertNotNull("Student not returned.", student);
-    Assert.assertEquals("Student added to wrong course.", course.getId(),
+    Assert.assertNotNull("Course not returned.", student.getCourseId());
+    Assert.assertEquals("Student added to wrong course.", testCourse.getId(),
         student.getCourseId());
   }
 }

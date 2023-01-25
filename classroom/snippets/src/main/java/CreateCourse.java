@@ -24,11 +24,14 @@ import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.Course;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /* Class to demonstrate the use of Classroom Create Course API */
 public class CreateCourse {
+  /* Scopes required by this API call. If modifying these scopes, delete your previously saved
+      tokens/ folder. */
+  static ArrayList<String> SCOPES = new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSES));
 
   /**
    * Creates a course
@@ -37,9 +40,6 @@ public class CreateCourse {
    * @throws IOException - if credentials file not found.
    */
   public static Course createCourse() throws GeneralSecurityException, IOException {
-    /* Scopes required by this API call. If modifying these scopes, delete your previously saved
-    tokens/ folder. */
-    final List<String> SCOPES = Collections.singletonList(ClassroomScopes.CLASSROOM_COURSES);
 
     // Create the classroom API client.
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -63,7 +63,7 @@ public class CreateCourse {
               + "to be excited!")
           .setRoom("301")
           .setOwnerId("me")
-          .setCourseState("PROVISIONED");
+          .setCourseState("ACTIVE");
       course = service.courses().create(course).execute();
       // Prints the new created course Id and name
       System.out.printf("Course created: %s (%s)\n", course.getName(), course.getId());
