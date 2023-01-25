@@ -39,6 +39,7 @@ public class AddAliasToCourse {
    * @param courseId - id of the course to add an alias to.
    * @return - newly created course alias.
    * @throws IOException - if credentials file not found.
+   * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
    */
   public static CourseAlias addAliasToCourse(String courseId)
       throws GeneralSecurityException, IOException {

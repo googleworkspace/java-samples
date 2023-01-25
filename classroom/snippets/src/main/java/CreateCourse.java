@@ -38,6 +38,7 @@ public class CreateCourse {
    *
    * @return newly created course
    * @throws IOException - if credentials file not found.
+   * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
    */
   public static Course createCourse() throws GeneralSecurityException, IOException {
 

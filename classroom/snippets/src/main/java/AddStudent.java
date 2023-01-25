@@ -37,10 +37,11 @@ public class AddStudent {
   /**
    * Add a student in a specified course.
    *
-   * @param courseId       - Id of the course.
+   * @param courseId - Id of the course.
    * @param enrollmentCode - Code of the course to enroll.
    * @return newly added student
    * @throws IOException - if credentials file not found.
+   * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
    */
   public static Student addStudent(String courseId, String enrollmentCode)
       throws GeneralSecurityException, IOException {
