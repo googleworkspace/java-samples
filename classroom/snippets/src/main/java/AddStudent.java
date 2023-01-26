@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_add_student]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -30,9 +29,11 @@ import java.util.Arrays;
 
 /* Class to demonstrate the use of Classroom Add Student API */
 public class AddStudent {
+
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
       tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
+  static ArrayList<String> SCOPES = new ArrayList<>(
+      Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
 
   /**
    * Add a student in a specified course.
@@ -43,7 +44,7 @@ public class AddStudent {
    * @throws IOException - if credentials file not found.
    * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
    */
-  public static Student addStudent(String courseId, String enrollmentCode)
+  public static Student addStudent(String courseId, String enrollmentCode, String studentId)
       throws GeneralSecurityException, IOException {
 
     // Create the classroom API client.
@@ -56,7 +57,7 @@ public class AddStudent {
             .setApplicationName("Classroom samples")
             .build();
 
-    Student student = new Student().setUserId("gduser1@workspacesamples.dev");
+    Student student = new Student().setUserId(studentId);
     try {
       // Enrolling a student to a specified course
       student = service.courses().students().create(courseId, student)

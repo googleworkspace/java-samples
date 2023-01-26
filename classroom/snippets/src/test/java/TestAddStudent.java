@@ -21,11 +21,14 @@ import java.io.IOException;
 // Unit test class for Add Student classroom snippet
 public class TestAddStudent extends BaseTest {
 
+  private String studentId = "insert_student_id";
+
   @Test
   public void testAddStudent() throws GeneralSecurityException, IOException {
     // Include the scopes required to run the code example for testing purposes.
     setup(AddStudent.SCOPES);
-    Student student = AddStudent.addStudent(testCourse.getId(), testCourse.getEnrollmentCode());
+    Student student = AddStudent.addStudent(testCourse.getId(), testCourse.getEnrollmentCode(),
+        studentId);
     Assert.assertNotNull("Student not returned.", student);
     Assert.assertNotNull("Course not returned.", student.getCourseId());
     Assert.assertEquals("Student added to wrong course.", testCourse.getId(),
