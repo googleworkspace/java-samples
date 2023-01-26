@@ -15,12 +15,15 @@
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.services.classroom.model.Topic;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class TestDeleteTopic extends BaseTest {
+
   @Test
-  public void testDeleteTopic() throws IOException {
+  public void testDeleteTopic() throws GeneralSecurityException, IOException {
+    setup(DeleteTopic.SCOPES);
     Topic topic = CreateTopic.createTopic(testCourse.getId());
     DeleteTopic.deleteTopic(testCourse.getId(), topic.getTopicId());
     Assert.assertThrows(GoogleJsonResponseException.class,
