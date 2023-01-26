@@ -28,7 +28,7 @@ public class TestAddStudent extends BaseTest {
     // Include the scopes required to run the code example for testing purposes.
     setup(AddStudent.SCOPES);
     Student student = AddStudent.addStudent(testCourse.getId(), testCourse.getEnrollmentCode(),
-        studentId);
+        this.studentId);
     Assert.assertNotNull("Student not returned.", student);
     Assert.assertNotNull("Course not returned.", student.getCourseId());
     Assert.assertEquals("Student added to wrong course.", testCourse.getId(),
