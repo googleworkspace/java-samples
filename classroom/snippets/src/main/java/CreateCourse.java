@@ -54,7 +54,8 @@ public class CreateCourse {
 
     Course course = null;
     try {
-      // Adding a new course with description
+      // Adding a new course with description. Set CourseState to `ACTIVE`. Possible values of
+      // CourseState can be found here: https://developers.google.com/classroom/reference/rest/v1/courses#coursestate
       course = new Course()
           .setName("10th Grade Biology")
           .setSection("Period 2")

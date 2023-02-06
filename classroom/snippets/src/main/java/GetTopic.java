@@ -66,6 +66,10 @@ public class GetTopic {
       System.out.printf("Topic '%s' found.\n", topic.getName());
     } catch (GoogleJsonResponseException e) {
       //TODO (developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 404) {
+        System.out.printf("The courseId or topicId does not exist: %s, %s.\n", courseId, topicId);
+      }
       throw e;
     } catch (Exception e) {
       throw e;
