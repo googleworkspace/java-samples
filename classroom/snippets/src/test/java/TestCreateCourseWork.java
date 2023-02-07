@@ -14,6 +14,7 @@
 
 import com.google.api.services.classroom.model.CourseWork;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,7 +22,9 @@ import org.junit.Test;
 public class TestCreateCourseWork extends BaseTest {
 
   @Test
-  public void testCreateCoursework() throws IOException {
+  public void testCreateCoursework() throws GeneralSecurityException, IOException {
+    // Include the scopes required to run the code example for testing purposes.
+    setup(CreateCourseWork.SCOPES);
     CourseWork courseWork = CreateCourseWork.createCourseWork(testCourse.getId());
     Assert.assertNotNull("Coursework not returned.", courseWork);
   }

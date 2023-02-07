@@ -14,6 +14,7 @@
 
 import com.google.api.services.classroom.model.Topic;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -21,7 +22,8 @@ import org.junit.Test;
 public class TestGetTopic extends BaseTest {
 
   @Test
-  public void testGetTopic() throws IOException {
+  public void testGetTopic() throws GeneralSecurityException, IOException {
+    setup(GetTopic.SCOPES);
     Topic topic = CreateTopic.createTopic(testCourse.getId());
     Topic getTopic = GetTopic.getTopic(testCourse.getId(), topic.getTopicId());
     Assert.assertNotNull("Topic could not be created.", topic);

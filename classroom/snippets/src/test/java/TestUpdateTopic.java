@@ -11,15 +11,19 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 import com.google.api.services.classroom.model.Topic;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
 
 // Unit test class for Update Topic classroom snippet
 public class TestUpdateTopic extends BaseTest {
+
   @Test
-  public void testUpdateTopic() throws IOException {
+  public void testUpdateTopic() throws GeneralSecurityException, IOException {
+    setup(UpdateTopic.SCOPES);
     Topic topic = CreateTopic.createTopic(testCourse.getId());
     System.out.println("New topic created: " + topic.getName());
     Topic updatedTopic = UpdateTopic.updateTopic(testCourse.getId(), topic.getTopicId());

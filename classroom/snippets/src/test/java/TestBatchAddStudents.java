@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import java.security.GeneralSecurityException;
 import org.junit.Test;
 import java.io.IOException;
 import java.util.Arrays;
@@ -21,9 +22,10 @@ import java.util.List;
 public class TestBatchAddStudents extends BaseTest {
 
   @Test
-  public void testBatchAddStudents() throws IOException {
-    List<String> studentEmails = Arrays.asList("gduser2@workpsacesamples.dev",
-        "gduser3@workpsacesamples.dev");
+  public void testBatchAddStudents() throws GeneralSecurityException, IOException {
+    setup(BatchAddStudents.SCOPES);
+    List<String> studentEmails = Arrays.asList("insert_student_1_email",
+        "insert_student_2_email");
     BatchAddStudents.batchAddStudents(testCourse.getId(), studentEmails);
   }
 }

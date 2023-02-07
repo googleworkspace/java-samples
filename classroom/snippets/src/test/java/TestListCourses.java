@@ -13,16 +13,17 @@
 // limitations under the License.
 
 import com.google.api.services.classroom.model.Course;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
-import java.io.IOException;
-import java.util.List;
 
 // Unit test class for List Course classroom snippet
 public class TestListCourses {
 
   @Test
-  public void testListCourses() throws IOException {
+  public void testListCourses() throws GeneralSecurityException, IOException {
     List<Course> courses = ListCourses.listCourses();
     Assert.assertTrue("No courses returned.", courses.size() > 0);
   }
