@@ -14,6 +14,7 @@
 
 import com.google.api.services.classroom.model.StudentSubmission;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +23,8 @@ import org.junit.Test;
 public class TestListSubmissions extends BaseTest {
 
   @Test
-  public void testListSubmissions() throws IOException {
+  public void testListSubmissions() throws GeneralSecurityException, IOException {
+    setup(ListSubmissions.SCOPES);
     List<StudentSubmission> submissions = ListSubmissions.listSubmissions(
         testCourse.getId(),
         "-");

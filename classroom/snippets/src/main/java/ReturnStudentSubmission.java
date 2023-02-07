@@ -15,20 +15,25 @@
 
 // [START classroom_return_student_submissions_class]
 
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
-import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
-import java.util.Collections;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /* Class to demonstrate the use of Classroom Return StudentSubmissions API. */
 public class ReturnStudentSubmission {
+
+  /* Scopes required by this API call. If modifying these scopes, delete your previously saved
+  tokens/ folder. */
+  static ArrayList<String> SCOPES = new ArrayList<>(
+      Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
   /**
    * Return a student submission back to the student which updates the submission state to `RETURNED`.
    *
@@ -36,23 +41,20 @@ public class ReturnStudentSubmission {
    * @param courseWorkId - identifier of the course work.
    * @param id - identifier of the student submission.
    * @throws IOException - if credentials file not found.
+   * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
    */
   public static void returnSubmission(String courseId, String courseWorkId, String id)
-      throws IOException {
-   /* Load pre-authorized user credentials from the environment.
-     TODO(developer) - See https://developers.google.com/identity for
-      guides on implementing OAuth2 for your application. */
-    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
-    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-        credentials);
+      throws GeneralSecurityException, IOException {
 
     // Create the classroom API client.
-    Classroom service = new Classroom.Builder(new NetHttpTransport(),
-        GsonFactory.getDefaultInstance(),
-        requestInitializer)
-        .setApplicationName("Classroom samples")
-        .build();
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    Classroom service =
+        new Classroom.Builder(
+            HTTP_TRANSPORT,
+            GsonFactory.getDefaultInstance(),
+            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
 
     // [START classroom_return_student_submissions_code_snippet]
 
