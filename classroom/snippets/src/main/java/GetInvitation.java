@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// [START classroom_create_invitation]
+// [START classroom_get_invitation]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
@@ -27,26 +27,22 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/* Class to demonstrate the use of Classroom Create Invitation API */
-public class CreateInvitation {
-
+/* Class to demonstrate the use of Classroom Get Invitation API */
+public class GetInvitation {
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
-    tokens/ folder. */
+  tokens/ folder. */
   static ArrayList<String> SCOPES = new ArrayList<>(
       Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
 
   /**
-   * Create an invitation to allow a user to join a course.
+   * Retrieves an invitation.
    *
-   * @param courseId - the course to invite the user to.
-   * @param userId - the user to be invited to the course.
-   * @return the created invitation.
+   * @param id - the identifier of the invitation to retrieve.
+   * @return the specified invitation.
    * @throws IOException - if credentials file not found.
    * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
    */
-  public static Invitation createInvitation(String courseId, String userId)
-      throws GeneralSecurityException, IOException {
-
+  public static Invitation getInvitation(String id) throws GeneralSecurityException, IOException {
     // Create the classroom API client.
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
@@ -57,35 +53,23 @@ public class CreateInvitation {
             .setApplicationName("Classroom samples")
             .build();
 
-    // [START classroom_create_invitation_code_snippet]
-
+    // [START classroom_get_invitation_code_snippet]
     Invitation invitation = null;
     try {
-      /* Set the role the user is invited to have in the course. Possible values of CourseRole can be
-      found here: https://developers.google.com/classroom/reference/rest/v1/invitations#courserole.*/
-      Invitation content = new Invitation()
-          .setCourseId(courseId)
-          .setUserId(userId)
-          .setRole("TEACHER");
-
-      invitation = service.invitations().create(content).execute();
-
-      System.out.printf("User (%s) has been invited to course (%s).\n", invitation.getUserId(),
-          invitation.getCourseId());
+      invitation = service.invitations().get(id).execute();
+      System.out.printf("Invitation (%s) for user (%s) in course (%s) retrieved.\n",
+          invitation.getId(), invitation.getUserId(), invitation.getCourseId());
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
-        System.out.printf("The course or user does not exist.\n");
+        System.out.printf("The invitation id (%s) does not exist.\n", id);
       }
       throw e;
     } catch (Exception e) {
       throw e;
     }
     return invitation;
-
-    // [END classroom_create_invitation_code_snippet]
+    // [END classroom_get_invitation_code_snippet]
   }
-
 }
-// [END classroom_create_invitation]
+// [END classroom_get_invitation]
