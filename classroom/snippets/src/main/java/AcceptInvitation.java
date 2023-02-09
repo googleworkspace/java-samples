@@ -35,7 +35,7 @@ public class AcceptInvitation {
       Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
 
   /**
-   * Accepts an invitation to a course by adding the user as the role specified in the invitation.
+   * Accepts an invitation to a course.
    *
    * @param id - the identifier of the invitation to accept.
    * @throws IOException - if credentials file not found.

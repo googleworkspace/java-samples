@@ -28,4 +28,10 @@ public class TestAcceptInvitation {
     Assert.assertThrows(GoogleJsonResponseException.class,
         () -> GetInvitation.getInvitation(invitationId));
   }
+
+  @Test
+  public void testAcceptInvitationWithInvalidId() {
+    Assert.assertThrows(GoogleJsonResponseException.class,
+        () -> AcceptInvitation.acceptInvitation("invalid-id"));
+  }
 }

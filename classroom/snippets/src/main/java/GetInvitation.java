@@ -27,7 +27,7 @@ import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/* Class to demonstrate the use of Classroom Get Invitation API */
+/* Class to demonstrate the use of Classroom Get Invitation API. */
 public class GetInvitation {
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
   tokens/ folder. */
