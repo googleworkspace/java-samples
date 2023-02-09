@@ -30,8 +30,8 @@ public class DeleteTopic {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
   tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_TOPICS));
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_TOPICS));
 
   /**
    * Delete a topic in a course.
@@ -49,9 +49,9 @@ public class DeleteTopic {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
