@@ -21,10 +21,7 @@ import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.CourseAlias;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import org.junit.After;
-import org.junit.Before;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -40,7 +37,8 @@ public class BaseTest {
    * @return an authorized Classroom client service
    * @throws IOException - if credentials file not found.
    */
-  protected Classroom buildService(ArrayList<String> SCOPES) throws GeneralSecurityException, IOException {
+  protected Classroom buildService(ArrayList<String> SCOPES)
+      throws GeneralSecurityException, IOException {
     /* Scopes required by this API call. If modifying these scopes, delete your previously saved
     tokens/ folder. */
     SCOPES.add(ClassroomScopes.CLASSROOM_COURSES);

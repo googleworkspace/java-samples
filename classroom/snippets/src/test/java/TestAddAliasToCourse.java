@@ -24,13 +24,11 @@ public class TestAddAliasToCourse extends BaseTest {
 
   @Test
   public void testAddCourseAlias() throws GeneralSecurityException, IOException {
-  // Include the scopes required to run the code example for testing purposes.
+    // Include the scopes required to run the code example for testing purposes.
     setup(AddAliasToCourse.SCOPES);
     CourseAlias courseAlias = AddAliasToCourse.addAliasToCourse(testCourse.getId());
-    List<CourseAlias> courseAliases = service.courses().aliases()
-        .list(testCourse.getId()
-        ).execute()
-        .getAliases();
+    List<CourseAlias> courseAliases =
+        service.courses().aliases().list(testCourse.getId()).execute().getAliases();
     Assert.assertNotNull("Course alias not returned.", courseAlias);
     Assert.assertTrue("No course aliases exist.", courseAliases.size() > 0);
   }

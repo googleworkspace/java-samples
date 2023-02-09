@@ -29,7 +29,7 @@ public class TestAddTeacher extends BaseTest {
     setup(AddTeacher.SCOPES);
     Teacher teacher = AddTeacher.addTeacher(testCourse.getId(), this.teacherEmail);
     Assert.assertNotNull("Teacher not returned.", teacher);
-    Assert.assertEquals("Teacher added to wrong course.", testCourse.getId(),
-        teacher.getCourseId());
+    Assert.assertEquals(
+        "Teacher added to wrong course.", testCourse.getId(), teacher.getCourseId());
   }
 }

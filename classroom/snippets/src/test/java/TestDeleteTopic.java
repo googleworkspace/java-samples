@@ -26,7 +26,8 @@ public class TestDeleteTopic extends BaseTest {
     setup(DeleteTopic.SCOPES);
     Topic topic = CreateTopic.createTopic(testCourse.getId());
     DeleteTopic.deleteTopic(testCourse.getId(), topic.getTopicId());
-    Assert.assertThrows(GoogleJsonResponseException.class,
+    Assert.assertThrows(
+        GoogleJsonResponseException.class,
         () -> GetTopic.getTopic(testCourse.getId(), topic.getTopicId()));
   }
 }

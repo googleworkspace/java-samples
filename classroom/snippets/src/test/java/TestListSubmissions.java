@@ -25,9 +25,7 @@ public class TestListSubmissions extends BaseTest {
   @Test
   public void testListSubmissions() throws GeneralSecurityException, IOException {
     setup(ListSubmissions.SCOPES);
-    List<StudentSubmission> submissions = ListSubmissions.listSubmissions(
-        testCourse.getId(),
-        "-");
+    List<StudentSubmission> submissions = ListSubmissions.listSubmissions(testCourse.getId(), "-");
     Assert.assertNotNull("No submissions returned.", submissions);
   }
 }

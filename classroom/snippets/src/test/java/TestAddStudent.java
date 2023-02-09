@@ -27,11 +27,11 @@ public class TestAddStudent extends BaseTest {
   public void testAddStudent() throws GeneralSecurityException, IOException {
     // Include the scopes required to run the code example for testing purposes.
     setup(AddStudent.SCOPES);
-    Student student = AddStudent.addStudent(testCourse.getId(), testCourse.getEnrollmentCode(),
-        this.studentId);
+    Student student =
+        AddStudent.addStudent(testCourse.getId(), testCourse.getEnrollmentCode(), this.studentId);
     Assert.assertNotNull("Student not returned.", student);
     Assert.assertNotNull("Course not returned.", student.getCourseId());
-    Assert.assertEquals("Student added to wrong course.", testCourse.getId(),
-        student.getCourseId());
+    Assert.assertEquals(
+        "Student added to wrong course.", testCourse.getId(), student.getCourseId());
   }
 }

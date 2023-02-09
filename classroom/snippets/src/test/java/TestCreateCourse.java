@@ -23,7 +23,7 @@ public class TestCreateCourse extends BaseTest {
 
   @Test
   public void testCreateCourse() throws GeneralSecurityException, IOException {
-  // Include the scopes required to run the code example for testing purposes.
+    // Include the scopes required to run the code example for testing purposes.
     setup(CreateCourse.SCOPES);
     Course course = CreateCourse.createCourse();
     Assert.assertNotNull("Course not returned.", course);

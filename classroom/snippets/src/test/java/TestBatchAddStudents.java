@@ -24,8 +24,7 @@ public class TestBatchAddStudents extends BaseTest {
   @Test
   public void testBatchAddStudents() throws GeneralSecurityException, IOException {
     setup(BatchAddStudents.SCOPES);
-    List<String> studentEmails = Arrays.asList("insert_student_1_email",
-        "insert_student_2_email");
+    List<String> studentEmails = Arrays.asList("insert_student_1_email", "insert_student_2_email");
     BatchAddStudents.batchAddStudents(testCourse.getId(), studentEmails);
   }
 }

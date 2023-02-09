@@ -27,10 +27,8 @@ public class TestCreateCourseWithAlias extends BaseTest {
   public void testCreateCourseWithAlias() throws GeneralSecurityException, IOException {
     setup(CreateCourseWithAlias.SCOPES);
     Course course = CreateCourseWithAlias.createCourseWithAlias();
-    List<CourseAlias> courseAliases = service.courses().aliases()
-        .list(course.getId()
-        ).execute()
-        .getAliases();
+    List<CourseAlias> courseAliases =
+        service.courses().aliases().list(course.getId()).execute().getAliases();
     Assert.assertNotNull("Course not returned.", course);
     Assert.assertTrue("No course aliases exist.", courseAliases.size() > 0);
     deleteCourse(course.getId());
