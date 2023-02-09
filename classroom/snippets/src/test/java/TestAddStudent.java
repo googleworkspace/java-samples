@@ -13,10 +13,10 @@
 // limitations under the License.
 
 import com.google.api.services.classroom.model.Student;
+import java.io.IOException;
 import java.security.GeneralSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
-import java.io.IOException;
 
 // Unit test class for Add Student classroom snippet
 public class TestAddStudent extends BaseTest {

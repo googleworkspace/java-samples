@@ -34,7 +34,8 @@ public class ListStudentSubmissions {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
   tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
 
   /**
    * Retrieves a specific student's submissions for the specified course work.
@@ -46,16 +47,17 @@ public class ListStudentSubmissions {
    * @throws IOException - if credentials file not found.
    * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
    */
-  public static List<StudentSubmission> listStudentSubmissions(String courseId, String courseWorkId, String userId)
+  public static List<StudentSubmission> listStudentSubmissions(
+      String courseId, String courseWorkId, String userId)
       throws GeneralSecurityException, IOException {
 
     // Create the classroom API client.
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 

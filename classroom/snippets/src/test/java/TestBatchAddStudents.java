@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import java.security.GeneralSecurityException;
-import org.junit.Test;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Test;
 
 // Unit test class for Batch Add Students classroom snippet
 public class TestBatchAddStudents extends BaseTest {

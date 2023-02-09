@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_create_course_with_alias_class]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -32,9 +31,9 @@ import java.util.Arrays;
 public class CreateCourseWithAlias {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
-    tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_COURSES));
+  tokens/ folder. */
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSES));
 
   /**
    * Create a new course with an alias. Set the new course id to the desired alias.
@@ -49,9 +48,9 @@ public class CreateCourseWithAlias {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
@@ -61,20 +60,21 @@ public class CreateCourseWithAlias {
 
     /* Create a new Course with the alias set as the id field. Project-wide aliases use a prefix
     of "p:" and can only be seen and used by the application that created them. */
-    Course content = new Course()
-        .setId("p:history_4_2022")
-        .setName("9th Grade History")
-        .setSection("Period 4")
-        .setDescriptionHeading("Welcome to 9th Grade History.")
-        .setOwnerId("me")
-        .setCourseState("PROVISIONED");
+    Course content =
+        new Course()
+            .setId("p:history_4_2022")
+            .setName("9th Grade History")
+            .setSection("Period 4")
+            .setDescriptionHeading("Welcome to 9th Grade History.")
+            .setOwnerId("me")
+            .setCourseState("PROVISIONED");
 
     try {
       course = service.courses().create(content).execute();
       // Prints the new created course id and name
       System.out.printf("Course created: %s (%s)\n", course.getName(), course.getId());
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 409) {
         System.out.printf("The course alias already exists: %s.\n", content.getId());

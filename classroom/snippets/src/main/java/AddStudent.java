@@ -31,9 +31,9 @@ import java.util.Arrays;
 public class AddStudent {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
-      tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
+  tokens/ folder. */
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
 
   /**
    * Add a student in a specified course.
@@ -51,20 +51,25 @@ public class AddStudent {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
     Student student = new Student().setUserId(studentId);
     try {
       // Enrolling a student to a specified course
-      student = service.courses().students().create(courseId, student)
-          .setEnrollmentCode(enrollmentCode)
-          .execute();
+      student =
+          service
+              .courses()
+              .students()
+              .create(courseId, student)
+              .setEnrollmentCode(enrollmentCode)
+              .execute();
       // Prints the course id with the Student name
-      System.out.printf("User '%s' was enrolled as a student in the course with ID '%s'.\n",
+      System.out.printf(
+          "User '%s' was enrolled as a student in the course with ID '%s'.\n",
           student.getProfile().getName().getFullName(), courseId);
     } catch (GoogleJsonResponseException e) {
       // TODO(developer) - handle error appropriately

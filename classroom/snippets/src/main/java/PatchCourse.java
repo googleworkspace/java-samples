@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_patch_course]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -33,7 +32,8 @@ public class PatchCourse {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
   tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSES));
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSES));
 
   /**
    * Updates one or more fields in a course.
@@ -49,20 +49,16 @@ public class PatchCourse {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
     Course course = null;
     try {
-      course = new Course()
-          .setSection("Period 3")
-          .setRoom("302");
-      course = service.courses().patch(courseId, course)
-          .setUpdateMask("section,room")
-          .execute();
+      course = new Course().setSection("Period 3").setRoom("302");
+      course = service.courses().patch(courseId, course).setUpdateMask("section,room").execute();
       System.out.printf("Course '%s' updated.\n", course.getName());
     } catch (GoogleJsonResponseException e) {
       // TODO(developer) - handle error appropriately

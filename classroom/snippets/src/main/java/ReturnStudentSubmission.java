@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_return_student_submissions_class]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -32,10 +31,11 @@ public class ReturnStudentSubmission {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
   tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
   /**
-   * Return a student submission back to the student which updates the submission state to `RETURNED`.
+   * Return a student submission back to the student which updates the submission state to
+   * `RETURNED`.
    *
    * @param courseId - identifier of the course.
    * @param courseWorkId - identifier of the course work.
@@ -50,24 +50,29 @@ public class ReturnStudentSubmission {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
     // [START classroom_return_student_submissions_code_snippet]
 
     try {
-      service.courses().courseWork().studentSubmissions()
+      service
+          .courses()
+          .courseWork()
+          .studentSubmissions()
           .classroomReturn(courseId, courseWorkId, id, null)
           .execute();
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
-        System.out.printf("The courseId (%s), courseWorkId (%s), or studentSubmissionId (%s) does "
-            + "not exist.\n", courseId, courseWorkId, id);
+        System.out.printf(
+            "The courseId (%s), courseWorkId (%s), or studentSubmissionId (%s) does "
+                + "not exist.\n",
+            courseId, courseWorkId, id);
       } else {
         throw e;
       }

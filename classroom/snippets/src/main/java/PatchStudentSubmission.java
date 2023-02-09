@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_patch_student_submissions_class]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -32,9 +31,9 @@ import java.util.Arrays;
 public class PatchStudentSubmission {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
-    tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
+  tokens/ folder. */
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
   /**
    * Updates the draft grade and/or assigned grade of a student submission.
    *
@@ -45,16 +44,17 @@ public class PatchStudentSubmission {
    * @throws IOException - if credentials file not found.
    * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
    */
-  public static StudentSubmission patchStudentSubmission(String courseId, String courseWorkId,
-      String id) throws GeneralSecurityException, IOException {
+  public static StudentSubmission patchStudentSubmission(
+      String courseId, String courseWorkId, String id)
+      throws GeneralSecurityException, IOException {
 
     // Create the classroom API client.
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
@@ -63,28 +63,38 @@ public class PatchStudentSubmission {
     StudentSubmission studentSubmission = null;
     try {
       // Updating the draftGrade and assignedGrade fields for the specific student submission.
-      StudentSubmission content = service.courses().courseWork().studentSubmissions()
-          .get(courseId, courseWorkId, id)
-          .execute();
+      StudentSubmission content =
+          service
+              .courses()
+              .courseWork()
+              .studentSubmissions()
+              .get(courseId, courseWorkId, id)
+              .execute();
       content.setAssignedGrade(90.00);
       content.setDraftGrade(80.00);
 
       // The updated studentSubmission object is returned with the new draftGrade and assignedGrade.
-      studentSubmission = service.courses().courseWork().studentSubmissions()
-          .patch(courseId, courseWorkId, id, content)
-          .set("updateMask", "draftGrade,assignedGrade")
-          .execute();
+      studentSubmission =
+          service
+              .courses()
+              .courseWork()
+              .studentSubmissions()
+              .patch(courseId, courseWorkId, id, content)
+              .set("updateMask", "draftGrade,assignedGrade")
+              .execute();
 
       /* Prints the updated student submission. */
-      System.out.printf("Updated student submission draft grade (%s) and assigned grade (%s).\n",
-          studentSubmission.getDraftGrade(),
-          studentSubmission.getAssignedGrade());
+      System.out.printf(
+          "Updated student submission draft grade (%s) and assigned grade (%s).\n",
+          studentSubmission.getDraftGrade(), studentSubmission.getAssignedGrade());
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
-        System.out.printf("The courseId (%s), courseWorkId (%s), or studentSubmissionId (%s) does "
-            + "not exist.\n", courseId, courseWorkId, id);
+        System.out.printf(
+            "The courseId (%s), courseWorkId (%s), or studentSubmissionId (%s) does "
+                + "not exist.\n",
+            courseId, courseWorkId, id);
       } else {
         throw e;
       }

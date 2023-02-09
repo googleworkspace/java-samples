@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_batch_add_students]
 
 import com.google.api.client.googleapis.batch.BatchRequest;
@@ -36,13 +35,13 @@ public class BatchAddStudents {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
   tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
 
   /**
    * Add multiple students in a specified course.
    *
-   * @param courseId      - Id of the course to add students.
+   * @param courseId - Id of the course to add students.
    * @param studentEmails - Email address of the students.
    * @throws IOException - if credentials file not found.
    * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
@@ -54,23 +53,25 @@ public class BatchAddStudents {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
     BatchRequest batch = service.batch();
-    JsonBatchCallback<Student> callback = new JsonBatchCallback<>() {
-      public void onSuccess(Student student, HttpHeaders responseHeaders) {
-        System.out.printf("User '%s' was added as a student to the course.\n",
-            student.getProfile().getName().getFullName());
-      }
+    JsonBatchCallback<Student> callback =
+        new JsonBatchCallback<>() {
+          public void onSuccess(Student student, HttpHeaders responseHeaders) {
+            System.out.printf(
+                "User '%s' was added as a student to the course.\n",
+                student.getProfile().getName().getFullName());
+          }
 
-      public void onFailure(GoogleJsonError error, HttpHeaders responseHeaders) {
-        System.out.printf("Error adding student to the course: %s\n", error.getMessage());
-      }
-    };
+          public void onFailure(GoogleJsonError error, HttpHeaders responseHeaders) {
+            System.out.printf("Error adding student to the course: %s\n", error.getMessage());
+          }
+        };
     for (String studentEmail : studentEmails) {
       Student student = new Student().setUserId(studentEmail);
       service.courses().students().create(courseId, student).queue(batch, callback);

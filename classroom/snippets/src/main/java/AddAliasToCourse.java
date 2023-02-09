@@ -31,7 +31,8 @@ import java.util.Arrays;
 public class AddAliasToCourse {
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
   tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSES));
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSES));
 
   /**
    * Add an alias on an existing course.
@@ -48,9 +49,9 @@ public class AddAliasToCourse {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
@@ -58,16 +59,14 @@ public class AddAliasToCourse {
 
     /* Create a new CourseAlias object with a project-wide alias. Project-wide aliases use a prefix
     of "p:" and can only be seen and used by the application that created them. */
-    CourseAlias content = new CourseAlias()
-        .setAlias("p:biology_10");
+    CourseAlias content = new CourseAlias().setAlias("p:biology_10");
     CourseAlias courseAlias = null;
 
     try {
-      courseAlias = service.courses().aliases().create(courseId, content)
-          .execute();
+      courseAlias = service.courses().aliases().create(courseId, content).execute();
       System.out.printf("Course alias created: %s \n", courseAlias.getAlias());
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 409) {
         System.out.printf("The course alias already exists: %s.\n", content);

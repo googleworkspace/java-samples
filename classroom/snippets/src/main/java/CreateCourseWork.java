@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_create_coursework_class]
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
@@ -34,9 +33,9 @@ import java.util.List;
 public class CreateCourseWork {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
-    tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
+  tokens/ folder. */
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
 
   /**
    * Creates course work.
@@ -53,9 +52,9 @@ public class CreateCourseWork {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
@@ -64,9 +63,10 @@ public class CreateCourseWork {
     CourseWork courseWork = null;
     try {
       // Create a link to add as a material on course work.
-      Link articleLink = new Link()
-          .setTitle("SR-71 Blackbird")
-          .setUrl("https://www.lockheedmartin.com/en-us/news/features/history/blackbird.html");
+      Link articleLink =
+          new Link()
+              .setTitle("SR-71 Blackbird")
+              .setUrl("https://www.lockheedmartin.com/en-us/news/features/history/blackbird.html");
 
       // Create a list of Materials to add to course work.
       List<Material> materials = Arrays.asList(new Material().setLink(articleLink));
@@ -76,21 +76,22 @@ public class CreateCourseWork {
       https://developers.google.com/classroom/reference/rest/v1/CourseWorkType
       Set state to `PUBLISHED`. Possible values of state can be found here:
       https://developers.google.com/classroom/reference/rest/v1/courses.courseWork#courseworkstate */
-      CourseWork content = new CourseWork()
-          .setTitle("Supersonic aviation")
-          .setDescription("Read about how the SR-71 Blackbird, the world’s fastest and "
-              + "highest-flying manned aircraft, was built.")
-          .setMaterials(materials)
-          .setWorkType("ASSIGNMENT")
-          .setState("PUBLISHED");
+      CourseWork content =
+          new CourseWork()
+              .setTitle("Supersonic aviation")
+              .setDescription(
+                  "Read about how the SR-71 Blackbird, the world’s fastest and "
+                      + "highest-flying manned aircraft, was built.")
+              .setMaterials(materials)
+              .setWorkType("ASSIGNMENT")
+              .setState("PUBLISHED");
 
-      courseWork = service.courses().courseWork().create(courseId, content)
-          .execute();
+      courseWork = service.courses().courseWork().create(courseId, content).execute();
 
       /* Prints the created courseWork. */
       System.out.printf("CourseWork created: %s\n", courseWork.getTitle());
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
         System.out.printf("The courseId does not exist: %s.\n", courseId);

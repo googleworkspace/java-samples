@@ -31,9 +31,9 @@ import java.util.Arrays;
 public class AddTeacher {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
-    tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
+  tokens/ folder. */
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
 
   /**
    * Add teacher to a specific course.
@@ -51,9 +51,9 @@ public class AddTeacher {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
@@ -62,7 +62,8 @@ public class AddTeacher {
       // Add a teacher to a specified course
       teacher = service.courses().teachers().create(courseId, teacher).execute();
       // Prints the course id with the teacher name
-      System.out.printf("User '%s' was added as a teacher to the course with ID '%s'.\n",
+      System.out.printf(
+          "User '%s' was added as a teacher to the course with ID '%s'.\n",
           teacher.getProfile().getName().getFullName(), courseId);
     } catch (GoogleJsonResponseException e) {
       // TODO(developer) - handle error appropriately

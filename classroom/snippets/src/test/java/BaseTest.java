@@ -19,12 +19,11 @@ import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.CourseAlias;
+import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import org.junit.After;
-
-import java.io.IOException;
 import java.util.UUID;
+import org.junit.After;
 
 // Base class for integration tests.
 public class BaseTest {

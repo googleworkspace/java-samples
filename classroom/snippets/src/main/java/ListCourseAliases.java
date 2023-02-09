@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_list_aliases_class]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -35,7 +34,8 @@ public class ListCourseAliases {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
   tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSES));
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSES));
 
   /**
    * Retrieve the aliases for a course.
@@ -52,9 +52,9 @@ public class ListCourseAliases {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
@@ -66,10 +66,14 @@ public class ListCourseAliases {
     try {
       // List of aliases of specified course
       do {
-        ListCourseAliasesResponse response = service.courses().aliases().list(courseId)
-            .setPageSize(100)
-            .setPageToken(pageToken)
-            .execute();
+        ListCourseAliasesResponse response =
+            service
+                .courses()
+                .aliases()
+                .list(courseId)
+                .setPageSize(100)
+                .setPageToken(pageToken)
+                .execute();
         courseAliases.addAll(response.getAliases());
         pageToken = response.getNextPageToken();
       } while (pageToken != null);

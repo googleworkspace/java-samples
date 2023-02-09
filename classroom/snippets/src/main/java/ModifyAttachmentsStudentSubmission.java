@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_modify_attachments_student_submissions_class]
 
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
@@ -35,10 +34,9 @@ import java.util.Arrays;
 public class ModifyAttachmentsStudentSubmission {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
-    tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
-
+  tokens/ folder. */
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
 
   /**
    * Modify attachments on a student submission.
@@ -57,9 +55,9 @@ public class ModifyAttachmentsStudentSubmission {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
@@ -70,28 +68,34 @@ public class ModifyAttachmentsStudentSubmission {
       // Create ModifyAttachmentRequest object that includes a new attachment with a link.
       Link link = new Link().setUrl("https://en.wikipedia.org/wiki/Irrational_number");
       Attachment attachment = new Attachment().setLink(link);
-      ModifyAttachmentsRequest modifyAttachmentsRequest = new ModifyAttachmentsRequest()
-          .setAddAttachments(Arrays.asList(attachment));
+      ModifyAttachmentsRequest modifyAttachmentsRequest =
+          new ModifyAttachmentsRequest().setAddAttachments(Arrays.asList(attachment));
 
       // The modified studentSubmission object is returned with the new attachment added to it.
-      studentSubmission = service.courses().courseWork().studentSubmissions().modifyAttachments(
-          courseId, courseWorkId, id, modifyAttachmentsRequest)
-          .execute();
+      studentSubmission =
+          service
+              .courses()
+              .courseWork()
+              .studentSubmissions()
+              .modifyAttachments(courseId, courseWorkId, id, modifyAttachmentsRequest)
+              .execute();
 
       /* Prints the modified student submission. */
-      System.out.printf("Modified student submission attachments: '%s'.\n", studentSubmission
-          .getAssignmentSubmission()
-          .getAttachments());
+      System.out.printf(
+          "Modified student submission attachments: '%s'.\n",
+          studentSubmission.getAssignmentSubmission().getAttachments());
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
-        System.out.printf("The courseId (%s), courseWorkId (%s), or studentSubmissionId (%s) does "
-            + "not exist.\n", courseId, courseWorkId, id);
+        System.out.printf(
+            "The courseId (%s), courseWorkId (%s), or studentSubmissionId (%s) does "
+                + "not exist.\n",
+            courseId, courseWorkId, id);
       } else {
         throw e;
       }
-    } catch(Exception e) {
+    } catch (Exception e) {
       throw e;
     }
     return studentSubmission;

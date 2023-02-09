@@ -32,8 +32,8 @@ public class UpdateTopic {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
   tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_TOPICS));
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_TOPICS));
 
   /**
    * Update one or more fields in a topic in a course.
@@ -50,9 +50,9 @@ public class UpdateTopic {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
@@ -67,10 +67,14 @@ public class UpdateTopic {
       topicToUpdate.setName("Semester 2");
 
       /* Call the patch endpoint and set the updateMask query parameter to the field that needs to
-       be updated. */
-      topic = service.courses().topics().patch(courseId, topicId, topicToUpdate)
-          .set("updateMask", "name")
-          .execute();
+      be updated. */
+      topic =
+          service
+              .courses()
+              .topics()
+              .patch(courseId, topicId, topicToUpdate)
+              .set("updateMask", "name")
+              .execute();
 
       /* Prints the updated topic. */
       System.out.printf("Topic '%s' updated.\n", topic.getName());
