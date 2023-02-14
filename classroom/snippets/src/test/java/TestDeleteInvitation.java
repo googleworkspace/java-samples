@@ -28,7 +28,15 @@ public class TestDeleteInvitation extends BaseTest {
     setup(DeleteInvitation.SCOPES);
     Invitation invitation = CreateInvitation.createInvitation(testCourse.getId(), userId);
     DeleteInvitation.deleteInvitation(invitation.getId());
-    Assert.assertThrows(GoogleJsonResponseException.class,
-        () -> GetInvitation.getInvitation(invitation.getId()));
+    Assert.assertThrows(
+        GoogleJsonResponseException.class, () -> GetInvitation.getInvitation(invitation.getId()));
+  }
+
+  @Test
+  public void testDeleteInvitationWithInvalidId() throws GeneralSecurityException, IOException {
+    setup(DeleteInvitation.SCOPES);
+    Assert.assertThrows(
+        GoogleJsonResponseException.class,
+        () -> DeleteInvitation.deleteInvitation("invalid-invitation-id"));
   }
 }

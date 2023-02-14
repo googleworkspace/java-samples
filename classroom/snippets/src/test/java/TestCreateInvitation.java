@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.services.classroom.model.Invitation;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -31,4 +32,12 @@ public class TestCreateInvitation extends BaseTest {
     Assert.assertEquals(invitation.getUserId(), userId);
   }
 
+  @Test
+  public void testCreateInvitationWithInvalidCourseId()
+      throws GeneralSecurityException, IOException {
+    setup(CreateInvitation.SCOPES);
+    Assert.assertThrows(
+        GoogleJsonResponseException.class,
+        () -> CreateInvitation.createInvitation("invalid-course-id", userId));
+  }
 }
