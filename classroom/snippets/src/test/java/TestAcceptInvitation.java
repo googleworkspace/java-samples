@@ -25,13 +25,15 @@ public class TestAcceptInvitation {
   @Test
   public void testAcceptInvitation() throws GeneralSecurityException, IOException {
     AcceptInvitation.acceptInvitation(invitationId);
-    Assert.assertThrows(GoogleJsonResponseException.class,
-        () -> GetInvitation.getInvitation(invitationId));
+    /* Once an invitation is accepted, it is removed and the user is added to the course as a
+    teacher or a student. */
+    Assert.assertThrows(
+        GoogleJsonResponseException.class, () -> GetInvitation.getInvitation(invitationId));
   }
 
   @Test
   public void testAcceptInvitationWithInvalidId() {
-    Assert.assertThrows(GoogleJsonResponseException.class,
-        () -> AcceptInvitation.acceptInvitation("invalid-id"));
+    Assert.assertThrows(
+        GoogleJsonResponseException.class, () -> AcceptInvitation.acceptInvitation("invalid-id"));
   }
 }
