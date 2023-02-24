@@ -31,8 +31,8 @@ public class AcceptInvitation {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
   tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
 
   /**
    * Accepts an invitation to a course.
@@ -47,9 +47,9 @@ public class AcceptInvitation {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 

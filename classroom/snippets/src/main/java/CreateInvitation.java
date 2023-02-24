@@ -31,9 +31,9 @@ import java.util.Arrays;
 public class CreateInvitation {
 
   /* Scopes required by this API call. If modifying these scopes, delete your previously saved
-    tokens/ folder. */
-  static ArrayList<String> SCOPES = new ArrayList<>(
-      Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
+  tokens/ folder. */
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_ROSTERS));
 
   /**
    * Create an invitation to allow a user to join a course.
@@ -51,9 +51,9 @@ public class CreateInvitation {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
@@ -63,17 +63,16 @@ public class CreateInvitation {
     try {
       /* Set the role the user is invited to have in the course. Possible values of CourseRole can be
       found here: https://developers.google.com/classroom/reference/rest/v1/invitations#courserole.*/
-      Invitation content = new Invitation()
-          .setCourseId(courseId)
-          .setUserId(userId)
-          .setRole("TEACHER");
+      Invitation content =
+          new Invitation().setCourseId(courseId).setUserId(userId).setRole("TEACHER");
 
       invitation = service.invitations().create(content).execute();
 
-      System.out.printf("User (%s) has been invited to course (%s).\n", invitation.getUserId(),
-          invitation.getCourseId());
+      System.out.printf(
+          "User (%s) has been invited to course (%s).\n",
+          invitation.getUserId(), invitation.getCourseId());
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
         System.out.printf("The course or user does not exist.\n");
@@ -86,6 +85,5 @@ public class CreateInvitation {
 
     // [END classroom_create_invitation_code_snippet]
   }
-
 }
 // [END classroom_create_invitation]
