@@ -107,9 +107,74 @@ public class ListStudentSubmissions {
       throw e;
     }
     return studentSubmissions;
-
     // [END classroom_list_student_submissions_code_snippet]
+  }
 
+  /**
+   * Lists all assigned grades for a particular coursework item.
+   *
+   * @param courseId - identifier of the course.
+   * @param courseWorkId - identifier of the course work.
+   * @throws IOException - if credentials file not found.
+   * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
+   */
+  public static void listAssignedGrades(String courseId, String courseWorkId)
+      throws GeneralSecurityException, IOException {
+
+    // Create the classroom API client.
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    Classroom service =
+        new Classroom.Builder(
+            HTTP_TRANSPORT,
+            GsonFactory.getDefaultInstance(),
+            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
+
+    List<StudentSubmission> studentSubmissions = new ArrayList<>();
+    String pageToken = null;
+
+    try {
+      do {
+    // [START classroom_list_assigned_grades_code_snippet]
+        ListStudentSubmissionsResponse response =
+            service
+                .courses()
+                .courseWork()
+                .studentSubmissions()
+                .list(courseId, courseWorkId)
+                .setPageToken(pageToken)
+                .execute();
+
+        /* Ensure that the response is not null before retrieving data from it to avoid errors. */
+        if (response.getStudentSubmissions() != null) {
+          studentSubmissions.addAll(response.getStudentSubmissions());
+          pageToken = response.getNextPageToken();
+        }
+      } while (pageToken != null);
+
+      if (studentSubmissions.isEmpty()) {
+        System.out.println("No student submissions found.");
+      } else {
+        for (StudentSubmission submission : studentSubmissions) {
+          System.out.printf("User ID %s, Assigned grade: %s\n", submission.getUserId(),
+              submission.getAssignedGrade());
+        }
+      }
+    // [END classroom_list_assigned_grades_code_snippet]
+    } catch (GoogleJsonResponseException e) {
+      // TODO (developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 404) {
+        System.out.printf(
+            "The courseId (%s) or courseWorkId (%s) does not exist.\n",
+            courseId, courseWorkId);
+      } else {
+        throw e;
+      }
+    } catch (Exception e) {
+      throw e;
+    }
   }
 }
 // [END classroom_list_student_submissions_class]
