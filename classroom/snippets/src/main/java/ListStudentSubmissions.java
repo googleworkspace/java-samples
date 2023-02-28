@@ -62,7 +62,6 @@ public class ListStudentSubmissions {
             .build();
 
     // [START classroom_list_student_submissions_code_snippet]
-
     List<StudentSubmission> studentSubmissions = new ArrayList<>();
     String pageToken = null;
 
@@ -93,6 +92,7 @@ public class ListStudentSubmissions {
           System.out.printf("Student submission: %s.\n", submission.getId());
         }
       }
+      // [END classroom_list_student_submissions_code_snippet]
     } catch (GoogleJsonResponseException e) {
       // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
@@ -107,7 +107,6 @@ public class ListStudentSubmissions {
       throw e;
     }
     return studentSubmissions;
-    // [END classroom_list_student_submissions_code_snippet]
   }
 
   /**
@@ -125,9 +124,9 @@ public class ListStudentSubmissions {
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-            HTTP_TRANSPORT,
-            GsonFactory.getDefaultInstance(),
-            ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
@@ -136,7 +135,7 @@ public class ListStudentSubmissions {
 
     try {
       do {
-    // [START classroom_list_assigned_grades_code_snippet]
+        // [START classroom_list_assigned_grades_code_snippet]
         ListStudentSubmissionsResponse response =
             service
                 .courses()
@@ -157,18 +156,18 @@ public class ListStudentSubmissions {
         System.out.println("No student submissions found.");
       } else {
         for (StudentSubmission submission : studentSubmissions) {
-          System.out.printf("User ID %s, Assigned grade: %s\n", submission.getUserId(),
-              submission.getAssignedGrade());
+          System.out.printf(
+              "User ID %s, Assigned grade: %s\n",
+              submission.getUserId(), submission.getAssignedGrade());
         }
       }
-    // [END classroom_list_assigned_grades_code_snippet]
+      // [END classroom_list_assigned_grades_code_snippet]
     } catch (GoogleJsonResponseException e) {
       // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
         System.out.printf(
-            "The courseId (%s) or courseWorkId (%s) does not exist.\n",
-            courseId, courseWorkId);
+            "The courseId (%s) or courseWorkId (%s) does not exist.\n", courseId, courseWorkId);
       } else {
         throw e;
       }
