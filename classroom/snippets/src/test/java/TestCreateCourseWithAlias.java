@@ -15,6 +15,7 @@
 import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.CourseAlias;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,12 +24,11 @@ import org.junit.Test;
 public class TestCreateCourseWithAlias extends BaseTest {
 
   @Test
-  public void testCreateCourseWithAlias() throws IOException {
+  public void testCreateCourseWithAlias() throws GeneralSecurityException, IOException {
+    setup(CreateCourseWithAlias.SCOPES);
     Course course = CreateCourseWithAlias.createCourseWithAlias();
-    List<CourseAlias> courseAliases = service.courses().aliases()
-        .list(course.getId()
-        ).execute()
-        .getAliases();
+    List<CourseAlias> courseAliases =
+        service.courses().aliases().list(course.getId()).execute().getAliases();
     Assert.assertNotNull("Course not returned.", course);
     Assert.assertTrue("No course aliases exist.", courseAliases.size() > 0);
     deleteCourse(course.getId());

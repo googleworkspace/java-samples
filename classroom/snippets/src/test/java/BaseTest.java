@@ -19,13 +19,11 @@ import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.Course;
 import com.google.api.services.classroom.model.CourseAlias;
-import java.util.Collections;
-import java.util.List;
-import org.junit.After;
-import org.junit.Before;
-
 import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 import java.util.UUID;
+import org.junit.After;
 
 // Base class for integration tests.
 public class BaseTest {
@@ -38,10 +36,11 @@ public class BaseTest {
    * @return an authorized Classroom client service
    * @throws IOException - if credentials file not found.
    */
-  protected Classroom buildService() throws Exception {
+  protected Classroom buildService(ArrayList<String> SCOPES)
+      throws GeneralSecurityException, IOException {
     /* Scopes required by this API call. If modifying these scopes, delete your previously saved
     tokens/ folder. */
-    final List<String> SCOPES = Collections.singletonList(ClassroomScopes.CLASSROOM_COURSES);
+    SCOPES.add(ClassroomScopes.CLASSROOM_COURSES);
 
     // Create the classroom API client
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -54,16 +53,17 @@ public class BaseTest {
             .build();
   }
 
-  @Before
-  public void setup() throws Exception {
-    this.service = buildService();
+  public void setup(ArrayList<String> scopes) throws GeneralSecurityException, IOException {
+    this.service = buildService(scopes);
     this.testCourse = CreateCourse.createCourse();
     createAlias(this.testCourse.getId());
   }
 
   @After
   public void tearDown() throws IOException {
-    deleteCourse(this.testCourse.getId());
+    if (this.testCourse != null) {
+      deleteCourse(this.testCourse.getId());
+    }
     this.testCourse = null;
   }
 

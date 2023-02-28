@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,21 +13,27 @@
 // limitations under the License.
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.services.classroom.model.Topic;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestDeleteTopic extends BaseTest {
+public class TestAcceptInvitation {
+
+  private String invitationId = "insert_invitation_id";
 
   @Test
-  public void testDeleteTopic() throws GeneralSecurityException, IOException {
-    setup(DeleteTopic.SCOPES);
-    Topic topic = CreateTopic.createTopic(testCourse.getId());
-    DeleteTopic.deleteTopic(testCourse.getId(), topic.getTopicId());
+  public void testAcceptInvitation() throws GeneralSecurityException, IOException {
+    AcceptInvitation.acceptInvitation(invitationId);
+    /* Once an invitation is accepted, it is removed and the user is added to the course as a
+    teacher or a student. */
     Assert.assertThrows(
-        GoogleJsonResponseException.class,
-        () -> GetTopic.getTopic(testCourse.getId(), topic.getTopicId()));
+        GoogleJsonResponseException.class, () -> GetInvitation.getInvitation(invitationId));
+  }
+
+  @Test
+  public void testAcceptInvitationWithInvalidId() {
+    Assert.assertThrows(
+        GoogleJsonResponseException.class, () -> AcceptInvitation.acceptInvitation("invalid-id"));
   }
 }

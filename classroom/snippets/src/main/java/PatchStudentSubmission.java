@@ -12,24 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 // [START classroom_patch_student_submissions_class]
 
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.StudentSubmission;
-import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
-import java.util.Collections;
+import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /* Class to demonstrate the use of Classroom Patch StudentSubmissions API. */
 public class PatchStudentSubmission {
+
+  /* Scopes required by this API call. If modifying these scopes, delete your previously saved
+  tokens/ folder. */
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
   /**
    * Updates the draft grade and/or assigned grade of a student submission.
    *
@@ -38,51 +42,59 @@ public class PatchStudentSubmission {
    * @param id - identifier of the student submission.
    * @return - the updated student submission.
    * @throws IOException - if credentials file not found.
+   * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
    */
-  public static StudentSubmission patchStudentSubmission(String courseId, String courseWorkId,
-      String id) throws IOException {
-    /* Load pre-authorized user credentials from the environment.
-     TODO(developer) - See https://developers.google.com/identity for
-      guides on implementing OAuth2 for your application. */
-    GoogleCredentials credentials = GoogleCredentials.getApplicationDefault()
-        .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
-    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(
-        credentials);
+  public static StudentSubmission patchStudentSubmission(
+      String courseId, String courseWorkId, String id)
+      throws GeneralSecurityException, IOException {
 
     // Create the classroom API client.
-    Classroom service = new Classroom.Builder(new NetHttpTransport(),
-        GsonFactory.getDefaultInstance(),
-        requestInitializer)
-        .setApplicationName("Classroom samples")
-        .build();
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    Classroom service =
+        new Classroom.Builder(
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
 
     // [START classroom_patch_student_submissions_code_snippet]
 
     StudentSubmission studentSubmission = null;
     try {
       // Updating the draftGrade and assignedGrade fields for the specific student submission.
-      StudentSubmission content = service.courses().courseWork().studentSubmissions()
-          .get(courseId, courseWorkId, id)
-          .execute();
+      StudentSubmission content =
+          service
+              .courses()
+              .courseWork()
+              .studentSubmissions()
+              .get(courseId, courseWorkId, id)
+              .execute();
       content.setAssignedGrade(90.00);
       content.setDraftGrade(80.00);
 
       // The updated studentSubmission object is returned with the new draftGrade and assignedGrade.
-      studentSubmission = service.courses().courseWork().studentSubmissions()
-          .patch(courseId, courseWorkId, id, content)
-          .set("updateMask", "draftGrade,assignedGrade")
-          .execute();
+      studentSubmission =
+          service
+              .courses()
+              .courseWork()
+              .studentSubmissions()
+              .patch(courseId, courseWorkId, id, content)
+              .set("updateMask", "draftGrade,assignedGrade")
+              .execute();
 
       /* Prints the updated student submission. */
-      System.out.printf("Updated student submission draft grade (%s) and assigned grade (%s).\n",
-          studentSubmission.getDraftGrade(),
-          studentSubmission.getAssignedGrade());
+      System.out.printf(
+          "Updated student submission draft grade (%s) and assigned grade (%s).\n",
+          studentSubmission.getDraftGrade(), studentSubmission.getAssignedGrade());
     } catch (GoogleJsonResponseException e) {
-      //TODO (developer) - handle error appropriately
+      // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
       if (error.getCode() == 404) {
-        System.out.printf("The courseId (%s), courseWorkId (%s), or studentSubmissionId (%s) does "
-            + "not exist.\n", courseId, courseWorkId, id);
+        System.out.printf(
+            "The courseId (%s), courseWorkId (%s), or studentSubmissionId (%s) does "
+                + "not exist.\n",
+            courseId, courseWorkId, id);
       } else {
         throw e;
       }

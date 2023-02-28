@@ -13,15 +13,17 @@
 // limitations under the License.
 
 import com.google.api.services.classroom.model.Course;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
-import java.io.IOException;
 
 // Unit test class for Patch Course classroom snippet
 public class TestPatchCourse extends BaseTest {
 
   @Test
-  public void testPatchCourse() throws IOException {
+  public void testPatchCourse() throws GeneralSecurityException, IOException {
+    setup(PatchCourse.SCOPES);
     Course course = PatchCourse.patchCourse(testCourse.getId());
     Assert.assertNotNull("Course not returned.", course);
     Assert.assertEquals("Wrong course returned.", testCourse.getId(), course.getId());

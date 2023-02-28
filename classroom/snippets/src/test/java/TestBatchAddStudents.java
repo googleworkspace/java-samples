@@ -12,18 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import org.junit.Test;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.Test;
 
 // Unit test class for Batch Add Students classroom snippet
 public class TestBatchAddStudents extends BaseTest {
 
   @Test
-  public void testBatchAddStudents() throws IOException {
-    List<String> studentEmails = Arrays.asList("gduser2@workpsacesamples.dev",
-        "gduser3@workpsacesamples.dev");
+  public void testBatchAddStudents() throws GeneralSecurityException, IOException {
+    setup(BatchAddStudents.SCOPES);
+    List<String> studentEmails = Arrays.asList("insert_student_1_email", "insert_student_2_email");
     BatchAddStudents.batchAddStudents(testCourse.getId(), studentEmails);
   }
 }

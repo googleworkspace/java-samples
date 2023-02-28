@@ -14,24 +14,29 @@
 
 // [START classroom_list_student_submissions_class]
 
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.classroom.Classroom;
 import com.google.api.services.classroom.ClassroomScopes;
 import com.google.api.services.classroom.model.ListStudentSubmissionsResponse;
 import com.google.api.services.classroom.model.StudentSubmission;
-import com.google.auth.http.HttpCredentialsAdapter;
-import com.google.auth.oauth2.GoogleCredentials;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 /* Class to demonstrate the use of Classroom List StudentSubmissions API. */
 public class ListStudentSubmissions {
+
+  /* Scopes required by this API call. If modifying these scopes, delete your previously saved
+  tokens/ folder. */
+  static ArrayList<String> SCOPES =
+      new ArrayList<>(Arrays.asList(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
+
   /**
    * Retrieves a specific student's submissions for the specified course work.
    *
@@ -40,26 +45,23 @@ public class ListStudentSubmissions {
    * @param userId - identifier of the student whose work to return.
    * @return - list of student submissions.
    * @throws IOException - if credentials file not found.
+   * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
    */
   public static List<StudentSubmission> listStudentSubmissions(
-      String courseId, String courseWorkId, String userId) throws IOException {
-    /* Load pre-authorized user credentials from the environment.
-    TODO(developer) - See https://developers.google.com/identity for
-     guides on implementing OAuth2 for your application. */
-    GoogleCredentials credentials =
-        GoogleCredentials.getApplicationDefault()
-            .createScoped(Collections.singleton(ClassroomScopes.CLASSROOM_COURSEWORK_STUDENTS));
-    HttpRequestInitializer requestInitializer = new HttpCredentialsAdapter(credentials);
+      String courseId, String courseWorkId, String userId)
+      throws GeneralSecurityException, IOException {
 
     // Create the classroom API client.
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
     Classroom service =
         new Classroom.Builder(
-                new NetHttpTransport(), GsonFactory.getDefaultInstance(), requestInitializer)
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
             .setApplicationName("Classroom samples")
             .build();
 
     // [START classroom_list_student_submissions_code_snippet]
-
     List<StudentSubmission> studentSubmissions = new ArrayList<>();
     String pageToken = null;
 
@@ -90,6 +92,7 @@ public class ListStudentSubmissions {
           System.out.printf("Student submission: %s.\n", submission.getId());
         }
       }
+      // [END classroom_list_student_submissions_code_snippet]
     } catch (GoogleJsonResponseException e) {
       // TODO (developer) - handle error appropriately
       GoogleJsonError error = e.getDetails();
@@ -104,9 +107,73 @@ public class ListStudentSubmissions {
       throw e;
     }
     return studentSubmissions;
+  }
 
-    // [END classroom_list_student_submissions_code_snippet]
+  /**
+   * Lists all assigned grades for a particular coursework item.
+   *
+   * @param courseId - identifier of the course.
+   * @param courseWorkId - identifier of the course work.
+   * @throws IOException - if credentials file not found.
+   * @throws GeneralSecurityException - if a new instance of NetHttpTransport was not created.
+   */
+  public static void listAssignedGrades(String courseId, String courseWorkId)
+      throws GeneralSecurityException, IOException {
 
+    // Create the classroom API client.
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    Classroom service =
+        new Classroom.Builder(
+                HTTP_TRANSPORT,
+                GsonFactory.getDefaultInstance(),
+                ClassroomCredentials.getCredentials(HTTP_TRANSPORT, SCOPES))
+            .setApplicationName("Classroom samples")
+            .build();
+
+    List<StudentSubmission> studentSubmissions = new ArrayList<>();
+    String pageToken = null;
+
+    try {
+      do {
+        // [START classroom_list_assigned_grades_code_snippet]
+        ListStudentSubmissionsResponse response =
+            service
+                .courses()
+                .courseWork()
+                .studentSubmissions()
+                .list(courseId, courseWorkId)
+                .setPageToken(pageToken)
+                .execute();
+
+        /* Ensure that the response is not null before retrieving data from it to avoid errors. */
+        if (response.getStudentSubmissions() != null) {
+          studentSubmissions.addAll(response.getStudentSubmissions());
+          pageToken = response.getNextPageToken();
+        }
+      } while (pageToken != null);
+
+      if (studentSubmissions.isEmpty()) {
+        System.out.println("No student submissions found.");
+      } else {
+        for (StudentSubmission submission : studentSubmissions) {
+          System.out.printf(
+              "User ID %s, Assigned grade: %s\n",
+              submission.getUserId(), submission.getAssignedGrade());
+        }
+      }
+      // [END classroom_list_assigned_grades_code_snippet]
+    } catch (GoogleJsonResponseException e) {
+      // TODO (developer) - handle error appropriately
+      GoogleJsonError error = e.getDetails();
+      if (error.getCode() == 404) {
+        System.out.printf(
+            "The courseId (%s) or courseWorkId (%s) does not exist.\n", courseId, courseWorkId);
+      } else {
+        throw e;
+      }
+    } catch (Exception e) {
+      throw e;
+    }
   }
 }
 // [END classroom_list_student_submissions_class]

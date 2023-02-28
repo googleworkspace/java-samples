@@ -14,6 +14,7 @@
 
 import com.google.api.services.classroom.model.Topic;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,7 +23,8 @@ import org.junit.Test;
 public class TestListTopics extends BaseTest {
 
   @Test
-  public void testListTopics() throws IOException {
+  public void testListTopics() throws GeneralSecurityException, IOException {
+    setup(ListTopics.SCOPES);
     CreateTopic.createTopic(testCourse.getId());
     List<Topic> listTopics = ListTopics.listTopics(testCourse.getId());
     Assert.assertNotNull("Topics could not be retrieved.", listTopics);

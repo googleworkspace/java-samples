@@ -1,4 +1,4 @@
-// Copyright 2022 Google LLC
+// Copyright 2023 Google LLC
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,21 +13,31 @@
 // limitations under the License.
 
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
-import com.google.api.services.classroom.model.Topic;
+import com.google.api.services.classroom.model.Invitation;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class TestDeleteTopic extends BaseTest {
+public class TestCreateInvitation extends BaseTest {
+
+  private String userId = "insert_user_id";
 
   @Test
-  public void testDeleteTopic() throws GeneralSecurityException, IOException {
-    setup(DeleteTopic.SCOPES);
-    Topic topic = CreateTopic.createTopic(testCourse.getId());
-    DeleteTopic.deleteTopic(testCourse.getId(), topic.getTopicId());
+  public void testCreateInvitation() throws GeneralSecurityException, IOException {
+    setup(CreateInvitation.SCOPES);
+    Invitation invitation = CreateInvitation.createInvitation(testCourse.getId(), userId);
+    Assert.assertNotNull("Invitation not created", invitation);
+    Assert.assertEquals(invitation.getCourseId(), testCourse.getId());
+    Assert.assertEquals(invitation.getUserId(), userId);
+  }
+
+  @Test
+  public void testCreateInvitationWithInvalidCourseId()
+      throws GeneralSecurityException, IOException {
+    setup(CreateInvitation.SCOPES);
     Assert.assertThrows(
         GoogleJsonResponseException.class,
-        () -> GetTopic.getTopic(testCourse.getId(), topic.getTopicId()));
+        () -> CreateInvitation.createInvitation("invalid-course-id", userId));
   }
 }

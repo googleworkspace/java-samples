@@ -13,16 +13,18 @@
 // limitations under the License.
 
 import com.google.api.services.classroom.model.CourseAlias;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
-import java.io.IOException;
-import java.util.List;
 
 // Unit test class for List Course Aliases classroom snippet
 public class TestListCourseAliases extends BaseTest {
 
   @Test
-  public void testListCourseAliases() throws IOException {
+  public void testListCourseAliases() throws GeneralSecurityException, IOException {
+    setup(ListCourseAliases.SCOPES);
     List<CourseAlias> courseAliases = ListCourseAliases.listCourseAliases(testCourse.getId());
     Assert.assertTrue("Incorrect number of course aliases returned.", courseAliases.size() == 1);
   }
