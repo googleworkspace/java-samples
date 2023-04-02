@@ -1,6 +1,6 @@
-# G Suite Java Samples [![Build Status](https://travis-ci.org/gsuitedevs/java-samples.svg?branch=master)](https://travis-ci.org/gsuitedevs/java-samples)
+# Google Workspace Java Samples
 
-A collection of samples that demonstrate how to call G Suite APIs in Java.
+A collection of samples that demonstrate how to call Google Workspace APIs in Java.
 
 ## APIs
 
@@ -19,7 +19,7 @@ A collection of samples that demonstrate how to call G Suite APIs in Java.
 
 - [Quickstart](https://developers.google.com/calendar/quickstart/java)
 - [Sync Tokens and Etags](calendar/sync)
-- [Command line sample](https://github.com/google/google-api-java-client-samples/tree/master/calendar-cmdline-sample)
+- [Command-line sample](https://github.com/google/google-api-java-client-samples/tree/master/calendar-cmdline-sample)
 
 ### Classroom
 
@@ -32,7 +32,7 @@ A collection of samples that demonstrate how to call G Suite APIs in Java.
 ### Drive V3
 
 - [Quickstart](https://developers.google.com/drive/v3/web/quickstart/java)
-- [Command line sample](https://github.com/google/google-api-java-client-samples/tree/master/drive-cmdline-sample)
+- [Command-line sample](https://github.com/google/google-api-java-client-samples/tree/master/drive-cmdline-sample)
 
 ### Gmail
 

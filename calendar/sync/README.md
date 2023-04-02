@@ -29,9 +29,9 @@ Setup your Java environment:
    using the [Google Developers Console](https://console.developers.google.com).
 1. Run `mvn compile` to build the project.
 1. Run one of the three samples:
-   * Sync Token Sample:
-     `mvn exec:java -Dexec.mainClass="com.google.api.services.samples.calendar.sync.SyncTokenSample"`
-   * Conditional Modification Sample:
-     `mvn exec:java -Dexec.mainClass="com.google.api.services.samples.calendar.sync.ConditionalModificationSample"`
-   * Conditional Retrieval Sample:
-     `mvn exec:java -Dexec.mainClass="com.google.api.services.samples.calendar.sync.ConditionalRetrievalSample"`
+    * Sync Token Sample:
+      `mvn exec:java -Dexec.mainClass="com.google.api.services.samples.calendar.sync.SyncTokenSample"`
+    * Conditional Modification Sample:
+      `mvn exec:java -Dexec.mainClass="com.google.api.services.samples.calendar.sync.ConditionalModificationSample"`
+    * Conditional Retrieval Sample:
+      `mvn exec:java -Dexec.mainClass="com.google.api.services.samples.calendar.sync.ConditionalRetrievalSample"`

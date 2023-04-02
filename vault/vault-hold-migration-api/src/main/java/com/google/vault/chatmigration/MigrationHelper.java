@@ -1,3 +1,19 @@
+/*
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.google.vault.chatmigration;
 
 import com.google.api.client.auth.oauth2.Credential;
@@ -8,10 +24,10 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.admin.directory.Directory;
-import com.google.api.services.admin.directory.DirectoryScopes;
+import com.google.api.services.directory.Directory;
+import com.google.api.services.directory.DirectoryScopes;
 import com.google.api.services.vault.v1.Vault;
 import com.google.api.services.vault.v1.VaultScopes;
 import java.io.IOException;
@@ -27,44 +43,25 @@ import org.apache.commons.cli.Options;
 
 public class MigrationHelper {
 
-  enum MigrationOptions {
-    GENERATE_REPORT("a", "genholdreport", "Generate Hold Report"),
-    DUPLICATE_HOLDS("b", "duplicateholds", "Duplicate Gmail Holds to Hangouts Chat"),
-    REPORT_FILE("f", "reportfile", "Path to holds report file"),
-    ERROR_FILE("e", "errorfile", "Path to error report file"),
-    INCLUDE_ROOMS("g", "includerooms", "Include Rooms when duplicating holds to Hangouts Chat"),
-    HELP("h", "help", "Options Help");
-
-    private final String option;
-    private final String longOpt;
-    private final String description;
-
-    MigrationOptions(String opt, String longOpt, String description) {
-      this.option = opt;
-      this.longOpt = longOpt;
-      this.description = description;
-    }
-
-    public String getOption() {
-      return option;
-    }
-  }
-
-  /** Application name. */
+  static final Option helpOption =
+      Option.builder(MigrationOptions.HELP.option)
+          .longOpt(MigrationOptions.HELP.longOpt)
+          .argName("help")
+          .desc(MigrationOptions.HELP.description)
+          .build();
+  /**
+   * Application name.
+   */
   private static final String APPLICATION_NAME = "Google Vault API Java Quickstart";
 
-  /** Directory to store authorization tokens for this application. */
+  /**
+   * Directory to store authorization tokens for this application.
+   */
   private static final java.io.File DATA_STORE_DIR = new java.io.File("tokens");
-
-  /** Global instance of the {@link FileDataStoreFactory}. */
-  private static FileDataStoreFactory DATA_STORE_FACTORY;
-
-  /** Global instance of the JSON factory. */
-  private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-
-  /** Global instance of the HTTP transport. */
-  private static HttpTransport HTTP_TRANSPORT;
-
+  /**
+   * Global instance of the JSON factory.
+   */
+  private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
   /**
    * Global instance of the scopes required by this quickstart.
    *
@@ -76,6 +73,14 @@ public class MigrationHelper {
           VaultScopes.EDISCOVERY,
           DirectoryScopes.ADMIN_DIRECTORY_USER_READONLY,
           DirectoryScopes.ADMIN_DIRECTORY_ORGUNIT_READONLY);
+  /**
+   * Global instance of the {@link FileDataStoreFactory}.
+   */
+  private static FileDataStoreFactory DATA_STORE_FACTORY;
+  /**
+   * Global instance of the HTTP transport.
+   */
+  private static HttpTransport HTTP_TRANSPORT;
 
   static {
     try {
@@ -89,13 +94,6 @@ public class MigrationHelper {
       System.exit(1);
     }
   }
-
-  static final Option helpOption =
-      Option.builder(MigrationOptions.HELP.option)
-          .longOpt(MigrationOptions.HELP.longOpt)
-          .argName("help")
-          .desc(MigrationOptions.HELP.description)
-          .build();
 
   static Options buildOptions() {
     Options options = new Options();
@@ -197,5 +195,28 @@ public class MigrationHelper {
             .setApplicationName(APPLICATION_NAME)
             .build();
     return service;
+  }
+
+  enum MigrationOptions {
+    GENERATE_REPORT("a", "genholdreport", "Generate Hold Report"),
+    DUPLICATE_HOLDS("b", "duplicateholds", "Duplicate Gmail Holds to Hangouts Chat"),
+    REPORT_FILE("f", "reportfile", "Path to holds report file"),
+    ERROR_FILE("e", "errorfile", "Path to error report file"),
+    INCLUDE_ROOMS("g", "includerooms", "Include Rooms when duplicating holds to Hangouts Chat"),
+    HELP("h", "help", "Options Help");
+
+    private final String option;
+    private final String longOpt;
+    private final String description;
+
+    MigrationOptions(String opt, String longOpt, String description) {
+      this.option = opt;
+      this.longOpt = longOpt;
+      this.description = description;
+    }
+
+    public String getOption() {
+      return option;
+    }
   }
 }

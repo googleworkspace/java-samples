@@ -20,7 +20,6 @@ import com.google.api.services.calendar.Calendar;
 import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.common.collect.Lists;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -35,10 +34,14 @@ import java.util.List;
  */
 public class ConditionalModificationSample {
 
-  /** The maximum number of times to attempt to update the event, before aborting. */
+  /**
+   * The maximum number of times to attempt to update the event, before aborting.
+   */
   private static final int MAX_UPDATE_ATTEMPTS = 5;
 
-  /** Global instance of the Calendar client. */
+  /**
+   * Global instance of the Calendar client.
+   */
   private static Calendar client;
 
   public static void main(String[] args) {

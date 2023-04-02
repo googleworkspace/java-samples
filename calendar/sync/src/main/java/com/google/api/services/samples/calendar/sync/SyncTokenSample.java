@@ -22,7 +22,6 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.api.services.calendar.model.Event;
 import com.google.api.services.calendar.model.Events;
 import com.google.common.collect.Lists;
-
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -37,17 +36,22 @@ import java.util.TimeZone;
  */
 public class SyncTokenSample {
 
-  /** Global instance of the Calendar client. */
-  private static Calendar client;
-
-  /** Global instance of the event datastore. */
-  private static DataStore<String> eventDataStore;
-
-  /** Global instance of the sync settings datastore. */
-  private static DataStore<String> syncSettingsDataStore;
-
-  /** The key in the sync settings datastore that holds the current sync token. */
+  /**
+   * The key in the sync settings datastore that holds the current sync token.
+   */
   private static final String SYNC_TOKEN_KEY = "syncToken";
+  /**
+   * Global instance of the Calendar client.
+   */
+  private static Calendar client;
+  /**
+   * Global instance of the event datastore.
+   */
+  private static DataStore<String> eventDataStore;
+  /**
+   * Global instance of the sync settings datastore.
+   */
+  private static DataStore<String> syncSettingsDataStore;
 
   public static void main(String[] args) {
     try {

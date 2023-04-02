@@ -1,0 +1,8 @@
+.gradle
+.settings
+bin
+build
+gradle
+src/main/java/com/google/api
+.classpath
+.project
