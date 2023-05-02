@@ -34,7 +34,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
-/* class to demonstarte use of Drive Activity list  API */
+/* class to demonstrate use of Drive Activity list  API */
 public class DriveActivityQuickstart {
   /**
    * Application name.
