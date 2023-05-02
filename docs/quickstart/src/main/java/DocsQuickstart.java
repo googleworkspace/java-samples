@@ -36,7 +36,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
-/* class to demonstarte use of Docs get documents API */
+/* class to demonstrate use of Docs get documents API */
 public class DocsQuickstart {
   /**
    * Application name.

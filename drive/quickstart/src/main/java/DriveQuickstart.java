@@ -36,7 +36,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
-/* class to demonstarte use of Drive files list API */
+/* class to demonstrate use of Drive files list API */
 public class DriveQuickstart {
   /**
    * Application name.
