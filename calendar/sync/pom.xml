@@ -98,7 +98,7 @@
 
     <properties>
         <project.http.version>1.41.0</project.http.version>
-        <project.oauth.version>1.32.1</project.oauth.version>
+        <project.oauth.version>1.36.0</project.oauth.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 </project>
