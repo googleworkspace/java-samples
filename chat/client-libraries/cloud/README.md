@@ -1,6 +1,6 @@
 # Google Chat API - Cloud Client library samples
 
-## Setup
+## Set up
 
 Add `service_account.json` and/or `client_secrets.json` to the current
 folder depending on the credentials used by the samples to run:
@@ -17,12 +17,12 @@ Execute
 `mvn exec:java -Dexec.mainClass="replace.with.the.sample.mainClass"`
 wih the main class of the sample.
 
-For example, to run the sample `CreateMessageAppCred`, your should run
+For example, to run the sample `CreateMessageAppCred`, run
 `mvn exec:java -Dexec.mainClass="com.google.workspace.api.chat.samples.CreateMessageAppCred"`.
 
 ## Run with Gradle
 
 Execute `gradle run` after setting the main class of the sample in the `build.gradle` file.
 
-For example, to run the sample `CreateMessageAppCred`, your should use
+For example, to run the sample `CreateMessageAppCred`, use
 `com.google.workspace.api.chat.samples.CreateMessageAppCred`.
