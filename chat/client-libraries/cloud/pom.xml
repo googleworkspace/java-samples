@@ -1,0 +1,59 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.google.workspace.api.chat.samples</groupId>
+  <artifactId>chat-api-samples</artifactId>
+  <version>0.0.1</version>
+  <name>Google API Client Library Chat Samples For Java</name>
+
+
+  <properties>
+    <maven.compiler.release>21</maven.compiler.release>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+
+  <dependencies>
+    <!-- Google OAuth2 Client Library -->
+    <dependency>
+      <groupId>com.google.auth</groupId>
+      <artifactId>google-auth-library-oauth2-http</artifactId>
+      <version>1.23.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.oauth-client</groupId>
+      <artifactId>google-oauth-client-jetty</artifactId>
+      <version>1.34.1</version>
+    </dependency>
+
+
+    <!-- Google API Client Library -->
+    <dependency>
+      <groupId>com.google.apis</groupId>
+      <artifactId>google-api-services-chat</artifactId>
+      <version>v1-rev20240509-2.0.0</version>
+    </dependency>
+
+    <!-- GAPIC library -->
+    <!-- Used for instantiating Google Chat API protos -->
+    <dependency>
+      <groupId>com.google.api.grpc</groupId>
+      <artifactId>proto-google-cloud-chat-v1</artifactId>
+      <version>0.8.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.api</groupId>
+      <artifactId>gax</artifactId>
+      <version>2.48.1</version>
+    </dependency>
+    <!-- Used for creating Chat Service Client for making Google Chat API calls -->
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-chat</artifactId>
+      <version>0.1.0</version>
+    </dependency>
+
+  </dependencies>
+
+</project>
