@@ -41,8 +41,7 @@ public class CreateMessageAppCred {
   public static void main(String[] args) throws Exception {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithAppCredentials()) {
-      CreateMessageRequest request =
-        CreateMessageRequest.newBuilder()
+      CreateMessageRequest.Builder request = CreateMessageRequest.newBuilder()
         // Replace SPACE_NAME here.
         .setParent("spaces/SPACE_NAME")
         .setMessage(Message.newBuilder()
@@ -51,54 +50,38 @@ public class CreateMessageAppCred {
           .addCardsV2(CardWithId.newBuilder().setCard(Card.newBuilder()
             .setHeader(CardHeader.newBuilder()
               .setTitle("About this message")
-              .setImageUrl("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/info/default/24px.svg").build())
+              .setImageUrl("https://fonts.gstatic.com/s/i/short-term/release/googlesymbols/info/default/24px.svg"))
             .addSections(Section.newBuilder()
               .setHeader("Contents")
               .addWidgets(Widget.newBuilder().setTextParagraph(TextParagraph.newBuilder().setText(
                 "🔡 <b>Text</b> which can include " +
-                "hyperlinks 🔗, emojis 😄🎉, and @mentions 🗣️."))
-                .build())
+                "hyperlinks 🔗, emojis 😄🎉, and @mentions 🗣️.")))
               .addWidgets(Widget.newBuilder().setTextParagraph(TextParagraph.newBuilder().setText(
                 "🖼️ A <b>card</b> to display visual elements " +
                 "and request information such as text 🔤, " +
-                "dates and times 📅, and selections ☑️."))
-                .build())
+                "dates and times 📅, and selections ☑️.")))
               .addWidgets(Widget.newBuilder().setTextParagraph(TextParagraph.newBuilder().setText(
                 "👉🔘 An <b>accessory widget</b> which adds " +
-                "a button to the bottom of a message."))
-                .build())
-              .build())
+                "a button to the bottom of a message."))))
             .addSections(Section.newBuilder()
               .setHeader("What's next")
               .setCollapsible(true)
               .addWidgets(Widget.newBuilder().setTextParagraph(TextParagraph.newBuilder().setText(
-                "❤️ <a href='https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages.reactions/create'>Add a reaction</a>."))
-                .build())
+                "❤️ <a href='https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages.reactions/create'>Add a reaction</a>.")))
               .addWidgets(Widget.newBuilder().setTextParagraph(TextParagraph.newBuilder().setText(
                 "🔄 <a href='https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages/patch'>Update</a> " +
                 "or ❌ <a href='https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages/delete'>delete</a> " +
-                "the message."))
-                .build())
-              .build())
-            .build()))
+                "the message."))))))
           .addAccessoryWidgets(AccessoryWidget.newBuilder()
             .setButtonList(ButtonList.newBuilder()
               .addButtons(Button.newBuilder()
                 .setText("View documentation")
                 .setIcon(Icon.newBuilder()
-                  .setMaterialIcon(MaterialIcon.newBuilder().setName("link").build())
-                  .build())
+                  .setMaterialIcon(MaterialIcon.newBuilder().setName("link")))
                 .setOnClick(OnClick.newBuilder()
                   .setOpenLink(OpenLink.newBuilder()
-                    .setUrl("https://developers.google.com/workspace/chat/create-messages")
-                    .build())
-                  .build())
-                .build())
-              .build())
-            .build())
-          .build())
-        .build();
-      Message response = chatServiceClient.createMessage(request);
+                    .setUrl("https://developers.google.com/workspace/chat/create-messages")))))));
+      Message response = chatServiceClient.createMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }
