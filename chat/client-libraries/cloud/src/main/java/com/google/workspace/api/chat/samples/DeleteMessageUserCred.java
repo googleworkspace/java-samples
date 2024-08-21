@@ -32,12 +32,10 @@ public class DeleteMessageUserCred {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      DeleteMessageRequest request =
-        DeleteMessageRequest.newBuilder()
-          // replace SPACE_NAME and MESSAGE_NAME here
-          .setName("spaces/SPACE_NAME/messages/MESSAGE_NAME")
-          .build();
-      chatServiceClient.deleteMessage(request);
+      DeleteMessageRequest.Builder request = DeleteMessageRequest.newBuilder()
+        // replace SPACE_NAME and MESSAGE_NAME here
+        .setName("spaces/SPACE_NAME/messages/MESSAGE_NAME");
+      chatServiceClient.deleteMessage(request.build());
     }
   }
 }

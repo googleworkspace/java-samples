@@ -34,20 +34,16 @@ public class CreateMessageUserCredWithMessageId {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      CreateMessageRequest request =
-        CreateMessageRequest.newBuilder()
+      CreateMessageRequest.Builder request = CreateMessageRequest.newBuilder()
         // Replace SPACE_NAME here.
         .setParent("spaces/SPACE_NAME")
-        .setMessage(
-            Message.newBuilder()
-            .setText("Hello with user credentials!")
-            .build())
+        .setMessage(Message.newBuilder()
+          .setText("Hello with user credentials!"))
         // Message ID lets chat apps get, update or delete a message without
         // needing to store the system assigned ID in the message's resource
         // name.
-        .setMessageId("client-MESSAGE-ID")
-        .build();
-      Message response = chatServiceClient.createMessage(request);
+        .setMessageId("client-MESSAGE-ID");
+      Message response = chatServiceClient.createMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }

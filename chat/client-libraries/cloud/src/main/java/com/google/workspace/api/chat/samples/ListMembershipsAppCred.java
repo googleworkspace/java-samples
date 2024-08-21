@@ -29,20 +29,18 @@ public class ListMembershipsAppCred {
   public static void main(String[] args) throws Exception {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithAppCredentials()) {
-      ListMembershipsRequest request =
-        ListMembershipsRequest.newBuilder()
-          // Replace SPACE_NAME here.
-          .setParent("spaces/SPACE_NAME")
-          // Filter membership by type (HUMAN or BOT) or role
-          // (ROLE_MEMBER or ROLE_MANAGER).
-          .setFilter("member.type = \"HUMAN\"")
-          // Number of results that will be returned at once.
-          .setPageSize(10)
-          .build();
+      ListMembershipsRequest.Builder request = ListMembershipsRequest.newBuilder()
+        // Replace SPACE_NAME here.
+        .setParent("spaces/SPACE_NAME")
+        // Filter membership by type (HUMAN or BOT) or role
+        // (ROLE_MEMBER or ROLE_MANAGER).
+        .setFilter("member.type = \"HUMAN\"")
+        // Number of results that will be returned at once.
+        .setPageSize(10);
 
       // Iterate over results and resolve additional pages automatically.
       for (Membership response :
-          chatServiceClient.listMemberships(request).iterateAll()) {
+          chatServiceClient.listMemberships(request.build()).iterateAll()) {
         System.out.println(JsonFormat.printer().print(response));
       }
     }

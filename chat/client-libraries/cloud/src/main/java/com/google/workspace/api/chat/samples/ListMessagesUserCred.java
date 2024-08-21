@@ -34,17 +34,15 @@ public class ListMessagesUserCred {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      ListMessagesRequest request =
-        ListMessagesRequest.newBuilder()
-          // Replace SPACE_NAME here.
-          .setParent("spaces/SPACE_NAME")
-          // Number of results that will be returned at once.
-          .setPageSize(10)
-          .build();
+      ListMessagesRequest.Builder request = ListMessagesRequest.newBuilder()
+        // Replace SPACE_NAME here.
+        .setParent("spaces/SPACE_NAME")
+        // Number of results that will be returned at once.
+        .setPageSize(10);
 
       // Iterate over results and resolve additional pages automatically.
       for (Message response :
-          chatServiceClient.listMessages(request).iterateAll()) {
+          chatServiceClient.listMessages(request.build()).iterateAll()) {
         System.out.println(JsonFormat.printer().print(response));
       }
     }

@@ -33,12 +33,10 @@ public class GetMembershipUserCred {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      GetMembershipRequest request =
-        GetMembershipRequest.newBuilder()
-          // replace SPACE_NAME and MEMBERSHIP_NAME here
-          .setName("spaces/SPACE_NAME/members/MEMBERSHIP_NAME")
-          .build();
-      Membership response = chatServiceClient.getMembership(request);
+      GetMembershipRequest.Builder request = GetMembershipRequest.newBuilder()
+        // replace SPACE_NAME and MEMBERSHIP_NAME here
+        .setName("spaces/SPACE_NAME/members/MEMBERSHIP_NAME");
+      Membership response = chatServiceClient.getMembership(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }

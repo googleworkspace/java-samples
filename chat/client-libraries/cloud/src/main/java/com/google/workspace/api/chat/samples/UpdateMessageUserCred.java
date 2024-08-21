@@ -34,20 +34,15 @@ public class UpdateMessageUserCred {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      UpdateMessageRequest request =
-        UpdateMessageRequest.newBuilder()
-          .setMessage(
-            Message.newBuilder()
-              // replace SPACE_NAME and MESSAGE_NAME here
-              .setName("spaces/SPACE_NAME/messages/MESSAGE_NAME")
-              .setText("Updated with user credential!")
-              .build()
-          )
-          .setUpdateMask(
-              // The field paths to update.
-              FieldMask.newBuilder().addPaths("text").build())
-          .build();
-      Message response = chatServiceClient.updateMessage(request);
+      UpdateMessageRequest.Builder request = UpdateMessageRequest.newBuilder()
+        .setMessage(Message.newBuilder()
+          // replace SPACE_NAME and MESSAGE_NAME here
+          .setName("spaces/SPACE_NAME/messages/MESSAGE_NAME")
+          .setText("Updated with user credential!"))
+        .setUpdateMask(FieldMask.newBuilder()
+          // The field paths to update.
+          .addPaths("text"));
+      Message response = chatServiceClient.updateMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }

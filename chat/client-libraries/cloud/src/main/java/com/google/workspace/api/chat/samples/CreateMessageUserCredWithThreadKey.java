@@ -36,23 +36,19 @@ public class CreateMessageUserCredWithThreadKey {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      CreateMessageRequest request =
-        CreateMessageRequest.newBuilder()
+      CreateMessageRequest.Builder request = CreateMessageRequest.newBuilder()
         // Replace SPACE_NAME here.
         .setParent("spaces/SPACE_NAME")
         // Creates the message as a reply to the thread specified by thread_key.
         // If it fails, the message starts a new thread instead.
         .setMessageReplyOption(
-            MessageReplyOption.REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD)
-        .setMessage(
-            Message.newBuilder()
-            .setText("Hello with user credentials!")
-            // Thread key specifies a thread and is unique to the chat app
-            // that sets it.
-            .setThread(Thread.newBuilder().setThreadKey("THREAD_KEY").build())
-            .build())
-        .build();
-      Message response = chatServiceClient.createMessage(request);
+          MessageReplyOption.REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD)
+        .setMessage(Message.newBuilder()
+          .setText("Hello with user credentials!")
+          // Thread key specifies a thread and is unique to the chat app
+          // that sets it.
+          .setThread(Thread.newBuilder().setThreadKey("THREAD_KEY")));
+      Message response = chatServiceClient.createMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }
