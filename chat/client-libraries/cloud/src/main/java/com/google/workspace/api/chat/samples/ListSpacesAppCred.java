@@ -29,18 +29,16 @@ public class ListSpacesAppCred {
   public static void main(String[] args) throws Exception {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithAppCredentials()) {
-      ListSpacesRequest request =
-        ListSpacesRequest.newBuilder()
-          // Filter spaces by space type (SPACE or GROUP_CHAT or
-          // DIRECT_MESSAGE).
-          .setFilter("spaceType = \"SPACE\"")
-          // Number of results that will be returned at once.
-          .setPageSize(10)
-          .build();
+      ListSpacesRequest.Builder request = ListSpacesRequest.newBuilder()
+        // Filter spaces by space type (SPACE or GROUP_CHAT or
+        // DIRECT_MESSAGE).
+        .setFilter("spaceType = \"SPACE\"")
+        // Number of results that will be returned at once.
+        .setPageSize(10);
 
       // Iterate over results and resolve additional pages automatically.
       for (Space response :
-          chatServiceClient.listSpaces(request).iterateAll()) {
+          chatServiceClient.listSpaces(request.build()).iterateAll()) {
         System.out.println(JsonFormat.printer().print(response));
       }
     }

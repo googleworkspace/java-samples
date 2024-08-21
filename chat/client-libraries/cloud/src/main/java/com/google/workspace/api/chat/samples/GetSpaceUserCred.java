@@ -33,12 +33,10 @@ public class GetSpaceUserCred {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      GetSpaceRequest request =
-        GetSpaceRequest.newBuilder()
+      GetSpaceRequest.Builder request = GetSpaceRequest.newBuilder()
         // Replace SPACE_NAME here
-        .setName("spaces/SPACE_NAME")
-        .build();
-      Space response = chatServiceClient.getSpace(request);
+        .setName("spaces/SPACE_NAME");
+      Space response = chatServiceClient.getSpace(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }

@@ -29,19 +29,15 @@ public class CreateMessageAppCredAtMention {
   public static void main(String[] args) throws Exception {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithAppCredentials()) {
-      CreateMessageRequest request =
-        CreateMessageRequest.newBuilder()
+      CreateMessageRequest.Builder request = CreateMessageRequest.newBuilder()
         // Replace SPACE_NAME here.
         .setParent("spaces/SPACE_NAME")
-        .setMessage(
-            Message.newBuilder()
-            // The user with USER_NAME will be mentioned if they are in the
-            // space.
-            // Replace USER_NAME here
-            .setText("Hello <users/USER_NAME>!")
-            .build())
-        .build();
-      Message response = chatServiceClient.createMessage(request);
+        .setMessage(Message.newBuilder()
+          // The user with USER_NAME will be mentioned if they are in the
+          // space.
+          // Replace USER_NAME here
+          .setText("Hello <users/USER_NAME>!"));
+      Message response = chatServiceClient.createMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }

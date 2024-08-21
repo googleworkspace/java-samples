@@ -34,19 +34,15 @@ public class CreateMessageUserCredWithRequestId {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      CreateMessageRequest request =
-        CreateMessageRequest.newBuilder()
+      CreateMessageRequest.Builder request = CreateMessageRequest.newBuilder()
         // Replace SPACE_NAME here.
         .setParent("spaces/SPACE_NAME")
-        .setMessage(
-            Message.newBuilder()
-            .setText("Hello with user credentials!")
-            .build())
+        .setMessage(Message.newBuilder()
+          .setText("Hello with user credentials!"))
         // Specifying an existing request ID returns the message created with
         // that ID instead of creating a new message.
-        .setRequestId("REQUEST_ID")
-        .build();
-      Message response = chatServiceClient.createMessage(request);
+        .setRequestId("REQUEST_ID");
+      Message response = chatServiceClient.createMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }

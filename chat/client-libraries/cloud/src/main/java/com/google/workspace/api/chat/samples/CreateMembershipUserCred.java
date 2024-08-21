@@ -36,22 +36,16 @@ public class CreateMembershipUserCred {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      CreateMembershipRequest request =
-        CreateMembershipRequest.newBuilder()
-          // replace SPACE_NAME here
-          .setParent("spaces/SPACE_NAME")
-          .setMembership(
-              Membership.newBuilder()
-                .setMember(
-                  User.newBuilder()
-                    // replace USER_NAME here
-                    .setName("users/USER_NAME")
-                    // user type for the membership
-                    .setType(User.Type.HUMAN)
-                    .build())
-                .build())
-        .build();
-      Membership response = chatServiceClient.createMembership(request);
+      CreateMembershipRequest.Builder request = CreateMembershipRequest.newBuilder()
+        // replace SPACE_NAME here
+        .setParent("spaces/SPACE_NAME")
+        .setMembership(Membership.newBuilder()
+          .setMember(User.newBuilder()
+            // replace USER_NAME here
+            .setName("users/USER_NAME")
+            // user type for the membership
+            .setType(User.Type.HUMAN)));
+      Membership response = chatServiceClient.createMembership(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }

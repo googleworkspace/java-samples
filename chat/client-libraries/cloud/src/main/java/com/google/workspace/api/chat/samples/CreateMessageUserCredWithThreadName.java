@@ -36,24 +36,20 @@ public class CreateMessageUserCredWithThreadName {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      CreateMessageRequest request =
-        CreateMessageRequest.newBuilder()
+      CreateMessageRequest.Builder request = CreateMessageRequest.newBuilder()
         // Replace SPACE_NAME here.
         .setParent("spaces/SPACE_NAME")
         // Creates the message as a reply to the thread specified by thread name.
         // If it fails, the message starts a new thread instead.
         .setMessageReplyOption(
-            MessageReplyOption.REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD)
-        .setMessage(
-            Message.newBuilder()
-            .setText("Hello with user credentials!")
-             // Resource name of a thread that uniquely identify a thread.
-            .setThread(Thread.newBuilder().setName(
-                // replace SPACE_NAME and THREAD_NAME here
-                "spaces/SPACE_NAME/threads/THREAD_NAME").build())
-            .build())
-        .build();
-      Message response = chatServiceClient.createMessage(request);
+          MessageReplyOption.REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD)
+        .setMessage(Message.newBuilder()
+          .setText("Hello with user credentials!")
+          // Resource name of a thread that uniquely identify a thread.
+          .setThread(Thread.newBuilder().setName(
+            // replace SPACE_NAME and THREAD_NAME here
+            "spaces/SPACE_NAME/threads/THREAD_NAME")));
+      Message response = chatServiceClient.createMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }

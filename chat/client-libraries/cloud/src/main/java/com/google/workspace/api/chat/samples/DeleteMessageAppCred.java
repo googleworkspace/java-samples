@@ -26,12 +26,10 @@ public class DeleteMessageAppCred {
   public static void main(String[] args) throws Exception {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithAppCredentials()) {
-      DeleteMessageRequest request =
-        DeleteMessageRequest.newBuilder()
-          // replace SPACE_NAME and MESSAGE_NAME here
-          .setName("spaces/SPACE_NAME/messages/MESSAGE_NAME")
-          .build();
-      chatServiceClient.deleteMessage(request);
+      DeleteMessageRequest.Builder request = DeleteMessageRequest.newBuilder()
+        // replace SPACE_NAME and MESSAGE_NAME here
+        .setName("spaces/SPACE_NAME/messages/MESSAGE_NAME");
+      chatServiceClient.deleteMessage(request.build());
     }
   }
 }

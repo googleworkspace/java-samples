@@ -29,20 +29,15 @@ public class UpdateMessageAppCred {
   public static void main(String[] args) throws Exception {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithAppCredentials()) {
-      UpdateMessageRequest request =
-        UpdateMessageRequest.newBuilder()
-          .setMessage(
-            Message.newBuilder()
-              // replace SPACE_NAME and MESSAGE_NAME here
-              .setName("spaces/SPACE_NAME/messages/MESSAGE_NAME")
-              .setText("Updated with app credential!")
-              .build()
-          )
-          .setUpdateMask(
-              // The field paths to update.
-              FieldMask.newBuilder().addPaths("text").build())
-          .build();
-      Message response = chatServiceClient.updateMessage(request);
+      UpdateMessageRequest.Builder request = UpdateMessageRequest.newBuilder()
+        .setMessage(Message.newBuilder()
+          // replace SPACE_NAME and MESSAGE_NAME here
+          .setName("spaces/SPACE_NAME/messages/MESSAGE_NAME")
+          .setText("Updated with app credential!"))
+        .setUpdateMask(FieldMask.newBuilder()
+          // The field paths to update.
+          .addPaths("text"));
+      Message response = chatServiceClient.updateMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }

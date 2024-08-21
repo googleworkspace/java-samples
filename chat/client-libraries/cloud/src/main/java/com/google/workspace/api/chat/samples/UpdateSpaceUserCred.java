@@ -34,20 +34,15 @@ public class UpdateSpaceUserCred {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      UpdateSpaceRequest request =
-        UpdateSpaceRequest.newBuilder()
-          .setSpace(
-            Space.newBuilder()
-              // Replace SPACE_NAME here.
-              .setName("spaces/SPACE_NAME")
-              .setDisplayName("New space display name")
-              .build()
-          )
-          .setUpdateMask(
-              // The field paths to update.
-              FieldMask.newBuilder().addPaths("display_name").build())
-          .build();
-      Space response = chatServiceClient.updateSpace(request);
+      UpdateSpaceRequest.Builder request = UpdateSpaceRequest.newBuilder()
+        .setSpace(Space.newBuilder()
+          // Replace SPACE_NAME here.
+          .setName("spaces/SPACE_NAME")
+          .setDisplayName("New space display name"))
+        .setUpdateMask(FieldMask.newBuilder()
+          // The field paths to update.
+          .addPaths("display_name"));
+      Space response = chatServiceClient.updateSpace(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }

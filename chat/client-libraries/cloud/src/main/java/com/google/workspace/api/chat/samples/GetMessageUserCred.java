@@ -33,12 +33,10 @@ public class GetMessageUserCred {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      GetMessageRequest request =
-        GetMessageRequest.newBuilder()
-          // replace SPACE_NAME and MESSAGE_NAME here
-          .setName("spaces/SPACE_NAME/members/MESSAGE_NAME")
-          .build();
-      Message response = chatServiceClient.getMessage(request);
+      GetMessageRequest.Builder request = GetMessageRequest.newBuilder()
+        // replace SPACE_NAME and MESSAGE_NAME here
+        .setName("spaces/SPACE_NAME/members/MESSAGE_NAME");
+      Message response = chatServiceClient.getMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }
