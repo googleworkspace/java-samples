@@ -33,17 +33,19 @@ public class CreateMessageUserCred {
     try (ChatServiceClient chatServiceClient =
         AuthenticationUtils.createClientWithUserCredentials(
           ImmutableList.of(SCOPE))) {
-      CreateMessageRequest request =
-        CreateMessageRequest.newBuilder()
+      CreateMessageRequest.Builder request = CreateMessageRequest.newBuilder()
         // Replace SPACE_NAME here.
         .setParent("spaces/SPACE_NAME")
-        .setMessage(
-            Message
-            .newBuilder()
-            .setText("Hello with user credentials!")
-            .build())
-        .build();
-      Message response = chatServiceClient.createMessage(request);
+        .setMessage(Message.newBuilder()
+          .setText( "👋🌎 Hello world!" +
+                    "Text messages can contain things like:\n\n" +
+                    "* Hyperlinks 🔗\n" +
+                    "* Emojis 😄🎉\n" +
+                    "* Mentions of other Chat users `@` \n\n" +
+                    "For details, see the " +
+                    "<https://developers.google.com/workspace/chat/format-messages" +
+                    "|Chat API developer documentation>."));
+      Message response = chatServiceClient.createMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }
