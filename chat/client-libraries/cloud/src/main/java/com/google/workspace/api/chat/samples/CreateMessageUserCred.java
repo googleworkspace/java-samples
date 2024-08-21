@@ -40,7 +40,14 @@ public class CreateMessageUserCred {
         .setMessage(
             Message
             .newBuilder()
-            .setText("Hello with user credentials!")
+            .setText( "👋🌎 Hello world!" +
+                      "Text messages can contain things like:\n\n" +
+                      "* Hyperlinks 🔗\n" +
+                      "* Emojis 😄🎉\n" +
+                      "* Mentions of other Chat users `@` \n\n" +
+                      "For details, see the " +
+                      "<https://developers.google.com/workspace/chat/format-messages" +
+                      "|Chat API developer documentation>.")
             .build())
         .build();
       Message response = chatServiceClient.createMessage(request);
