@@ -17,7 +17,7 @@
 package com.google.workspace.api.chat.samples;
 
 import com.google.common.collect.ImmutableList;
-// [START chat_DeleteMessageUserCred]
+// [START chat_delete_message_user_cred]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.DeleteMessageRequest;
 import com.google.chat.v1.SpaceName;
@@ -39,4 +39,4 @@ public class DeleteMessageUserCred {
     }
   }
 }
-// [END chat_DeleteMessageUserCred]
+// [END chat_delete_message_user_cred]

@@ -16,7 +16,7 @@
 
 package com.google.workspace.api.chat.samples;
 
-// [START chat_DeleteMessageAppCred]
+// [START chat_delete_message_app_cred]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.DeleteMessageRequest;
 
@@ -33,4 +33,4 @@ public class DeleteMessageAppCred {
     }
   }
 }
-// [END chat_DeleteMessageAppCred]
+// [END chat_delete_message_app_cred]

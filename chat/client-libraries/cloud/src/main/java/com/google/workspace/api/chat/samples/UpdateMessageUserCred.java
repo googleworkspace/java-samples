@@ -18,7 +18,7 @@ package com.google.workspace.api.chat.samples;
 
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
-// [START chat_UpdateMessageUserCred]
+// [START chat_update_message_user_cred]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.UpdateMessageRequest;
 import com.google.chat.v1.Message;
@@ -48,4 +48,4 @@ public class UpdateMessageUserCred {
     }
   }
 }
-// [END chat_UpdateMessageUserCred]
+// [END chat_update_message_user_cred]

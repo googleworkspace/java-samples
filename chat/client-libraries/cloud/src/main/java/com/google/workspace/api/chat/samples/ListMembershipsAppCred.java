@@ -17,7 +17,7 @@
 package com.google.workspace.api.chat.samples;
 
 import com.google.protobuf.util.JsonFormat;
-// [START chat_ListMembershipsAppCred]
+// [START chat_list_memberships_app_cred]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.ListMembershipsRequest;
 import com.google.chat.v1.ListMembershipsResponse;
@@ -46,4 +46,4 @@ public class ListMembershipsAppCred {
     }
   }
 }
-// [END chat_ListMembershipsAppCred]
+// [END chat_list_memberships_app_cred]

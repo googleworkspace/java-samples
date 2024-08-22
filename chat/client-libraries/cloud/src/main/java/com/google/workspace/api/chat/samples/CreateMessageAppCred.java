@@ -17,7 +17,7 @@
 package com.google.workspace.api.chat.samples;
 
 import com.google.protobuf.util.JsonFormat;
-// [START chat_CreateMessageAppCred]
+// [START chat_create_message_app_cred]
 import com.google.apps.card.v1.Button;
 import com.google.apps.card.v1.ButtonList;
 import com.google.apps.card.v1.Card;
@@ -87,4 +87,4 @@ public class CreateMessageAppCred {
     }
   }
 }
-// [END chat_CreateMessageAppCred]
+// [END chat_create_message_app_cred]

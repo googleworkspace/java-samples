@@ -18,16 +18,14 @@ package com.google.workspace.api.chat.samples;
 
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
-// [START chat_CreateMessageUserCredWithThreadKey]
+// [START chat_create_message_user_cred_request_id]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.CreateMessageRequest;
-import com.google.chat.v1.CreateMessageRequest.MessageReplyOption;
 import com.google.chat.v1.Message;
-import com.google.chat.v1.Thread;
 
-// This sample shows how to create message with a thread key with user
+// This sample shows how to create message with request id specified with user
 // credential.
-public class CreateMessageUserCredWithThreadKey {
+public class CreateMessageUserCredRequestId {
 
   private static final String SCOPE =
     "https://www.googleapis.com/auth/chat.messages.create";
@@ -39,19 +37,15 @@ public class CreateMessageUserCredWithThreadKey {
       CreateMessageRequest.Builder request = CreateMessageRequest.newBuilder()
         // Replace SPACE_NAME here.
         .setParent("spaces/SPACE_NAME")
-        // Creates the message as a reply to the thread specified by thread_key.
-        // If it fails, the message starts a new thread instead.
-        .setMessageReplyOption(
-          MessageReplyOption.REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD)
         .setMessage(Message.newBuilder()
-          .setText("Hello with user credentials!")
-          // Thread key specifies a thread and is unique to the chat app
-          // that sets it.
-          .setThread(Thread.newBuilder().setThreadKey("THREAD_KEY")));
+          .setText("Hello with user credentials!"))
+        // Specifying an existing request ID returns the message created with
+        // that ID instead of creating a new message.
+        .setRequestId("REQUEST_ID");
       Message response = chatServiceClient.createMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }
   }
 }
-// [END chat_CreateMessageUserCredWithThreadKey]
+// [END chat_create_message_user_cred_request_id]

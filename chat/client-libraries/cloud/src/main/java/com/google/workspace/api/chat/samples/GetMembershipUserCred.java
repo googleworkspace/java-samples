@@ -18,7 +18,7 @@ package com.google.workspace.api.chat.samples;
 
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
-// [START chat_GetMembershipUserCred]
+// [START chat_get_membership_user_cred]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.GetMembershipRequest;
 import com.google.chat.v1.Membership;
@@ -42,4 +42,4 @@ public class GetMembershipUserCred {
     }
   }
 }
-// [END chat_GetMembershipUserCred]
+// [END chat_get_membership_user_cred]

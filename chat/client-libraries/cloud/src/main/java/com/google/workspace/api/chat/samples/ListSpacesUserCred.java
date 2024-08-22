@@ -18,7 +18,7 @@ package com.google.workspace.api.chat.samples;
 
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
-// [START chat_ListSpacesUserCred]
+// [START chat_list_spaces_user_cred]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.ListSpacesRequest;
 import com.google.chat.v1.ListSpacesResponse;
@@ -49,4 +49,4 @@ public class ListSpacesUserCred{
     }
   }
 }
-// [END chat_ListSpacesUserCred]
+// [END chat_list_spaces_user_cred]

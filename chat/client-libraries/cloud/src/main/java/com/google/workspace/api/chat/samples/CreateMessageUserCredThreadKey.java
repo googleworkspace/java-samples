@@ -16,31 +16,42 @@
 
 package com.google.workspace.api.chat.samples;
 
+import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
-// [START chat_CreateMessageAppCredAtMention]
+// [START chat_create_message_user_cred_thread_key]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.CreateMessageRequest;
+import com.google.chat.v1.CreateMessageRequest.MessageReplyOption;
 import com.google.chat.v1.Message;
+import com.google.chat.v1.Thread;
 
-// This sample shows how to create message that mentions a user with app
+// This sample shows how to create message with a thread key with user
 // credential.
-public class CreateMessageAppCredAtMention {
+public class CreateMessageUserCredThreadKey {
+
+  private static final String SCOPE =
+    "https://www.googleapis.com/auth/chat.messages.create";
 
   public static void main(String[] args) throws Exception {
     try (ChatServiceClient chatServiceClient =
-        AuthenticationUtils.createClientWithAppCredentials()) {
+        AuthenticationUtils.createClientWithUserCredentials(
+          ImmutableList.of(SCOPE))) {
       CreateMessageRequest.Builder request = CreateMessageRequest.newBuilder()
         // Replace SPACE_NAME here.
         .setParent("spaces/SPACE_NAME")
+        // Creates the message as a reply to the thread specified by thread_key.
+        // If it fails, the message starts a new thread instead.
+        .setMessageReplyOption(
+          MessageReplyOption.REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD)
         .setMessage(Message.newBuilder()
-          // The user with USER_NAME will be mentioned if they are in the
-          // space.
-          // Replace USER_NAME here
-          .setText("Hello <users/USER_NAME>!"));
+          .setText("Hello with user credentials!")
+          // Thread key specifies a thread and is unique to the chat app
+          // that sets it.
+          .setThread(Thread.newBuilder().setThreadKey("THREAD_KEY")));
       Message response = chatServiceClient.createMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }
   }
 }
-// [END chat_CreateMessageAppCredAtMention]
+// [END chat_create_message_user_cred_thread_key]

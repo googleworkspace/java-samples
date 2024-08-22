@@ -18,14 +18,16 @@ package com.google.workspace.api.chat.samples;
 
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
-// [START chat_CreateMessageUserCredWithMessageId]
+// [START chat_create_message_user_cred_thread_name]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.CreateMessageRequest;
+import com.google.chat.v1.CreateMessageRequest.MessageReplyOption;
 import com.google.chat.v1.Message;
+import com.google.chat.v1.Thread;
 
-// This sample shows how to create message with message id specified with user
+// This sample shows how to create message with thread name specified with user
 // credential.
-public class CreateMessageUserCredWithMessageId {
+public class CreateMessageUserCredThreadName {
 
   private static final String SCOPE =
     "https://www.googleapis.com/auth/chat.messages.create";
@@ -37,16 +39,20 @@ public class CreateMessageUserCredWithMessageId {
       CreateMessageRequest.Builder request = CreateMessageRequest.newBuilder()
         // Replace SPACE_NAME here.
         .setParent("spaces/SPACE_NAME")
+        // Creates the message as a reply to the thread specified by thread name.
+        // If it fails, the message starts a new thread instead.
+        .setMessageReplyOption(
+          MessageReplyOption.REPLY_MESSAGE_FALLBACK_TO_NEW_THREAD)
         .setMessage(Message.newBuilder()
-          .setText("Hello with user credentials!"))
-        // Message ID lets chat apps get, update or delete a message without
-        // needing to store the system assigned ID in the message's resource
-        // name.
-        .setMessageId("client-MESSAGE-ID");
+          .setText("Hello with user credentials!")
+          // Resource name of a thread that uniquely identify a thread.
+          .setThread(Thread.newBuilder().setName(
+            // replace SPACE_NAME and THREAD_NAME here
+            "spaces/SPACE_NAME/threads/THREAD_NAME")));
       Message response = chatServiceClient.createMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }
   }
 }
-// [END chat_CreateMessageUserCredWithMessageId]
+// [END chat_create_message_user_cred_thread_name]
