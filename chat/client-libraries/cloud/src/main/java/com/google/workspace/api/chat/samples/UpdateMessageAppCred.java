@@ -17,7 +17,7 @@
 package com.google.workspace.api.chat.samples;
 
 import com.google.protobuf.util.JsonFormat;
-// [START chat_UpdateMessageAppCred]
+// [START chat_update_message_app_cred]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.UpdateMessageRequest;
 import com.google.chat.v1.Message;
@@ -43,4 +43,4 @@ public class UpdateMessageAppCred {
     }
   }
 }
-// [END chat_UpdateMessageAppCred]
+// [END chat_update_message_app_cred]

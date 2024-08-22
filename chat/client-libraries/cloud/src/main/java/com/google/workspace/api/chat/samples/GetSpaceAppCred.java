@@ -17,7 +17,7 @@
 package com.google.workspace.api.chat.samples;
 
 import com.google.protobuf.util.JsonFormat;
-// [START chat_GetSpaceAppCred]
+// [START chat_get_space_app_cred]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.GetSpaceRequest;
 import com.google.chat.v1.Space;
@@ -37,4 +37,4 @@ public class GetSpaceAppCred {
     }
   }
 }
-// [END chat_GetSpaceAppCred]
+// [END chat_get_space_app_cred]

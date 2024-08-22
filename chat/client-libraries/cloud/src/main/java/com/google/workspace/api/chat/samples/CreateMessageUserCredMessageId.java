@@ -18,14 +18,14 @@ package com.google.workspace.api.chat.samples;
 
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
-// [START chat_CreateMessageUserCredWithRequestId]
+// [START chat_create_message_user_cred_message_id]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.CreateMessageRequest;
 import com.google.chat.v1.Message;
 
-// This sample shows how to create message with request id specified with user
+// This sample shows how to create message with message id specified with user
 // credential.
-public class CreateMessageUserCredWithRequestId {
+public class CreateMessageUserCredMessageId {
 
   private static final String SCOPE =
     "https://www.googleapis.com/auth/chat.messages.create";
@@ -39,13 +39,14 @@ public class CreateMessageUserCredWithRequestId {
         .setParent("spaces/SPACE_NAME")
         .setMessage(Message.newBuilder()
           .setText("Hello with user credentials!"))
-        // Specifying an existing request ID returns the message created with
-        // that ID instead of creating a new message.
-        .setRequestId("REQUEST_ID");
+        // Message ID lets chat apps get, update or delete a message without
+        // needing to store the system assigned ID in the message's resource
+        // name.
+        .setMessageId("client-MESSAGE-ID");
       Message response = chatServiceClient.createMessage(request.build());
 
       System.out.println(JsonFormat.printer().print(response));
     }
   }
 }
-// [END chat_CreateMessageUserCredWithRequestId]
+// [END chat_create_message_user_cred_message_id]
