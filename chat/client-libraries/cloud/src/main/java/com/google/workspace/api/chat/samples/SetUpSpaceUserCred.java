@@ -19,8 +19,6 @@ package com.google.workspace.api.chat.samples;
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.util.JsonFormat;
 
-import java.util.List;
-
 // [START chat_set_up_space_user_cred]
 import com.google.chat.v1.ChatServiceClient;
 import com.google.chat.v1.Membership;
@@ -44,7 +42,7 @@ public class SetUpSpaceUserCred {
           .setSpaceType(Space.SpaceType.SPACE)
           // Replace DISPLAY_NAME here.
           .setDisplayName("DISPLAY_NAME"))
-        .addAllMemberships(List.of(Membership.newBuilder()
+        .addAllMemberships(ImmutableList.of(Membership.newBuilder()
           .setMember(User.newBuilder()
             // Replace USER_NAME here.
             .setName("users/USER_NAME")
