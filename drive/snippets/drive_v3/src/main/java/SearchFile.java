@@ -60,7 +60,7 @@ public class SearchFile {
       FileList result = service.files().list()
           .setQ("mimeType='image/jpeg'")
           .setSpaces("drive")
-          .setFields("nextPageToken, items(id, title)")
+          .setFields("nextPageToken, files(id, title)")
           .setPageToken(pageToken)
           .execute();
       for (File file : result.getFiles()) {
