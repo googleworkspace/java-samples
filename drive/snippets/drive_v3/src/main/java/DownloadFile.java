@@ -13,7 +13,6 @@
    limitations under the License.*/
 
 // [START drive_download_file]
-
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.javanet.NetHttpTransport;
