@@ -13,7 +13,7 @@ dependencies {
 
     /** This will be removed once all the classes have been updated to use the
      * ClassroomCredentials class. */
-    implementation 'com.google.auth:google-auth-library-oauth2-http:1.11.0'
+    implementation 'com.google.auth:google-auth-library-oauth2-http:1.38.0'
 }
 
 test {
