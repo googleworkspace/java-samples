@@ -84,6 +84,9 @@ public class SheetsFilterViews {
                     ))
                     .setCriteria(criteriaMap);
 
+            // --- Step 1: Add Filter View ---
+            // (Request construction remains the same)
+            // ...
             AddFilterViewRequest addFilterViewRequest = new AddFilterViewRequest().setFilter(filterView);
 
             BatchUpdateSpreadsheetRequest batchRequest1 = new BatchUpdateSpreadsheetRequest()
@@ -93,11 +96,20 @@ public class SheetsFilterViews {
                     .batchUpdate(spreadsheetId, batchRequest1)
                     .execute();
 
-            // --- Step 2: Duplicate Filter View ---
-            // Extract the ID from the previous response
-            int filterId = response1.getReplies().get(0)
-                    .getAddFilterView().getFilter().getFilterViewId();
+            if (response1.getReplies() == null || response1.getReplies().isEmpty()) {
+                System.err.println("Error: No replies returned from AddFilterView request.");
+                return;
+            }
+    
+            Response reply1 = response1.getReplies().get(0);
+            if (reply1.getAddFilterView() == null || reply1.getAddFilterView().getFilter() == null) {
+                 System.err.println("Error: Response did not contain AddFilterView data.");
+                 return;
+            }
+    
+            int filterId = reply1.getAddFilterView().getFilter().getFilterViewId();
 
+            // --- Step 2: Duplicate Filter View ---
             DuplicateFilterViewRequest duplicateRequest = new DuplicateFilterViewRequest()
                     .setFilterId(filterId);
 
@@ -107,6 +119,19 @@ public class SheetsFilterViews {
             BatchUpdateSpreadsheetResponse response2 = service.spreadsheets()
                     .batchUpdate(spreadsheetId, batchRequest2)
                     .execute();
+
+            if (response2.getReplies() == null || response2.getReplies().isEmpty()) {
+                 System.err.println("Error: No replies returned from DuplicateFilterView request.");
+                 return;
+            }
+    
+            Response reply2 = response2.getReplies().get(0);
+            if (reply2.getDuplicateFilterView() == null || reply2.getDuplicateFilterView().getFilter() == null) {
+                System.err.println("Error: Response did not contain DuplicateFilterView data.");
+                return;
+            }
+    
+            int newFilterId = reply2.getDuplicateFilterView().getFilter().getFilterViewId();
 
             // --- Step 3: Update Filter View ---
             // Extract the new ID from the duplicate response
