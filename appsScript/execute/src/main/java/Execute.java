@@ -96,9 +96,9 @@ public class Execute {
   }
 
   public static void main(String[] args) throws IOException {
-    // ID of the script to call. Acquire this from the Apps Script editor,
-    // under Publish > Deploy as API executable.
-    String scriptId = "ENTER_YOUR_SCRIPT_ID_HERE";
+    // Deployment ID of the script to call. Acquire this from 
+    // the Apps Script editor, under Publish > Deploy as API executable.
+    String deploymentId = "ENTER_YOUR_DEPLOYMENT_ID_HERE";
     Script service = getScriptService();
 
     // Create an execution request object.
@@ -108,7 +108,7 @@ public class Execute {
     try {
       // Make the API request.
       Operation op =
-          service.scripts().run(scriptId, request).execute();
+          service.scripts().run(deploymentId, request).execute();
 
       // Print results of request.
       if (op.getError() != null) {
