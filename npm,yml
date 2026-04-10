@@ -1,0 +1,142 @@
+GitHub Docs
+GitHub Packages/Trabajar con un registro de Paquetes de GitHub/Registro de npm
+Gestionar el registro de npm
+Puedes configurar npm para publicar paquetes en GitHub Packages y para usar los paquetes almacenados en GitHub Packages como dependencias en un proyecto npm.
+
+En este artículo
+Autenticándose en GitHub Packages
+Nota:
+
+GitHub Packages solo admite la autenticación mediante un personal access token (classic). Para más información, consulta Administración de tokens de acceso personal.
+
+Necesitas un token de acceso para publicar, instalar y eliminar paquetes privados, internos y públicos.
+
+Puedes utilizar un personal access token (classic) para autenticarte en el GitHub Packages o en la API de GitHub. Cuando creas un personal access token (classic), puedes asignar al token diferentes ámbitos en función de tus necesidades. Para más información sobre los ámbitos relacionados con paquetes para un personal access token (classic), consulta Acerca de los permisos para los Paquetes de GitHub.
+
+Para autenticarte en un registro del GitHub Packages dentro de un flujo de trabajo de GitHub Actions, puedes utilizar:
+
+GITHUB_TOKEN para publicar los paquetes asociados con el repositorio del flujo de trabajo.
+Un personal access token (classic) con al menos alcance read:packages para instalar los paquetes asociados con otros repositorios privados (GITHUB_TOKEN puede utilizarse si el repositorio tiene acceso de lectura al paquete. Consulta Configurar la visibilidad y el control de accesos de un paquete).
+Autenticación en un flujo de trabajo de GitHub Actions
+Este registro admite permisos granulares. Para los registros que admiten permisos detallados, si en el flujo de trabajo de GitHub Actions se usa un personal access token para autenticarse en un registro, se recomienda encarecidamente actualizar el flujo de trabajo para usar GITHUB_TOKEN. Para obtener orientación sobre la actualización de tus flujos de trabajo que se autentican en un registro con un personal access token, consulta Publicar e instalar un paquete con GitHub Actions.
+
+Nota:
+
+La capacidad de que los flujos de trabajo de GitHub Actions eliminen y restauren paquetes mediante la API de REST se encuentra actualmente en versión preliminar pública y está sujeta a cambios.
+
+Puede usar un GITHUB_TOKEN en un flujo de trabajo de GitHub Actions para eliminar o restaurar un paquete mediante la API de REST, si el token tiene el permiso admin para el paquete. A los repositorios que publican paquetes mediante un flujo de trabajo y a los repositorios que se han conectado explícitamente a los paquetes se les concede automáticamente el permiso admin para los paquetes del repositorio.
+
+Para obtener más información sobre GITHUB_TOKEN, consulta Uso de GITHUB_TOKEN para la autenticación en flujos de trabajo. Para obtener más información sobre los procedimientos recomendados al usar un registro en acciones, consulta Referencia de uso seguro.
+
+También puedes optar por conceder permisos de acceso a paquetes de forma independiente para GitHub Codespaces y GitHub Actions. Para más información, consulta Configurar la visibilidad y el control de accesos de un paquete y Configurar la visibilidad y el control de accesos de un paquete.
+
+Autenticación con un personal access token
+Debes utilizar un personal access token (classic) con los ámbitos adecuados para publicar e instalar paquetes en GitHub Packages. Para más información, consulta Introducción a los paquetes de GitHub.
+
+Puedes autenticarte en GitHub Packages con npm al editar tu archivo ~/.npmrc personal para incluir tu personal access token (classic) o iniciando sesión en npm en la línea de comandos con tu nombre de usuario y personal access token.
+
+Para autenticarse agregando tu personal access token (classic) al archivo ~/.npmrc, edita el archivo ~/.npmrc del proyecto para que incluya la siguiente línea y reemplace TOKEN por su personal access token. Crea un nuevo archivo ~/.npmrc si no existe.
+
+//npm.pkg.github.com/:_authToken=TOKEN
+Para autenticarse mediante el inicio de sesión en npm, usa el comando npm login y reemplaza USERNAME por tu nombre de usuario de GitHub, TOKEN por tu personal access token (classic) y PUBLIC-EMAIL-ADDRESS por tu dirección de correo electrónico.
+
+Si usas la versión 9 o una posterior de la CLI de npm e inicias sesión en un registro privado mediante la línea de comandos, o cierras la sesión en él, debes usar la opción --auth-type=legacy para leer los detalles de autenticación de mensajes en lugar de usar el flujo de inicio de sesión predeterminado mediante un explorador. Para obtener más información, vea npm-login.
+
+Si GitHub Packages no es el registro de paquetes predeterminado para usar npm y quieres usar el comando npm audit, se recomienda usar la marca --scope con el espacio de nombres que hospeda el paquete (la cuenta personal u organización a la que el paquete tiene el ámbito) al autenticarse en GitHub Packages.
+
+$ npm login --scope=@NAMESPACE --auth-type=legacy --registry=https://npm.pkg.github.com
+
+> Username: USERNAME
+> Password: TOKEN
+Publicación de un paquete
+Nota:
+
+Los nombres y ámbitos de los paquetes solo deben usar letras minúsculas.
+El tarball de una versión de npm debe tener un tamaño inferior a 256 MB.
+El registro GitHub Packages almacena paquetes npm dentro de tu organización o cuenta personal, y te permite asociar un paquete a un repositorio. Puedes elegir si quieres heredar permisos desde un repositorio o si quieres configurar permisos granulares independientemente de un repositorio.
+
+Cuando publicas un paquete por primera vez, la visibilidad predeterminada es privada. Para cambiar la visibilidad o establecer permisos de acceso, consulta Configurar la visibilidad y el control de accesos de un paquete. Para obtener más información sobre cómo vincular un paquete publicado con un repositorio, consulta Conectar un repositorio a un paquete.
+
+Puede conectar un paquete a un repositorio tan pronto como el paquete se publique mediante la inclusión de un campo repository en el archivo package.json. También puede usar este método para conectar varios paquetes al mismo repositorio. Para más información, consulta Publicación de varios paquetes en el mismo repositorio.
+
+Nota:
+
+Si publicas un paquete vinculado a un repositorio, el paquete hereda automáticamente los permisos de acceso del repositorio vinculado y los flujos de trabajo de GitHub Actions en el repositorio vinculado automáticamente obtienen acceso al paquete, a menos que la organización haya deshabilitado la herencia automática de los permisos de acceso. Para más información, consulta Configurar la visibilidad y el control de accesos de un paquete.
+
+Puede configurar la asignación de ámbito del proyecto si usa un archivo .npmrc local en el proyecto o la opción publishConfig en package.json. GitHub Packages solo admite paquetes npm con alcance definido. Los paquetes con ámbito tienen nombres con el formato @NAMESPACE/PACKAGE-NAME. Los paquetes con ámbito siempre comienzan con un símbolo @. Es posible que tenga que actualizar el nombre en package.json para usar el nombre con ámbito. Por ejemplo, si eres el usuario octocat y el paquete se llama test, asignarías el nombre del paquete con alcance de la siguiente manera: "name": "@octocat/test".
+
+Después de que publiques un paquete, puedes verlo en GitHub. Para más información, consulta Visualizar paquetes.
+
+Publicación de un paquete mediante un archivo .npmrc local
+Puede usar un archivo .npmrc para configurar la asignación de ámbito del proyecto. En el archivo .npmrc, usa la URL y el propietario de la cuenta de GitHub Packages para que GitHub Packages sepa a dónde dirigir las solicitudes de paquete. El uso de un archivo .npmrc evita que otros desarrolladores publiquen accidentalmente el paquete en npmjs.org en lugar de GitHub Packages.
+
+Autentícate en GitHub Packages. Para obtener más información, consulta Autenticación en GitHub Packages.
+
+En el mismo directorio que el archivo package.json, crea o edita un archivo .npmrc para incluir una línea que especifique la URL de GitHub Packages y el espacio de nombres donde se hospeda el paquete. Reemplaza NAMESPACE por el nombre de la cuenta de usuario u organización a la que se limitará el paquete.
+
+@NAMESPACE:registry=https://npm.pkg.github.com
+Agregue el archivo .npmrc al repositorio donde GitHub Packages pueda encontrar el proyecto. Para más información, consulta Agregar un archivo a un repositorio.
+
+Compruebe el nombre del paquete en el archivo package.json del proyecto. El campo name debe contener el ámbito y el nombre del paquete. Por ejemplo, si tu paquete se llama "test" y vas a publicarlo en la organización "My-org" de GitHub, el campo name en tu package.json debe ser @my-org/test.
+
+Comprueba el campo repository en package.json del proyecto. El campo repository debe coincidir con la URL del repositorio GitHub. Por ejemplo, si la URL del repositorio es github.com/my-org/test, el campo del repositorio debe ser https://github.com/my-org/test.git.
+
+Publique el paquete:
+
+npm publish
+Publicación de un paquete mediante publishConfig en el archivo package.json
+Puede usar el elemento publishConfig en el archivo package.json para especificar el registro donde quiere publicar el paquete. Para más información, consulta publishConfig en la documentación de npm.
+
+Edite el archivo package.json del paquete e incluya una entrada publishConfig.
+
+"publishConfig": {
+  "registry": "https://npm.pkg.github.com"
+},
+Comprueba el campo repository en package.json del proyecto. El campo repository debe coincidir con la URL del repositorio GitHub. Por ejemplo, si la URL del repositorio es github.com/my-org/test, el campo del repositorio debe ser https://github.com/my-org/test.git.
+
+Publique el paquete:
+
+npm publish
+Publicar múltiples paquetes en el mismo repositorio
+Para publicar varios paquetes y vincularlos al mismo repositorio, puedes incluir la URL del repositorio GitHub en el campo repository del archivo package.json de cada paquete. Para más información, consulta Creación de un archivo package.json y Creación de módulos de Node.js en la documentación de npm.
+
+Para asegurarte de que la URL del repositorio sea correcta, reemplaza REPOSITORY por el nombre del repositorio que contiene el paquete que deseas publicar y OWNER por el nombre de la cuenta personal o de organización en GitHub que posee el repositorio.
+
+GitHub Packages coincidirá con el repositorio en función de la dirección URL.
+
+"repository":"https://github.com/OWNER/REPOSITORY",
+Instalación de un paquete
+Puede instalar paquetes desde GitHub Packages si los agrega como dependencias en el archivo package.json del proyecto. Para más información sobre el uso de package.json en el proyecto, consulta Trabajo con package.json en la documentación de npm.
+
+Por defecto, puedes agregar paquetes de una organización. Para más información, consulta Instalación de paquetes de otras organizaciones.
+
+También tendrá que agregar el archivo .npmrc al proyecto para que todas las solicitudes de instalación de paquete pasen por GitHub Packages. Al enrutar todas las solicitudes de paquete por medio de GitHub Packages, puedes usar paquetes con ámbito y sin ámbito de npmjs.org. Para más información, consulta npm-scope en la documentación de npm.
+
+Autentícate en GitHub Packages. Para obtener más información, consulta Autenticación en GitHub Packages.
+
+En el mismo directorio que el archivo package.json, crea o edita un archivo .npmrc para incluir una línea que especifique la URL de GitHub Packages y el espacio de nombres donde se hospeda el paquete. Reemplaza NAMESPACE por el nombre de la cuenta de usuario u organización a la que se limitará el paquete.
+
+@NAMESPACE:registry=https://npm.pkg.github.com
+Agregue el archivo .npmrc al repositorio donde GitHub Packages pueda encontrar el proyecto. Para más información, consulta Agregar un archivo a un repositorio.
+
+Configura package.json en tu proyecto para utilizar el paquete que estás instalando. Para agregar las dependencias de paquete al archivo package.json para GitHub Packages, especifique el nombre del paquete de ámbito completo, por ejemplo, @my-org/server. Para los paquetes de npmjs.com, especifique el nombre completo, como @babel/core o lodash. Reemplaza ORGANIZATION_NAME/PACKAGE_NAME con la dependencia del paquete.
+
+{
+  "name": "@my-org/server",
+  "version": "1.0.0",
+  "description": "Server app that uses the ORGANIZATION_NAME/PACKAGE_NAME package",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ORGANIZATION_NAME/PACKAGE_NAME": "1.0.0"
+  }
+}
+Instala el paquete.
+
+npm install
+Instalar paquetes de otras organizaciones
+Por defecto, solo puedes usar paquetes de GitHub Packages de una organización. Si quiere enrutar las solicitudes de paquete a varias organizaciones y usuarios, puede agregar líneas adicionales al archivo .npmrc, reemplazando NAMESPACE por el nombre de la cuenta personal u organización a la que se designa el ámbito del paquete.
+
+@NAMESPACE:registry=https://npm.pkg.github.com
+@NAMESPACE:registry=https://npm.pkg.github.com
