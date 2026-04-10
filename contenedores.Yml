@@ -1,0 +1,192 @@
+Trabajar con el registro de contenedores
+Puedes almacenar y administrar imágenes de Docker y OCI en el Container registry.
+
+En este artículo
+Acerca del Container registry
+El Container registry almacena imágenes de contenedor dentro de tu organización o cuenta personal y te permite asociar una imagen a un repositorio. Puedes elegir si quieres heredar permisos desde un repositorio o si quieres configurar permisos granulares independientemente de un repositorio. También puedes acceder a imágenes de contenedor públicas de forma anónima.
+
+Acerca del soporte para el Container registry
+El Container registry es actualmente compatible con los siguientes formatos de contenedores de imagen:
+
+        [Docker Image Manifest V2, modelo 2](https://docs.docker.com/registry/spec/manifest-v2-2/)
+        [Especificaciones de Open Container Initiative (OCI)](https://github.com/opencontainers/image-spec)
+Cuando instalas o publicas una imagen de Docker, el Container registry es compatible con capas externas, tales como imágenes de Windows.
+
+Autenticarse en el Container registry
+Nota:
+
+GitHub Packages solo admite la autenticación mediante un personal access token (classic). Para más información, consulta Administración de tokens de acceso personal.
+
+Necesitas un token de acceso para publicar, instalar y eliminar paquetes privados, internos y públicos.
+
+Puedes utilizar un personal access token (classic) para autenticarte en el GitHub Packages o en la API de GitHub. Cuando creas un personal access token (classic), puedes asignar al token diferentes ámbitos en función de tus necesidades. Para más información sobre los ámbitos relacionados con paquetes para un personal access token (classic), consulta Acerca de los permisos para los Paquetes de GitHub.
+
+Para autenticarte en un registro del GitHub Packages dentro de un flujo de trabajo de GitHub Actions, puedes utilizar:
+
+GITHUB_TOKEN para publicar los paquetes asociados con el repositorio del flujo de trabajo.
+Un personal access token (classic) con al menos alcance read:packages para instalar los paquetes asociados con otros repositorios privados (GITHUB_TOKEN puede utilizarse si el repositorio tiene acceso de lectura al paquete. Consulta Configurar la visibilidad y el control de accesos de un paquete).
+Autenticación en un flujo de trabajo de GitHub Actions
+Este registro admite permisos granulares. Para los registros que admiten permisos detallados, si en el flujo de trabajo de GitHub Actions se usa un personal access token para autenticarse en un registro, se recomienda encarecidamente actualizar el flujo de trabajo para usar GITHUB_TOKEN. Para obtener orientación sobre la actualización de tus flujos de trabajo que se autentican en un registro con un personal access token, consulta Publicar e instalar un paquete con GitHub Actions.
+
+Nota:
+
+La capacidad de que los flujos de trabajo de GitHub Actions eliminen y restauren paquetes mediante la API de REST se encuentra actualmente en versión preliminar pública y está sujeta a cambios.
+
+Puede usar un GITHUB_TOKEN en un flujo de trabajo de GitHub Actions para eliminar o restaurar un paquete mediante la API de REST, si el token tiene el permiso admin para el paquete. A los repositorios que publican paquetes mediante un flujo de trabajo y a los repositorios que se han conectado explícitamente a los paquetes se les concede automáticamente el permiso admin para los paquetes del repositorio.
+
+Para obtener más información sobre GITHUB_TOKEN, consulta Uso de GITHUB_TOKEN para la autenticación en flujos de trabajo. Para obtener más información sobre los procedimientos recomendados al usar un registro en acciones, consulta Referencia de uso seguro.
+
+También puedes optar por conceder permisos de acceso a paquetes de forma independiente para GitHub Codespaces y GitHub Actions. Para más información, consulta Configurar la visibilidad y el control de accesos de un paquete y Configurar la visibilidad y el control de accesos de un paquete.
+
+Autenticarse con un personal access token (classic)
+Nota:
+
+GitHub Packages solo admite la autenticación mediante un personal access token (classic). Para más información, consulta Administración de tokens de acceso personal.
+
+Crea o usa un personal access token (classic) existente con los ámbitos adecuados para las tareas que quieras realizar. Si tu organización requiere SSO, debes hablitarlo para tu token nuevo.
+
+Nota:
+
+De manera predeterminada, cuando seleccionas el ámbito write:packages de tu personal access token (classic) en la interfaz de usuario, también se selecciona el ámbito repo. El ámbito repo ofrece un acceso amplio e innecesario, el cual te recomendamos no utilices para los flujos de trabajo de GitHub Actions en particular. Para más información, consulta Referencia de uso seguro. Como solución alternativa, puedes seleccionar solo el ámbito write:packages de tu personal access token (classic) en la interfaz de usuario con esta URL: https://github.com/settings/tokens/new?scopes=write:packages.
+
+Selecciona el ámbito read:packages para descargar imágenes de contenedor y leer sus metadatos.
+Selecciona el ámbito write:packages para descargar y cargar imágenes de contenedor, así como para leer y escribir sus metadatos.
+Selecciona el ámbito delete:packages para eliminar imágenes de contenedor.
+Para más información, consulta Administración de tokens de acceso personal.
+
+Guarda tu personal access token (classic). Te recomendamos guardar tu token como una variable de entorno.
+
+export CR_PAT=YOUR_TOKEN
+Utilizando el CLI de tu tipo de contenedor, inicia sesión en el servicio de Container registry en ghcr.io.
+
+$ echo $CR_PAT | docker login ghcr.io -u USERNAME --password-stdin
+> Login Succeeded
+Subir imágenes de contenedor
+En este ejemplo se envía la versión más reciente de IMAGE_NAME.
+
+docker push ghcr.io/NAMESPACE/IMAGE_NAME:latest
+Reemplaza NAMESPACE por el nombre de la cuenta personal u organización a la que deseas designar un ámbito de imagen.
+
+En este ejemplo se transfiere la versión 2.5 de la imagen.
+
+docker push ghcr.io/NAMESPACE/IMAGE_NAME:2.5
+Cuando publicas un paquete por primera vez, la visibilidad predeterminada es privada. Para cambiar la visibilidad o establecer permisos de acceso, consulta Configurar la visibilidad y el control de accesos de un paquete. Puedes vincular un paquete publicado a un repositorio mediante la interfaz de usuario o la línea de comandos. Para más información, consulta Conectar un repositorio a un paquete.
+
+Al insertar una imagen de contenedor desde la línea de comandos, la imagen no está vinculada a un repositorio de forma predeterminada. Este es el caso aunque etiquetes la imagen con un espacio de nombres que coincida con el nombre del repositorio, como ghcr.io/octocat/my-repo:latest.
+
+La manera más sencilla de conectar un repositorio a un paquete de contenedor es publicar el paquete desde un flujo de trabajo mediante ${{secrets.GITHUB_TOKEN}}, ya que el repositorio que contiene dicho flujo de trabajo se vincula automáticamente. Ten en cuenta que GITHUB_TOKEN no tendrá permiso para insertar el paquete si previamente has insertado un paquete en el mismo espacio de nombres, pero no has conectado dicho paquete al repositorio.
+
+Para conectar un repositorio al publicar una imagen desde la línea de comandos y para asegurarse de que GITHUB_TOKEN tiene los permisos adecuados al usar un flujo de trabajo de GitHub Actions, se recomienda agregar la etiqueta org.opencontainers.image.source a Dockerfile. Para obtener más información, consulta "Etiquetado de imágenes de contenedor" en este artículo y "Publicar e instalar un paquete con GitHub Actions".
+
+Extraer imágenes de contenedor
+Extraer por resumen
+Para garantizar que siempre use la misma imagen, puede especificar la versión exacta de la imagen de contenedor que desea obtener utilizando el valor SHA de digest.
+
+Para buscar el valor de digest SHA, use docker inspect o docker pull y copie el valor de SHA después de Digest:.
+
+docker inspect ghcr.io/NAMESPACE/IMAGE_NAME
+Reemplaza NAMESPACE por el nombre de la cuenta personal u organización a la que se designa un ámbito de imagen.
+
+Elimina la imagen localmente de acuerdo a tus necesidades.
+
+docker rmi ghcr.io/NAMESPACE/IMAGE_NAME:latest
+Extraiga la imagen de contenedor con @YOUR_SHA_VALUE después del nombre de la imagen.
+
+docker pull ghcr.io/NAMESPACE/IMAGE_NAME@sha256:82jf9a84u29hiasldj289498uhois8498hjs29hkuhs
+Extraer por nombre
+docker pull ghcr.io/NAMESPACE/IMAGE_NAME
+Reemplaza NAMESPACE por el nombre de la cuenta personal u organización a la que se asigna la imagen.
+
+Extraer por nombre y versión
+Ejemplo de CLI de Docker que muestra una imagen que se extrae por su nombre y por la etiqueta de la versión 1.14.1:
+
+$ docker pull ghcr.io/NAMESPACE/IMAGE_NAME:1.14.1
+> 5e35bd43cf78: Pull complete
+> 0c48c2209aab: Pull complete
+> fd45dd1aad5a: Pull complete
+> db6eb50c2d36: Pull complete
+> Digest: sha256:ae3b135f133155b3824d8b1f62959ff8a72e9cf9e884d88db7895d8544010d8e
+> Status: Downloaded newer image for ghcr.io/NAMESPACE/IMAGE_NAME/release:1.14.1
+> ghcr.io/NAMESPACE/IMAGE_NAME/release:1.14.1
+Reemplaza NAMESPACE por el nombre de la cuenta personal u organización a la que se asigna la imagen.
+
+Extraer por nombre y última versión
+$ docker pull ghcr.io/NAMESPACE/IMAGE_NAME:latest
+> latest: Pulling from NAMESPACE/IMAGE_NAME
+> Digest: sha256:b3d3e366b55f9a54599220198b3db5da8f53592acbbb7dc7e4e9878762fc5344
+> Status: Downloaded newer image for ghcr.io/NAMESPACE/IMAGE_NAME:latest
+> ghcr.io/NAMESPACE/IMAGE_NAME:latest
+Reemplaza NAMESPACE por el nombre de la cuenta personal u organización a la que se asigna la imagen.
+
+Creación de imágenes de contenedor
+En este ejemplo se compila la imagen hello_docker:
+
+docker build -t hello_docker .
+Etiquetado de imágenes de contenedores
+Encuentra la ID para la imagen de Docker que quieres etiquetar.
+
+$ docker images
+> REPOSITORY                                            TAG                 IMAGE ID            CREATED             SIZE
+> ghcr.io/my-org/hello_docker         latest            38f737a91f39        47 hours ago        91.7MB
+> hello-world                                           latest              fce289e99eb9        16 months ago       1.84kB
+Etiqueta tu imagen de Docker utilizando la ID ed imagen y el nombre que quieras poner a la misma, así como el destino en donde se hospedará ésta.
+
+docker tag 38f737a91f39 ghcr.io/NAMESPACE/NEW_IMAGE_NAME:latest
+Reemplaza NAMESPACE por el nombre de la cuenta personal u organización a la que deseas designar un ámbito de imagen.
+
+Etiquetado de imágenes de contenedor
+Puedes usar etiquetas claves de anotación predefinidas para agregar metadatos, incluida una descripción, una licencia y un repositorio de origen a la imagen de contenedor. Los valores de las claves admitidas aparecerán en la página del paquete de la imagen.
+
+Para la mayoría de las imágenes, puedes usar etiquetas de Docker para agregar las claves de anotación a una imagen. Para obtener más información, consulta ETIQUETA en la documentación oficial de Docker y Claves de anotación predefinidas en el repositorio de opencontainers/image-spec.
+
+Para las imágenes de varios arcos, puedes agregar una descripción a la imagen agregando la clave de anotación adecuada al campo annotations en el manifiesto de la imagen. Para obtener más información, consulte Agregar una descripción a imágenes de múltiples arquitecturas.
+
+Las siguientes claves de anotación se admiten en Container registry.
+
+Clave	Descripción
+org.opencontainers.image.source	Dirección URL del repositorio asociado al paquete. Para más información, consulta Conectar un repositorio a un paquete.
+org.opencontainers.image.description	Una descripción de solo texto limitada a 512 caracteres. Esta descripción aparecerá en la página del paquete, debajo del nombre del paquete.
+org.opencontainers.image.licenses	Un identificador de licencia SPDX, como "MIT", limitado a 256 caracteres. La licencia aparecerá en la página del paquete, en la barra lateral "Detalles". Para más información, consulta Lista de licencias de SPDX.
+Para agregar una clave como etiqueta de Docker, se recomienda usar la instrucción LABEL en tu Dockerfile. Por ejemplo, si eres el usuario octocat y eres el propietario de my-repo y la imagen se distribuye bajo los términos de la licencia MIT, agregarías las líneas siguientes a Dockerfile:
+
+LABEL org.opencontainers.image.source=https://github.com/octocat/my-repo
+LABEL org.opencontainers.image.description="My container image"
+LABEL org.opencontainers.image.licenses=MIT
+Nota:
+
+Si publicas un paquete vinculado a un repositorio, el paquete hereda automáticamente los permisos de acceso del repositorio vinculado y los flujos de trabajo de GitHub Actions en el repositorio vinculado automáticamente obtienen acceso al paquete, a menos que la organización haya deshabilitado la herencia automática de los permisos de acceso. Para más información, consulta Configurar la visibilidad y el control de accesos de un paquete.
+
+Como alternativa, puedes agregar etiquetas a una imagen en tiempo de compilación con el comando docker build.
+
+$ docker build \
+ --label "org.opencontainers.image.source=https://github.com/octocat/my-repo" \
+ --label "org.opencontainers.image.description=My container image" \
+ --label "org.opencontainers.image.licenses=MIT"
+Adición de una descripción a imágenes de varios arcos
+Una imagen de varios arcos es una imagen que admite varias arquitecturas. Funciona haciendo referencia a una lista de imágenes, cada una de las cuales admite una arquitectura diferente, dentro de un único manifiesto.
+
+La descripción que aparece en la página del paquete para una imagen de varios arcos se obtiene del campo annotations del manifiesto de la imagen. Al igual que las etiquetas de Docker, las anotaciones proporcionan una manera de asociar metadatos a una imagen y admiten claves de anotación predefinidas. Para más información, consulta Anotaciones en el repositorio opencontainers/image-spec.
+
+Para proporcionar una descripción para una imagen de varios arcos, establece un valor para la clave org.opencontainers.image.description en el campo del manifiesto annotations, como se indica a continuación.
+
+"annotations": {
+  "org.opencontainers.image.description": "My multi-arch image"
+}
+Por ejemplo, el siguiente paso del flujo de trabajo GitHub Actions compila e inserta una imagen de varios arcos. El parámetro outputs establece la descripción de la imagen.
+
+# Este flujo de trabajo usa acciones que no GitHub no certifica.
+# Estas las proporcionan entidades terceras y las gobiernan
+# condiciones de servicio, políticas de privacidad y documentación de soporte
+# en línea.
+
+- name: Build and push Docker image
+  uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
+  with:
+    context: .
+    file: ./Dockerfile
+    platforms: ${{ matrix.platforms }}
+    push: true
+    outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=My multi-arch image
+Solución de problemas
+Container registry tienen un límite de tamaño de 10 GB para cada capa.
+Container registry tienen un límite de tiempo de expiración de 10 minutos para las cargas.
