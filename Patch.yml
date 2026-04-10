@@ -1,0 +1,36 @@
+From e20a33812066554f33bc483230e69886c14af1ce Mon Sep 17 00:00:00 2001
+From: "dependabot[bot]" <49699333+dependabot[bot]@users.noreply.github.com>
+Date: Fri, 10 Apr 2026 16:12:00 +0000
+Subject: [PATCH] chore(deps): bump com.google.api-client:google-api-client
+
+Bumps [com.google.api-client:google-api-client](https://github.com/googleapis/google-api-java-client) from 2.0.0 to 2.9.0.
+- [Release notes](https://github.com/googleapis/google-api-java-client/releases)
+- [Changelog](https://github.com/googleapis/google-api-java-client/blob/main/CHANGELOG.md)
+- [Commits](https://github.com/googleapis/google-api-java-client/compare/v2.0.0...v2.9.0)
+
+---
+updated-dependencies:
+- dependency-name: com.google.api-client:google-api-client
+  dependency-version: 2.9.0
+  dependency-type: direct:production
+  update-type: version-update:semver-minor
+...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+---
+ gmail/quickstart/build.gradle | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gmail/quickstart/build.gradle b/gmail/quickstart/build.gradle
+index ca113827..8f33c4e8 100644
+--- a/gmail/quickstart/build.gradle
++++ b/gmail/quickstart/build.gradle
+@@ -11,7 +11,7 @@ repositories {
+ }
+ 
+ dependencies {
+-    implementation 'com.google.api-client:google-api-client:2.0.0'
++    implementation 'com.google.api-client:google-api-client:2.9.0'
+     implementation 'com.google.oauth-client:google-oauth-client-jetty:1.34.1'
+     implementation 'com.google.apis:google-api-services-gmail:v1-rev20220404-2.0.0'
+ }
