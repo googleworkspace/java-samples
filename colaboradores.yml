@@ -1,0 +1,14 @@
+Contribuciones: envío de parches y tutoriales
+Enviar una solicitud de extracción
+Acuerdos de licencia para colaboradores
+¡Nos encantaría aceptar sus parches de código! Sin embargo, antes de poder aceptarlos, tenemos que superar un par de obstáculos legales.
+
+Por favor, complete el Acuerdo de Licencia de Colaborador, ya sea individual o corporativo.
+
+Si eres un particular que escribe código fuente original y estás seguro de que eres el propietario de la propiedad intelectual, entonces firma un CLA individual .
+Si trabajas para una empresa que quiere permitirte aportar tu trabajo, entonces firma un acuerdo de licencia corporativa (CLA) .
+Siga cualquiera de los dos enlaces anteriores para acceder al CLA correspondiente y a las instrucciones sobre cómo firmarlo y devolverlo.
+
+Firma el acuerdo de licencia para colaboradores que aparece arriba.
+Decide qué código quieres enviar. Cada envío debe consistir en un conjunto de cambios que solucionen un problema en el sistema de seguimiento de incidencias . No incluyas más de un cambio lógico por envío, ya que dificulta el seguimiento del historial. Si quieres realizar un cambio (por ejemplo, añadir un ejemplo o una función) que no tenga un problema correspondiente en el sistema de seguimiento de incidencias, créalo.
+Envío : Cuando esté listo para enviar, envíenos una solicitud de extracción (Pull Request). Asegúrese de incluir el número de incidencia que ha corregido y el nombre que utilizó para firmar el acuerdo de licencia de colaborador (CLA).
