@@ -1,0 +1,26 @@
+Habilitación del registro de depuración
+Si los registros de flujo de trabajo no proporcionan suficiente detalle para diagnosticar por qué un flujo de trabajo o paso no funciona como se espera, puedes habilitar más registros de depuración.
+
+En este artículo
+Estas bitácoras extra se habilitan estableciendo los secretos o las variables en el repositorio que contiene el flujo de trabajo, así que se aplicarán los mismos requisitos de los permisos:
+
+Para crear secretos o variables en GitHub para un repositorio de la organización, debe tener acceso write. Para un repositorio de cuenta personal, debe ser colaborador del repositorio.
+Para crear secretos o variables para un entorno en el repositorio de una cuenta personal, debe ser el propietario del repositorio. A fin de crear secretos o variables para un entorno en el repositorio de una organización, debe tener acceso de admin. Para más información sobre los entornos, consulta Administrar entornos para la implementación.
+Los propietarios de la organización pueden crear secretos o variables a nivel de organización.
+Para más información sobre cómo configurar secretos o variables, consulte Uso de secretos en Acciones de GitHub y Almacenamiento de información en variables.
+
+Además, cualquier persona que tenga acceso para ejecutar un flujo de trabajo puede habilitar el registro de diagnóstico del ejecutor y el registro de depuración de pasos para volver a ejecutar un flujo de trabajo. Para más información, consulta Volver a ejecutar flujos de trabajo y tareas.
+
+Habilitar el registro de diagnóstico del ejecutor
+Las bitácoras de diagnóstico del ejecutor proporcionan archivos de bitácora adicionales que contienen información acerca de cómo éstos ejecutan un job. Dos archivos de registro adicionales se agregan al archivo de registro:
+
+El registro del proceso del ejecutor, que incluye información acerca de la coordinación y la configuración de los ejecutores para ejecutar tareas.
+El registro del proceso del trabajador, que registra la ejecución de una tarea.
+Para habilitar el registro de diagnóstico del ejecutor, establezca el siguiente secreto o variable en el repositorio que contiene el flujo de trabajo: ACTIONS_RUNNER_DEBUG o true. Si se establecen tanto el secreto como la variable, el valor del secreto tiene prioridad sobre la variable.
+Para descargar los registros de diagnóstico del ejecutor, descarga el archivo de registro del flujo de trabajo. Los registros de diagnóstico del ejecutor se encuentran en la carpeta runner-diagnostic-logs. Para obtener más información sobre cómo descargar registros, consulte: Uso de registros de flujo de trabajo.
+Habilitar el registro de depuración del paso
+El registro de depuración del paso aumenta el nivel de detalle de los registros de un trabajo durante y después de la ejecución de una tarea.
+
+Para activar el registro de depuración de pasos, establezca el siguiente secreto o variable en el repositorio que contiene el flujo de trabajo:ACTIONS_STEP_DEBUG a true. Si se establecen tanto el secreto como la variable, el valor del secreto tiene prioridad sobre la variable.
+Después de establecer el secreto o la variable, se muestran más eventos de depuración en los registros de pasos. Para más información, consulta Uso de registros de flujo de trabajo.
+También puede usar el contexto runner.debug para ejecutar los pasos de manera condicional solo cuando el registro de depuración está habilitado. Para más información, consulta Contextos de referencia.
