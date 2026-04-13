@@ -1,0 +1,70 @@
+Publicación y uso de paquetes de CodeQL
+Comparta o descargue un CodeQL paquete y, a continuación, analice la CodeQL base de datos.
+
+¿Quién puede utilizar esta característica?
+CodeQL está disponible para los siguientes tipos de repositorios:
+
+Repositorios públicos en GitHub.com, consulte Términos y condiciones de CodeQL de GitHub.
+Repositorios propiedad de la organización en GitHub Team con GitHub Code Security habilitado
+En este artículo
+Autenticación en GitHubContainer registries
+Puede publicar paquetes y descargar paquetes privados mediante la autenticación en el adecuado GitHubContainer registry.
+
+Puede autenticarse Container registry de dos maneras:
+
+Pase la --github-auth-stdin opción a CodeQL CLIy proporcione un GitHub Apps token o personal access token a través de la entrada estándar.
+Establezca la variable de entorno GITHUB_TOKEN a un token GitHub Apps o personal access token.
+Publicación del CodeQL paquete
+Para compartir su paquete de CodeQL con otras personas, puede publicarlo en el Container registry.
+
+Configuración del archivo qlpack.yml antes de publicarlo
+Puede comprobar y modificar los detalles de configuración de su paquete CodeQL antes de publicarlo. Abre el archivo qlpack.yml en su editor de texto preferido.
+
+library: # set to true if the pack is a library. Set to false or omit for a query pack
+name: <scope>/<pack>
+version: <x.x.x>
+description: <Description to publish with the package>
+defaultSuite: # optional, one or more queries in the pack to run by default
+    - query: <relative-path>/query-file>.ql
+defaultSuiteFile: default-queries.qls # optional, a pointer to a query-suite in this pack
+license: # optional, the license under which the pack is published
+dependencies: # map from CodeQL pack name to version range
+        `name:` debe seguir el formato `<scope>/<pack>`, donde `<scope>` es la organización a la que se publicará y `<pack>` es el nombre del paquete.
+Se permite un máximo de un elemento defaultSuite o defaultSuiteFile. Estas son dos maneras diferentes de definir un conjunto predeterminado de consultas que se va a ejecutar, la primera de ellas especificando las consultas directamente en el archivo qlpack.yml y la segunda especificando un conjunto de consultas en el paquete.
+
+En ejecución codeql pack publish
+Cuando esté listo para publicar un paquete en GitHubContainer registry, puede ejecutar el siguiente comando en la raíz del directorio del pack:
+
+codeql pack publish
+El paquete publicado se mostrará en la sección de paquetes de la organización de GitHub que especifica el ámbito del archivo qlpack.yml.
+
+Nota:
+
+Si va a publicar paquetes de modelos en GitHubContainer registry para ampliar la cobertura a todos los repositorios de una organización como parte de una configuración de configuración predeterminada, debe asegurarse de que los repositorios que ejecutan el análisis de código puedan acceder a esos paquetes de modelos. Para obtener más información, vea Editar la configuración predeterminada y Configurar la visibilidad y el control de accesos de un paquete.
+
+Descarga de un paquete existente CodeQL
+Para ejecutar un paquete que haya creado otra persona, primero debes descargarlo; para ello, ejecuta el comando siguiente:
+
+codeql pack download <scope>/<pack>@x.x.x
+        `<scope>`: el nombre de la organización desde la cual descargará.
+        `<pack>`: el nombre del paquete que quiere descargar.
+        `@x.x.x`: un número de versión opcional. Si se omite, se descargará la versión más reciente.
+Este comando acepta argumentos para varios paquetes.
+
+Si escribe scripts que especifican un número de versión determinado de un paquete de consultas que se va a descargar, tenga en cuenta que, al actualizar la versión de CodeQL a una más reciente, es posible que también tenga que cambiar a una versión más reciente del paquete de consultas. Las versiones más recientes de CodeQL un rendimiento degradado cuando se usan con paquetes de consultas que se han anclado a una versión muy antigua. Para obtener más información, vea Referencia de paquetes de consulta de CodeQL.
+
+Uso de un CodeQL paquete para analizar una CodeQL base de datos
+Para analizar una CodeQL base de datos con un CodeQL paquete, ejecute el siguiente comando:
+
+codeql database analyze <database> <scope>/<pack>@x.x.x:<path>
+        `<database>`: la CodeQL base de datos que se va a analizar.
+          `<scope>`: el nombre de la organización de GitHub en la que se publica el paquete.
+        `<pack>`: el nombre del paquete que está usando.
+        `@x.x.x`: un número de versión opcional. Si se omite, se usará la versión más reciente.
+        `:<path>`: una ruta de acceso opcional a una consulta, directorio o conjunto de consultas. Si se omite, se usará el conjunto de consultas predeterminado del paquete.
+El comando analyze ejecutará el conjunto predeterminado de cualquier CodeQL paquetes especificados. Puede especificar varios CodeQL paquetes que se usarán para analizar una CodeQL base de datos. Por ejemplo:
+
+codeql <database> analyze <scope>/<pack> <scope>/<other-pack>
+Nota:
+
+El comando codeql pack download almacena el paquete que descarga en una ubicación interna que no está pensada para la modificación local. Si el paquete se modifica después de la descarga se puede producir un comportamiento inesperado (con problemas difíciles de solucionar). Para obtener más información acerca de la personalización de paquetes, consulte Creación y uso de paquetes de CodeQL.

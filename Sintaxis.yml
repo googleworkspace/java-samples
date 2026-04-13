@@ -1,0 +1,631 @@
+Documentación de GitHub
+Acciones de GitHub /Referencia /Flujos de trabajo y acciones /Sintaxis de metadatos
+Referencia de sintaxis de metadatos
+Puedes crear acciones para realizar tareas en tu repositorio. Si creas una acción personalizada, necesitarás un archivo de metadatos con sintaxis YAML.
+
+En este artículo
+Nota
+
+Puedes crear contenedores Docker, JavaScript y acciones compuestas. Las acciones requieren un archivo de metadatos para definir las entradas, salidas y la configuración de ejecución de tu acción. Los archivos de metadatos de acción utilizan la sintaxis YAML, y el nombre del archivo de metadatos debe ser action.ymlo action.yaml. El formato preferido es action.yml.
+
+name
+Obligatorio El nombre de tu acción. GitHub lo muestra nameen la pestaña Acciones para ayudar a identificar visualmente las acciones en cada trabajo.
+
+author
+Opcional: El nombre del autor de la acción.
+
+description
+Se requiere una breve descripción de la acción.
+
+inputs
+Los parámetros de entrada opcionales permiten especificar los datos que la acción espera utilizar durante la ejecución. GitHub almacena los parámetros de entrada como variables de entorno. Recomendamos usar identificadores de entrada en minúsculas.
+
+Ejemplo: Especificación de entradas
+Este ejemplo configura dos entradas: num-octocatsy octocat-eye-color. La num-octocatsentrada no es obligatoria y tomará por defecto un valor de 1. octocat-eye-colores obligatoria y no tiene valor por defecto.
+
+Nota
+
+Las acciones que utilizan required: trueno devolverán automáticamente un error si no se especifica la entrada.
+
+Los archivos de flujo de trabajo que utilizan esta acción pueden usar la withpalabra clave para establecer un valor de entrada para octocat-eye-color. Para obtener más información sobre la withsintaxis, consulte Sintaxis de flujo de trabajo para GitHub Actions .
+
+inputs:
+  num-octocats:
+    description: 'Number of Octocats'
+    required: false
+    default: '1'
+  octocat-eye-color:
+    description: 'Eye color of the Octocats'
+    required: true
+Cuando especificas una entrada, GitHub crea una variable de entorno para la entrada con el nombre INPUT_<VARIABLE_NAME>. La variable de entorno creada convierte los nombres de entrada a letras mayúsculas y reemplaza los espacios con _caracteres.
+
+Si la acción se escribe usando un componente compuesto , no se obtendrá automáticamente INPUT_<VARIABLE_NAME>. Con las acciones compuestas, puede usar inputs la referencia Contextos para acceder a las entradas de la acción.
+
+Para acceder a la variable de entorno en una acción de contenedor Docker, debe pasar la entrada utilizando la argspalabra clave en el archivo de metadatos de la acción. Para obtener más información sobre el archivo de metadatos de la acción para acciones de contenedor Docker, consulte Creación de una acción de contenedor Docker .
+
+Por ejemplo, si un flujo de trabajo definiera las entradas num-octocatsy octocat-eye-color, el código de acción podría leer los valores de las entradas utilizando las variables de entorno INPUT_NUM-OCTOCATSy .INPUT_OCTOCAT-EYE-COLOR
+
+inputs.<input_id>
+Se requiere un stringidentificador para asociar con la entrada. El valor de <input_id>es un mapa de los metadatos de la entrada. <input_id>Debe ser un identificador único dentro del inputsobjeto. <input_id>Debe comenzar con una letra o _y contener solo caracteres alfanuméricos, -, o _.
+
+inputs.<input_id>.description
+Se requiere una stringdescripción del parámetro de entrada.
+
+inputs.<input_id>.required
+Opcional A booleanpara indicar si la acción requiere el parámetro de entrada. Establecer en verdadero truecuando el parámetro sea obligatorio.
+
+inputs.<input_id>.default
+Opcional A stringque representa el valor predeterminado. El valor predeterminado se utiliza cuando no se especifica un parámetro de entrada en un archivo de flujo de trabajo.
+
+inputs.<input_id>.deprecationMessage
+Opcional. Si se utiliza el parámetro de entrada, stringse registra como un mensaje de advertencia. Puede usar esta advertencia para notificar a los usuarios que la entrada se está cerrando y mencionar las alternativas disponibles.
+
+outputspara acciones de contenedores Docker y JavaScript
+Los parámetros de salida opcionales permiten declarar los datos que establece una acción. Las acciones que se ejecutan posteriormente en un flujo de trabajo pueden utilizar el conjunto de datos de salida en acciones ejecutadas previamente. Por ejemplo, si una acción realiza la suma de dos entradas (x + y = z), podría generar la suma (z) para que otras acciones la utilicen como entrada.
+
+Cada trabajo puede tener un tamaño máximo de 1 MB. El tamaño total de todos los archivos generados durante la ejecución de un flujo de trabajo puede ser de hasta 50 MB. El tamaño se calcula de forma aproximada utilizando la codificación UTF-16.
+
+Si no declaras una salida en el archivo de metadatos de tu acción, aún puedes configurar salidas y usarlas en un flujo de trabajo. Para obtener más información sobre cómo configurar salidas en una acción, consulta Comandos de flujo de trabajo para GitHub Actions .
+
+Ejemplo: Declaración de salidas para acciones de contenedores Docker y JavaScript
+outputs:
+  sum: # id of the output
+    description: 'The sum of the inputs'
+outputs.<output_id>
+Se requiere un stringidentificador para asociar con la salida. El valor de <output_id>es un mapa de los metadatos de la salida. <output_id>Debe ser un identificador único dentro del outputsobjeto. <output_id>Debe comenzar con una letra o _y contener solo caracteres alfanuméricos, -, o _.
+
+outputs.<output_id>.description
+Se requiere una stringdescripción del parámetro de salida.
+
+outputspara acciones compuestas
+Opcionalmente, outputs utilice los mismos parámetros que outputs.<output_id>y outputs.<output_id>.description(consulte outputspara acciones de contenedores Docker y JavaScript ), pero también incluye el valuetoken.
+
+Cada trabajo puede tener un tamaño máximo de 1 MB. El tamaño total de todos los archivos generados durante la ejecución de un flujo de trabajo puede ser de hasta 50 MB. El tamaño se calcula de forma aproximada utilizando la codificación UTF-16.
+
+Ejemplo: Declarar resultados para acciones compuestas
+outputs:
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-id }}
+runs:
+  using: "composite"
+  steps:
+    - id: random-number-generator
+      run: echo "random-id=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+      shell: bash
+outputs.<output_id>.value
+Obligatorio El valor al que se asignará el parámetro de salida. Puede establecerlo en un valor stringo una expresión con contexto. Por ejemplo, puede usar el stepscontexto para establecer el valor valuede una salida al valor de salida de un paso.
+
+Para obtener más información sobre cómo usar la sintaxis de contexto, consulte la referencia de Contextos .
+
+runs
+Obligatorio. Especifica si se trata de una acción de JavaScript, una acción compuesta o una acción de contenedor Docker, y cómo se ejecuta la acción.
+
+runspara acciones de JavaScript
+Requerido. Configura la ruta al código de la acción y el entorno de ejecución utilizado para ejecutar el código.
+
+Ejemplo: Uso de Node.js v24
+runs:
+  using: 'node24'
+  main: 'main.js'
+runs.usingpara acciones de JavaScript
+Obligatorio El entorno de ejecución utilizado para ejecutar el código especificado en main.
+
+Para usar node20con Node.js v20.
+Utilizar node24para Node.js v24.
+runs.main
+Obligatorio El archivo que contiene el código de tu acción. El entorno de ejecución especificado en usingejecuta este archivo.
+
+runs.pre
+Opcional Permite ejecutar un script al inicio de un trabajo, antes de que main:comience la acción. Por ejemplo, puede usarlo pre:para ejecutar un script de configuración de requisitos previos. El entorno de ejecución especificado con la usingsintaxis ejecutará este archivo. La pre:acción siempre se ejecuta de forma predeterminada, pero puede anular esto usando runs.pre-if.
+
+Nota
+
+runs.preNo se admiten acciones locales.
+
+En este ejemplo, la pre:acción ejecuta un script llamado setup.js:
+
+runs:
+  using: 'node24'
+  pre: 'setup.js'
+  main: 'index.js'
+  post: 'cleanup.js'
+runs.pre-if
+Opcional Permite definir condiciones para la pre:ejecución de la acción. La pre:acción solo se ejecutará si pre-ifse cumplen las condiciones. Si no se establece, se pre-ifutiliza el valor predeterminado always(). En pre-if, las funciones de comprobación de estado se evalúan en función del estado del trabajo, no del estado de la acción.
+
+Tenga en cuenta que el stepcontexto no está disponible, ya que aún no se ha ejecutado ningún paso.
+
+En este ejemplo, cleanup.jssolo se ejecuta en sistemas basados ​​en Linux:
+
+  pre: 'cleanup.js'
+  pre-if: runner.os == 'linux'
+runs.post
+Opcional. Permite ejecutar un script al finalizar una tarea, una vez main:completada la acción. Por ejemplo, se puede usar post:para terminar ciertos procesos o eliminar archivos innecesarios. El entorno de ejecución especificado con la usingsintaxis ejecutará este archivo.
+
+En este ejemplo, la post:acción ejecuta un script llamado cleanup.js:
+
+runs:
+  using: 'node24'
+  main: 'index.js'
+  post: 'cleanup.js'
+La post:acción siempre se ejecuta por defecto, pero puede anular esto usando post-if.
+
+runs.post-if
+Opcional Permite definir condiciones para la post:ejecución de la acción. La post:acción solo se ejecutará si post-ifse cumplen las condiciones. Si no se establece, se post-ifutiliza el valor predeterminado always(). En post-if, las funciones de comprobación de estado se evalúan en función del estado del trabajo, no del estado de la acción.
+
+Por ejemplo, esto cleanup.jssolo funcionará en sistemas operativos basados ​​en Linux:
+
+  post: 'cleanup.js'
+  post-if: runner.os == 'linux'
+runspara acciones compuestas
+Obligatorio Configura la ruta a la acción compuesta.
+
+runs.usingpara acciones compuestas
+Obligatorio Debe establecer este valor en 'composite'.
+
+runs.steps
+Obligatorio Los pasos que planea ejecutar en esta acción. Estos pueden ser runpasos o usespasos.
+
+runs.steps[*].run
+Opcional. El comando que desea ejecutar. Puede ser un comando en línea o un script en su repositorio de acciones:
+
+runs:
+  using: "composite"
+  steps:
+    - run: ${{ github.action_path }}/test/script.sh
+      shell: bash
+Alternativamente, puede utilizar $GITHUB_ACTION_PATH:
+
+runs:
+  using: "composite"
+  steps:
+    - run: $GITHUB_ACTION_PATH/script.sh
+      shell: bash
+Para obtener más información, consulte la referencia Contextos .
+
+runs.steps[*].shell
+Opcional. El intérprete de comandos donde desea ejecutar el comando. Puede usar cualquiera de los intérpretes de comandos que aparecen en la sintaxis de flujo de trabajo para GitHub Actions . Obligatorio si runestá configurado.
+
+runs.steps[*].if
+Opcional: Puede usar la ifcondición para evitar que un paso se ejecute a menos que se cumpla una condición. Puede usar cualquier contexto y expresión compatibles para crear una condición.
+
+Al usar expresiones en una ifcondición, opcionalmente puedes omitir la ${{ }}sintaxis de la expresión, ya que GitHub Actions la evalúa automáticamente ifcomo una expresión. Sin embargo, esta excepción no se aplica en todos los casos.
+
+Siempre debe usar la ${{ }}sintaxis de expresión o escapar con '', "", o ()cuando la expresión comience con !, ya que !es una notación reservada en el formato YAML. Por ejemplo:
+
+if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
+Para obtener más información, consulte Evaluar expresiones en flujos de trabajo y acciones .
+
+Ejemplo: Uso de contextos
+
+Este paso solo se ejecuta cuando el tipo de evento es a pull_requesty la acción del evento es unassigned.
+
+steps:
+  - run: echo This event is a pull request that had an assignee removed.
+    if: ${{ github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
+Ejemplo: Uso de funciones de comprobación de estado
+
+Solo my backup stepse ejecuta cuando falla el paso anterior de una acción compuesta. Para obtener más información, consulte Evaluar expresiones en flujos de trabajo y acciones .
+
+steps:
+  - name: My first step
+    uses: octo-org/action-name@main
+  - name: My backup step
+    if: ${{ failure() }}
+    uses: actions/heroku@1.0.0
+runs.steps[*].name
+Opcional. El nombre del paso compuesto.
+
+runs.steps[*].id
+Opcional. Un identificador único para el paso. Puede usarlo idpara hacer referencia al paso en contextos. Para obtener más información, consulte la referencia de contextos .
+
+runs.steps[*].env
+Opcional. Establece un conjunto mapde variables de entorno solo para ese paso. Si desea modificar la variable de entorno almacenada en el flujo de trabajo, úsela echo "{name}={value}" >> $GITHUB_ENVen un paso compuesto.
+
+runs.steps[*].working-directory
+Opcional. Especifica el directorio de trabajo donde se ejecuta el comando.
+
+runs.steps[*].uses
+Opcional. Selecciona una acción para ejecutar como parte de un paso en tu trabajo. Una acción es una unidad de código reutilizable. Puedes usar una acción definida en el mismo repositorio que el flujo de trabajo, en un repositorio público o en una imagen de contenedor Docker publicada .
+
+Recomendamos encarecidamente que incluya la versión de la acción que está utilizando, especificando una referencia de Git, un SHA o un número de etiqueta de Docker. Si no especifica una versión, podría interrumpir sus flujos de trabajo o provocar un comportamiento inesperado cuando el responsable de la acción publique una actualización.
+
+Utilizar el SHA de confirmación de una versión de acción publicada es la opción más segura en términos de estabilidad y seguridad.
+Utilizar la versión específica de la acción principal le permite recibir correcciones críticas y parches de seguridad sin comprometer la compatibilidad. Además, garantiza que su flujo de trabajo siga funcionando correctamente.
+Puede resultar conveniente utilizar la rama predeterminada de una acción, pero si alguien lanza una nueva versión principal con un cambio incompatible, su flujo de trabajo podría interrumpirse.
+Algunas acciones requieren parámetros que debes configurar mediante la withpalabra clave. Consulta el archivo README de la acción para determinar los parámetros necesarios.
+
+runs:
+  using: "composite"
+  steps:
+    # Reference a specific commit
+    - uses: actions/checkout@8f4b7f84864484a7bf31766abe9204da3cbe65b3
+    # Reference the major version of a release
+    - uses: actions/checkout@v5
+    # Reference a specific version
+    - uses: actions/checkout@v5.2.0
+    # Reference a branch
+    - uses: actions/checkout@main
+    # References a subdirectory in a public GitHub repository at a specific branch, ref, or SHA
+    - uses: actions/aws/ec2@main
+    # References a local action
+    - uses: ./.github/actions/my-action
+    # References a docker public registry action
+    - uses: docker://gcr.io/cloud-builders/gradle
+    # Reference a docker image published on docker hub
+    - uses: docker://alpine:3.8
+runs.steps[*].with
+Parámetros mapde entrada opcionales definidos por la acción. Cada parámetro de entrada es un par clave/valor. Para más información, consulte Ejemplo: Especificación de entradas .
+
+runs:
+  using: "composite"
+  steps:
+    - name: My first step
+      uses: actions/hello_world@main
+      with:
+        first_name: Mona
+        middle_name: The
+        last_name: Octocat
+runs.steps[*].continue-on-error
+Opcional. Impide que la acción falle cuando falla un paso. Establézcalo en truepara permitir que la acción se complete cuando falle este paso.
+
+runspara acciones de contenedores Docker
+Requerido. Configura la imagen utilizada para la acción del contenedor Docker.
+
+Ejemplo: Usar un Dockerfile en tu repositorio
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+Ejemplo: Uso de un contenedor de registro público de Docker
+runs:
+  using: 'docker'
+  image: 'docker://debian:stretch-slim'
+runs.usingpara acciones de contenedores Docker
+Obligatorio Debe establecer este valor en 'docker'.
+
+runs.pre-entrypoint
+Opcional Permite ejecutar un script antes de que entrypointcomience la acción. Por ejemplo, puede usarlo pre-entrypoint:para ejecutar un script de configuración de requisitos previos. GitHub Actions usa docker runpara lanzar esta acción y ejecuta el script dentro de un nuevo contenedor que usa la misma imagen base. Esto significa que el estado de tiempo de ejecución es diferente del entrypointcontenedor principal, y cualquier estado que necesite debe ser accedido en el espacio de trabajo, HOMEo como una STATE_variable. La pre-entrypoint:acción siempre se ejecuta de forma predeterminada, pero puede anular esto usando runs.pre-if.
+
+El entorno de ejecución especificado con la usingsintaxis ejecutará este archivo.
+
+En este ejemplo, la pre-entrypoint:acción ejecuta un script llamado setup.sh:
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - 'bzz'
+  pre-entrypoint: 'setup.sh'
+  entrypoint: 'main.sh'
+runs.image
+Se requiere la imagen de Docker que se utilizará como contenedor para ejecutar la acción. El valor puede ser el nombre de la imagen base de Docker, una imagen local Dockerfileen su repositorio o una imagen pública en Docker Hub u otro registro. Para hacer referencia a una Dockerfileimagen local en su repositorio, el archivo debe tener un nombre específico Dockerfiley debe usar una ruta relativa a su archivo de metadatos de acción. La dockeraplicación ejecutará este archivo.
+
+runs.env
+Opcional. Especifica un mapa clave/valor de variables de entorno que se configurarán en el entorno del contenedor.
+
+runs.entrypoint
+Opcional. Sobrescribe el Docker ENTRYPOINTen el Dockerfile, o lo establece si no se especificó ninguno previamente. Úselo entrypointcuando el Dockerfileno especifica un ENTRYPOINTo cuando desea sobrescribir la ENTRYPOINTinstrucción. Si omite , se ejecutarán entrypointlos comandos que especifique en la instrucción Docker . La instrucción Docker tiene una forma de shell y una forma exec . La documentación de Docker recomienda usar la forma exec de la instrucción.ENTRYPOINTENTRYPOINTENTRYPOINTENTRYPOINT
+
+Para obtener más información sobre cómo entrypointse ejecuta, consulte la compatibilidad de Dockerfile con GitHub Actions .
+
+runs.post-entrypoint
+Opcional Permite ejecutar un script de limpieza una vez que la runs.entrypointacción haya finalizado. GitHub Actions utiliza docker runpara lanzar esta acción. Debido a que GitHub Actions ejecuta el script dentro de un nuevo contenedor utilizando la misma imagen base, el estado de tiempo de ejecución es diferente del entrypointcontenedor principal. Puede acceder a cualquier estado que necesite en el espacio de trabajo, HOMEo como una STATE_variable. La post-entrypoint:acción siempre se ejecuta de forma predeterminada, pero puede anular esto utilizando runs.post-if.
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - 'bzz'
+  entrypoint: 'main.sh'
+  post-entrypoint: 'cleanup.sh'
+runs.args
+Opcional. Un array de cadenas que definen las entradas para un contenedor Docker. Las entradas pueden incluir cadenas codificadas. GitHub pasa esta información argsal contenedor ENTRYPOINTcuando este se inicia.
+
+Se argsutilizan en lugar de la CMDinstrucción en un Dockerfile. Si utiliza CMDen su Dockerfile, utilice las pautas ordenadas por preferencia:
+
+Documente los argumentos necesarios en el archivo README de la acción y omítalos en las CMDinstrucciones.
+Utilice valores predeterminados que permitan usar la acción sin especificar ninguno args.
+Si la acción expone una --helpbandera, o algo similar, utilícela para que su acción se autodocumente.
+Si necesitas pasar variables de entorno a una acción, asegúrate de que tu acción ejecute un intérprete de comandos para realizar la sustitución de variables. Por ejemplo, si tu entrypointatributo está configurado como "sh -c", argsse ejecutará en un intérprete de comandos. Alternativamente, si tu Dockerfileusa un ENTRYPOINTpara ejecutar el mismo comando ( "sh -c"), argsse ejecutará en un intérprete de comandos.
+
+Para obtener más información sobre cómo usar esta CMDinstrucción con GitHub Actions, consulte la sección "Compatibilidad de Dockerfile con GitHub Actions" .
+
+Ejemplo: Definición de argumentos para el contenedor Docker
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.greeting }}
+    - 'foo'
+    - 'bar'
+branding
+Opcional: Puedes usar un color y un icono de pluma para crear una insignia que personalice y distinga tu acción. Las insignias se muestran junto al nombre de tu acción en GitHub Marketplace .
+
+Ejemplo: Configurar la marca para una acción
+branding:
+  icon: 'award'
+  color: 'green'
+branding.color
+El color de fondo de la insignia. Puede ser uno de los siguientes: white, black, yellow, blue, green, orange, red, purple, o gray-dark.
+
+branding.icon
+El nombre del icono Feather de la versión 4.28.0 que se utilizará.
+
+Iconos omitidos
+Se omiten los iconos de marca y todos los iconos siguientes.
+
+café
+columnas
+círculo divisor
+dividir cuadrado
+dividir
+fruncir el ceño
+hexágono
+llave
+meh
+puntero del ratón
+sonrisa
+herramienta
+octágono x
+Lista exhaustiva de todos los iconos compatibles actualmente.
+actividad
+salida en antena
+círculo de alerta
+octágono de alerta
+triángulo de alerta
+alinear-centro
+alinear-justificar
+alinear a la izquierda
+alinear a la derecha
+ancla
+abertura
+archivo
+círculo con flecha hacia abajo
+flecha-abajo-izquierda
+flecha-abajo-derecha
+flecha hacia abajo
+flecha-izquierda-círculo
+flecha izquierda
+círculo-derecha-flecha
+flecha derecha
+círculo con flecha hacia arriba
+flecha-arriba-izquierda
+flecha hacia arriba a la derecha
+flecha hacia arriba
+signo de arroba
+otorgar
+gráfico de barras-2
+gráfico de barras
+carga de la batería
+batería
+campana apagada
+campana
+Bluetooth
+atrevido
+libro abierto
+libro
+marcador
+caja
+maletín
+calendario
+cámara apagada
+cámara
+elenco
+círculo de verificación
+cuadrado de control
+controlar
+chevron-down
+chevrón-izquierda
+chevrón-derecha
+chevron hacia arriba
+chevrones hacia abajo
+galones-izquierda
+galones-derecha
+chevrones hacia arriba
+círculo
+portapapeles
+reloj
+llovizna de nubes
+relámpagos de nube
+nube apagada
+nube-lluvia
+nube-nieve
+nube
+código
+dominio
+brújula
+Copiar
+esquina inferior izquierda
+esquina inferior derecha
+esquina izquierda abajo
+esquina izquierda arriba
+esquina derecha abajo
+esquina derecha arriba
+esquina superior izquierda
+esquina superior derecha
+UPC
+tarjeta de crédito
+cultivo
+mira
+base de datos
+borrar
+desct
+signo de dólar
+descarga en la nube
+descargar
+gotita
+edición-2
+edición-3
+editar
+enlace externo
+ojo fuera
+ojo
+avance rápido
+pluma
+archivo menos
+archivo-plus
+texto del archivo
+archivo
+película
+filtrar
+bandera
+carpeta-menos
+carpeta-plus
+carpeta
+regalo
+rama git
+git-commit
+git-merge
+git-pull-request
+globo
+red
+disco duro
+picadillo
+auriculares
+corazón
+círculo de ayuda
+hogar
+imagen
+bandeja de entrada
+información
+itálico
+capas
+disposición
+boya salvavidas
+enlace-2
+enlace
+lista
+cargador
+cerrar
+acceso
+cerrar sesión
+correo
+marcador del mapa
+mapa
+maximizar-2
+maximizar
+menú
+círculo de mensajes
+cuadrado de mensaje
+micrófono apagado
+micrófono
+minimizar-2
+minimizar
+círculo negativo
+menos cuadrado
+menos
+monitor
+luna
+más horizontal
+más vertical
+mover
+música
+navegación-2
+navegación
+octágono
+paquete
+clip de papel
+círculo de pausa
+pausa
+por ciento
+llamada telefónica
+desvío de llamadas
+llamadas entrantes
+teléfono perdido
+teléfono apagado
+teléfono saliente
+teléfono
+gráfico circular
+círculo de juego
+jugar
+círculo más
+cuadrado más
+más
+bolsillo
+fuerza
+impresora
+radio
+actualizar-ccw
+actualizar-cw
+repetir
+rebobinar
+girar en sentido antihorario
+girar-cw
+rss
+ahorrar
+tijeras
+buscar
+enviar
+servidor
+ajustes
+compartir-2
+compartir
+escudo desactivado
+blindaje
+bolsa de compras
+carro de la compra
+barajar
+barra lateral
+retroceder
+saltar hacia adelante
+barra oblicua
+deslizadores
+teléfono inteligente
+vocero
+cuadrado
+estrella
+círculo de parada
+sol
+amanecer
+atardecer
+mesa
+tableta
+etiqueta
+objetivo
+Terminal
+termómetro
+pulgar hacia abajo
+Pulgares hacia arriba
+alternar izquierda
+alternar a la derecha
+basura-2
+basura
+tendencia a la baja
+tendencia al alza
+triángulo
+camión
+televisor
+tipo
+paraguas
+subrayar
+descubrir
+subir-nube
+subir
+comprobación de usuario
+usuario menos
+usuario-plus
+usuario-x
+usuario
+usuarios
+vídeo apagado
+video
+buzón de voz
+volumen 1
+volumen 2
+volumen-x
+volumen
+mirar
+wifi desactivado
+wifi
+viento
+círculo x
+x-cuadrado
+incógnita
+desconexión rápida
+borrar
+acercar
+alejar la imagen
+Cambiar el nombre del archivo de metadatos
+Si bien el archivo de metadatos de acciones admite ambos formatos YAML, cambiar el nombre del archivo de metadatos (de action.ymla action.yamlo viceversa) entre versiones afectará a las versiones anteriores publicadas en GitHub Marketplace. Al cambiar el nombre del archivo, se ocultarán de GitHub Marketplace todas las versiones asociadas con el nombre anterior. Las versiones anteriores seguirán estando disponibles para los usuarios a través del repositorio de código fuente.
+
+Al lanzar nuevas versiones de acciones, solo las versiones publicadas después del cambio de nombre del archivo de metadatos tendrán la etiqueta de GitHub Marketplace y aparecerán en GitHub Marketplace.
